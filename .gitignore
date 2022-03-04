@@ -1,4 +1,10 @@
-.idea
+# idea
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/multi-user-dms.iml
+/.idea/vcs.xml
+
+# Database
 persistent/
 
 # Logs
