@@ -1,3 +1,6 @@
+.idea
+persistent/
+
 # Logs
 logs
 *.log
