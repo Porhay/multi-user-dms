@@ -4,11 +4,11 @@ const app = require('./app')
 
 // constants
 const PORT = process.env.PORT || 8000
-
+const HOST = 'localhost'
 
 const start = async () => {
     try {
-        app.listen(PORT, () => { console.log(`Server has been started on port ${PORT}...`) })
+        app.listen(PORT, () => { console.log(`Running on http://${HOST}:${PORT}/`) })
     } catch (e) {
         console.log(e)
     }
