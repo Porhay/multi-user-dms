@@ -13,10 +13,13 @@ app.use(cors())
 app.use(express.json())
 
 
-//= API Requests
-app.get('/api/status/', status.getStatus)
+app.get('/status/', status.getStatus)
 
-app.post('/api/registration', user.registration)
+app.post('/users/', user.registration)
+
+app.get('/internal/users/', user.getUsers)
+app.delete('/internal/users/:userId/', user.deleteOne)
+
 
 
 module.exports = app

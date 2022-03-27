@@ -1,5 +1,5 @@
-const {user} = require('../db')
 const bcrypt = require('bcryptjs')
+const dal = require('../dal')
 
 
 class User {
@@ -13,7 +13,9 @@ class User {
             // }
 
             const hashPassword = bcrypt.hashSync(password, 7)
-            await user.create({email, password: hashPassword})
+
+            await dal.user.create(email, hashPassword)
+
             return res.json({message: 'User has been successfully registered!'})
         } catch (err) {
             console.log(err)
@@ -23,7 +25,7 @@ class User {
 
     async getUsers(req, res) {
         try {
-            const users = await user.findAll()
+            const users = await dal.user.getAll()
             res.json(users)
         } catch (err) {
             console.log(err)
@@ -33,16 +35,12 @@ class User {
 
     async deleteOne(req, res) {
         try {
-            const id = req.params.id
-            const userToDelete = await user.destroy({
-                where: {
-                    id: id
-                }
-            })
+            const userId = req.params.userId
+            const userToDelete = await dal.user.deleteById(userId)
             res.json(userToDelete)
         } catch (err) {
             console.log(err)
-            res.status(400).json({message: 'delete user error'})
+            res.status(400).json({message: 'Delete user error'})
         }
     }
 }
