@@ -20,6 +20,9 @@ app.post('/users/', user.registration)
 app.get('/internal/users/', user.getUsers)
 app.delete('/internal/users/:userId/', user.deleteOne)
 
+// TODO send verification code by email /verification-code/
+// TODO add migrations directory for db
+//
 
 
 module.exports = app
