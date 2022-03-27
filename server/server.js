@@ -1,16 +1,18 @@
 
 require('dotenv').config()
 const app = require('./app')
+const {sequelize} = require('./app/db')
 
 // constants
 const PORT = process.env.PORT || 8000
-
+const HOST = 'localhost'
 
 const start = async () => {
     try {
-        app.listen(PORT, () => { console.log(`Server has been started on port ${PORT}...`) })
-    } catch (e) {
-        console.log(e)
+        await sequelize.sync()
+        app.listen(PORT, () => { console.log(`Running on http://${HOST}:${PORT}/`) })
+    } catch (err) {
+        console.log(err)
     }
 }
 
