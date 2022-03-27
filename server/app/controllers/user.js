@@ -1,22 +1,11 @@
-const bcrypt = require('bcryptjs')
 const dal = require('../dal')
-
 
 class User {
     async registration(req, res) {
         try {
             const {email, password} = req.body
-
-            // const candidate = await user.findOne({ where: {email} })
-            // if(candidate){
-            //     return res.status(400).json('This user name is already taken. Please use different one.')
-            // }
-
-            const hashPassword = bcrypt.hashSync(password, 7)
-
-            await dal.user.create(email, hashPassword)
-
-            return res.json({message: 'User has been successfully registered!'})
+            const newUser = await dal.user.create(email, password)
+            return res.json(newUser)
         } catch (err) {
             console.log(err)
             res.status(400).json({message: 'Registration error'})

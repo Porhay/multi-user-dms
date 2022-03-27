@@ -12,27 +12,26 @@ const sequelize = new Sequelize(
 )
 
 
-//= User Table
 const user = sequelize.define('user', {
-    //TODO uuid
-    id: {type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true},
-    email: {type: DataTypes.STRING, unique: true, allowNull: false},
+    id: {type: DataTypes.UUID, primaryKey: true, allowNull: false},
+    email: {type: DataTypes.STRING, allowNull: false},
+    emailVerified: {type: DataTypes.BOOLEAN, defaultValue: false},
     password: {type: DataTypes.STRING, allowNull: false},
     role: {type: DataTypes.STRING, defaultValue: 'USER'},
     name: {type: DataTypes.STRING},
     img: {type: DataTypes.STRING},
-})
+}, {underscored: true})
 
-// const Task = sequelize.define('task', {
-//     id: {type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true},
-//     task: {type: DataTypes.STRING},
-// })
-//
-// User.hasMany(Task)
-// Task.belongsTo(User)
+
+const verificationCodes = sequelize.define('verificationCodes', {
+    id: {type: DataTypes.UUID, primaryKey: true, allowNull: false},
+    userId: {type: DataTypes.UUID, allowNull: false},
+    code: {type: DataTypes.STRING},
+}, {underscored: true})
 
 
 module.exports = {
     sequelize,
     user,
+    verificationCodes,
 }
