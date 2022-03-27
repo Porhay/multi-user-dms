@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  postgresql:
+    image: postgres:14.2
+    container_name: "postgresql"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./persistent/scylla:/var/lib/scylla
+
+  pgadmin:
+    container_name: 'pgadmin'
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
