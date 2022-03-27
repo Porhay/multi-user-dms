@@ -13,7 +13,7 @@ const sequelize = new Sequelize(
 
 
 //= User Table
-const User = sequelize.define('user', {
+const user = sequelize.define('user', {
     id: {type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true},
     email: {type: DataTypes.STRING, unique: true, allowNull: false},
     password: {type: DataTypes.STRING, allowNull: false},
@@ -33,5 +33,5 @@ const User = sequelize.define('user', {
 
 module.exports = {
     sequelize,
-    User,
+    user,
 }
