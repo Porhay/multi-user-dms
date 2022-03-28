@@ -25,6 +25,8 @@ app.post('/verification-code/', email.sendEmail)
 
 // TODO add migrations directory for db
 // TODO primary cay for email in user table
+// TODO verification codes inserting
+// TODO
 
 
 module.exports = app
