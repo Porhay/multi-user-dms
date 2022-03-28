@@ -7,6 +7,9 @@
 # Database
 persistent/
 
+# Config file
+server/app/config.js
+
 # Logs
 logs
 *.log

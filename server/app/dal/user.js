@@ -5,7 +5,6 @@ const hash = require('../lib/hash')
 
 
 exports.create = async (email, password, emailVerified) => {
-
     const candidate = await exports.getByEmail(email)
     if(candidate){
         throw new Error('User with the same email is already exists!')
@@ -28,9 +27,7 @@ exports.create = async (email, password, emailVerified) => {
         emailVerified,
         password: hashedPassword
     }
-
     await db.user.create(user)
-
     return user
 }
 

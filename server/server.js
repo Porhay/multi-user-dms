@@ -13,6 +13,7 @@ const start = async () => {
         app.listen(PORT, () => { console.log(`Running on http://${HOST}:${PORT}/`) })
     } catch (err) {
         console.log(err)
+        app.listen(PORT, () => { console.log(`Running on http://${HOST}:${PORT}/`) })
     }
 }
 
