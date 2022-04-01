@@ -4,7 +4,7 @@ const express = require('express')
 const cors = require("cors")
 
 const status = require('./controllers/status')
-const user =  require('./controllers/user')
+const users =  require('./controllers/users')
 const email =  require('./controllers/email')
 
 
@@ -16,10 +16,10 @@ app.use(express.json())
 
 app.get('/status/', status.getStatus)
 
-app.post('/users/', user.registration)
+app.post('/users/', users.registration)
 
-app.get('/internal/users/', user.getUsers)
-app.delete('/internal/users/:userId/', user.deleteOne)
+app.get('/internal/users/', users.getUsers)
+app.delete('/internal/users/:userId/', users.deleteOne)
 
 app.post('/verification-code/', email.sendEmail)
 
