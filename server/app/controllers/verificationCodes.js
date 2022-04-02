@@ -17,6 +17,9 @@ exports.create = async (req, res) => {
 exports.setAsUsed = async (req, res) => {
   const {userId, codeId} = req.params
 
-  await dal.verificationCodes.setAsUsed(userId, codeId)
+  const used = await dal.verificationCodes.setAsUsed(userId, codeId)
+  if(!used) {
+    return res.json({message: 'Code has expired'})
+  }
   return res.json({message: 'OK'})
 }
