@@ -4,17 +4,8 @@ const uuid = require('uuid')
 const hash = require('../lib/hash')
 
 
-exports.create = async (email, password, emailVerified) => {
-    const candidate = await exports.getByEmail(email)
-    if(candidate){
-        throw new Error('User with the same email is already exists!')
-    }
-
+exports.create = async (email, password, emailVerified = false) => {
     const id = uuid.v4()
-
-    if (!emailVerified) {
-        emailVerified = false
-    }
 
     let hashedPassword
     if (password) {
@@ -41,7 +32,7 @@ exports.getByEmail = async (email) => {
 
 exports.getById = async (id) => {
     const result = await db.user.findByPk(id)
-    if (!result.length) {
+    if (!result) {
         return null
     }
     return result

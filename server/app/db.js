@@ -27,7 +27,10 @@ const verificationCodes = sequelize.define('verificationCodes', {
     id: {type: DataTypes.UUID, primaryKey: true, allowNull: false},
     userId: {type: DataTypes.UUID, allowNull: false},
     code: {type: DataTypes.STRING},
-}, {underscored: true})
+    used: {type: DataTypes.BOOLEAN, defaultValue: false},
+    createdAt: {type: DataTypes.TEXT},
+    expiresAt: {type: DataTypes.TEXT}
+}, {underscored: true, updatedAt: false, createdAt: false})
 
 
 module.exports = {

@@ -1,8 +1,10 @@
 'use strict'
 
-const user = require('./user')
+const users = require('./users')
+const verificationCodes = require('./verificationCodes')
 
 
 module.exports = {
-    user
+    users,
+    verificationCodes,
 }
