@@ -28,3 +28,7 @@ exports.sendEmail = async (email, subject, text, html = null) => {
     })
 }
 
+exports.sendVerificationEmail = async (email, code) => {
+    const subject = 'Verification email'
+    await exports.sendEmail(email, subject, code)
+}

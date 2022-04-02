@@ -17,7 +17,7 @@ exports.registration = async (req, res) => {
     }
 
     const user = await dal.users.create(email, password)
-    return res.json(user.id)
+    return res.json({id: user.id})
 }
 
 exports.getUsers = async (req, res) => {

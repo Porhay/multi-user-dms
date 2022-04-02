@@ -23,16 +23,16 @@ exports.create = async (email, password, emailVerified = false) => {
 }
 
 exports.getByEmail = async (email) => {
-    if (!email) return null
-
     const result = await db.user.findOne({ where: { email: email.toLowerCase() } })
-    if (!result) return null
+    if (!result) {
+        return null
+    }
     return result
 }
 
 exports.getById = async (id) => {
     const result = await db.user.findByPk(id)
-    if (!result.length) {
+    if (!result) {
         return null
     }
     return result
