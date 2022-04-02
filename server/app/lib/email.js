@@ -29,6 +29,7 @@ exports.sendEmail = async (email, subject, text, html = null) => {
 }
 
 exports.sendVerificationEmail = async (email, code) => {
-    const subject = 'Verification email'
-    await exports.sendEmail(email, subject, code)
+    const subject = 'Your account verification code'
+    const text = `To sign in, enter the following code:\nCode: ${code}\nPlease note, this code will expire in 10 minutes!`
+    await exports.sendEmail(email, subject, text)
 }
