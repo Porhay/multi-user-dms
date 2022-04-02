@@ -7,6 +7,7 @@ const status = require('./controllers/status')
 const users =  require('./controllers/users')
 const email =  require('./controllers/email')
 const verificationCodes = require('./controllers/verificationCodes')
+const sessions = require('./controllers/sessions')
 
 
 const app = express()
@@ -18,6 +19,7 @@ app.use(express.json())
 app.get('/status/', status.getStatus)
 
 app.post('/users/', users.registration)
+app.post('/sessions/', sessions.create)
 
 app.get('/users/', users.getUsers)
 app.delete('/users/:userId/', users.deleteOne)

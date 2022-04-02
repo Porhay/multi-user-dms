@@ -3,8 +3,10 @@ const uuid = require('uuid')
 const db = require("../db")
 
 exports.create = async (userId, code) => {
-    const now = Date.now()
+    //== delete previous user's codes
+    await exports.deleteAllUserCodes(userId)
 
+    const now = Date.now()
     const row = {
         id: uuid.v4(),
         userId: userId,
@@ -19,15 +21,27 @@ exports.create = async (userId, code) => {
 }
 
 exports.getCode = async (userId) => {
-    const result = await db.user.findOne({ where: { userId } })
-    if (!result) {
-        return null
-    }
-    return result
+    //== find one the latest
+    return await db.verificationCodes.findOne({
+        where: {userId},
+        order: [['createdAt', 'DESC']],
+    })
+}
+exports.deleteAllUserCodes = async (userId) => {
+    return await db.verificationCodes.destroy({
+        where: {
+            userId: userId
+        }
+    })
 }
 
 exports.setAsUsed = async (userId, codeId) => {
-    const code = await db.verificationCodes.update(
+    const code = await exports.getCode(userId)
+    if(code.expiresAt < Date.now()){
+        return null
+    }
+
+    await db.verificationCodes.update(
         { used: true },
         { where: { id: codeId} }
     )
