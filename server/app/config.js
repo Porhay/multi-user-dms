@@ -10,4 +10,9 @@ module.exports = {
         DIGITS: 6, // digits quantity
         TTL: 60 * 10 * 1000, // 10 min
     },
+
+    JWT_TOKEN: {
+        SECRET: 'TOKEN_KEY',
+        EXPIRES_IN: '24h',
+    }
 }
