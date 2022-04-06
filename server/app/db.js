@@ -33,6 +33,12 @@ const verificationCodes = sequelize.define('verificationCodes', {
 }, {underscored: true, updatedAt: false, createdAt: false})
 
 
+// const dictionaries = sequelize.define('dictionaries', {
+//     id: {type: DataTypes.UUID, primaryKey: true, allowNull: false},
+//     userId: {type: DataTypes.UUID, allowNull: false},
+// }, {underscored: true})
+
+
 module.exports = {
     sequelize,
     user,
