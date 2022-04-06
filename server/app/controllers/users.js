@@ -1,6 +1,10 @@
 const dal = require('../dal')
+const helpers = require('../lib/helpers')
+const errors = require('../lib/errors')
+const hash = require('../lib/hash')
 
-exports.registration = async (req, res) => {
+
+exports.create = async (req, res) => {
     const {email, password} = req.body
 
     if(!email) {
@@ -19,6 +23,39 @@ exports.registration = async (req, res) => {
     const user = await dal.users.create(email, password)
     return res.json({id: user.id})
 }
+
+
+exports.signIn = async (req, res) => {
+    const {email, password} = req.body
+    const browser = req.headers['user-agent']
+    const ip = req.ip
+
+    if (email == null) {
+        throw new errors.BadRequest('email isn\'t provided')
+    }
+    if (password == null) {
+        throw new errors.BadRequest('password isn\'t provided')
+    }
+
+    const user = await dal.users.getByEmail(email)
+    if (!user) {
+        throw new errors.NotFound('user does not exist or wrong password')
+    }
+
+    const compared = await hash.comparePasswords(password, user.password)
+    if (!compared) {
+        throw new errors.NotFound('user does not exist or wrong password')
+    }
+
+    const token = helpers.generateAccessToken(user.id, user.role)
+    return res.json('OK')
+}
+
+
+const _login = async (user, req, res) => {
+    res.cookie('psp', passphrase, {httpOnly: true, secure: true})
+}
+
 
 exports.getUsers = async (req, res) => {
     const users = await dal.users.getAll()

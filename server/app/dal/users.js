@@ -1,6 +1,7 @@
-const db = require('../db')
 const uuid = require('uuid')
 
+const db = require('../db')
+const constants = require('../lib/constants')
 const hash = require('../lib/hash')
 
 
@@ -14,12 +15,17 @@ exports.create = async (email, password, emailVerified = false) => {
 
     const user = {
         id,
-        email,
+        email: email.toLowerCase(),
         emailVerified,
-        password: hashedPassword
+        password: hashedPassword,
+        role: constants.USER_ROLES.USER
     }
     await db.user.create(user)
     return user
+}
+
+exports.signIn = () => {
+
 }
 
 exports.getByEmail = async (email) => {
