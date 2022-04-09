@@ -1,16 +1,12 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { Routes, Route } from 'react-router-dom'
 import {observer} from "mobx-react-lite"
 
 import {authRoutes, publicRoutes} from "../routes"
-// import {Context} from "../index"
+import {Context} from "../index"
 
 const AppRouter = observer(() => {
-    // const {user} = useContext(Context)
-    const user = {
-        isAuth: true
-    }
-
+    const {user} = useContext(Context)
 
 
     // TODO Replace Route with path='*' with redirecting component to '/' route
