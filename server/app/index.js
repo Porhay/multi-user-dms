@@ -33,6 +33,7 @@ app.post('/users/:userId/verification-codes/:codeId/', verificationCodes.setAsUs
 // TODO primary key for email in users table
 // TODO saving jwt in db
 // TODO one-many users-dictionaries model
+// TODO separated log file to tail -f
 // TODO
 
 
