@@ -1,4 +1,5 @@
 const {DataTypes, Sequelize} = require('sequelize')
+const constants = require('./lib/constants')
 
 const sequelize = new Sequelize(
     process.env.DB_NAME || 'dms',
@@ -17,9 +18,9 @@ const user = sequelize.define('user', {
     email: {type: DataTypes.STRING, allowNull: false},
     emailVerified: {type: DataTypes.BOOLEAN, defaultValue: false},
     password: {type: DataTypes.STRING, allowNull: false},
-    role: {type: DataTypes.STRING, defaultValue: 'USER'},
+    role: {type: DataTypes.STRING, defaultValue: constants.USER_ROLES.USER},
     name: {type: DataTypes.STRING},
-    img: {type: DataTypes.STRING},
+    image: {type: DataTypes.STRING},
 }, {underscored: true})
 
 
@@ -33,14 +34,28 @@ const verificationCodes = sequelize.define('verificationCodes', {
 }, {underscored: true, updatedAt: false, createdAt: false})
 
 
-// const dictionaries = sequelize.define('dictionaries', {
-//     id: {type: DataTypes.UUID, primaryKey: true, allowNull: false},
-//     userId: {type: DataTypes.UUID, allowNull: false},
-// }, {underscored: true})
+const dictionaries = sequelize.define('dictionaries', {
+    id: {type: DataTypes.UUID, primaryKey: true, allowNull: false},
+    userId: {type: DataTypes.UUID, allowNull: false},
+    name: {type: DataTypes.TEXT, defaultValue: 'My dictionary'},
+    type: {type: DataTypes.TEXT, defaultValue: constants.DICTIONARY_TYPES.STANDARD},
+    count: {type: DataTypes.INTEGER, defaultValue: 0},
+}, {underscored: true})
+
+
+const instances = sequelize.define('instances', {
+    id: {type: DataTypes.UUID, primaryKey: true, allowNull: false},
+    dictionaryId: {type: DataTypes.UUID, allowNull: false},
+    key: {type: DataTypes.TEXT},
+    value: {type: DataTypes.TEXT},
+    image: {type: DataTypes.STRING},
+}, {underscored: true})
 
 
 module.exports = {
     sequelize,
     user,
     verificationCodes,
+    dictionaries,
+    instances
 }
