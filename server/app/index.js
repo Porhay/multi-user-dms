@@ -7,6 +7,7 @@ const status = require('./controllers/status')
 const users =  require('./controllers/users')
 const email =  require('./controllers/email')
 const verificationCodes = require('./controllers/verificationCodes')
+const cards = require('./controllers/cards')
 
 
 const app = express()
@@ -27,6 +28,12 @@ app.post('/verification-code/', email.sendEmail)
 
 app.post('/users/:userId/verification-codes/', verificationCodes.create)
 app.post('/users/:userId/verification-codes/:codeId/', verificationCodes.setAsUsed)
+
+
+app.post('/users/:userId/dictionaries/:dictionaryId/cards/', cards.create)
+app.get('/users/:userId/dictionaries/:dictionaryId/cards/', cards.getCards)
+app.get('/random/:dictionaryId/', cards.getRandomOne)
+// app.get('/users/:userId/dictionaries/:dictionaryId/cards/:cardId', cards.getRandomOne)
 
 
 // TODO add migrations directory for db

@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const regexes = require('../lib/regexes')
+const regexes = require('./regexes')
 
 
 const filePath = path.resolve('../../dev-deploy/persistent/exported/', 'smart-book.txt')
@@ -20,15 +20,17 @@ const separator = (data, separator = 'tab') => {
     }
 }
 
-fs.readFile(filePath, 'utf8' , (err, data) => {
-    if (err) {
-        console.log(`Error: Read file error, file path: ${filePath}`)
-        return err
-    }
+const getRandomOne = () => {
+    fs.readFile(filePath, 'utf8' , (err, data) => {
+        if (err) {
+            console.log(`Error: Read file error, file path: ${filePath}`)
+            return err
+        }
 
-    const separatedByTub = separator(data)
-    const randomItem = separatedByTub[Math.floor(Math.random() * separatedByTub.length)]
+        const separatedByTub = separator(data)
+        const randomItem = separatedByTub[Math.floor(Math.random() * separatedByTub.length)]
+        console.log(randomItem)
+    })
+}
 
-    console.log(randomItem)
-
-})
+getRandomOne()
