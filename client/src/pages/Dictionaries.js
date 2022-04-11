@@ -12,7 +12,7 @@ const DictionariesPage = () => {
 
 
     const host = axios.create({
-        baseURL: 'http://localhost:8000',
+        baseURL: 'http://192.168.0.100:8000',
         timeout: 1000,
         headers: {'X-Custom-Header': 'foobar'}
     })
