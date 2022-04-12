@@ -12,7 +12,8 @@ const DictionariesPage = () => {
 
 
     const host = axios.create({
-        baseURL: 'http://192.168.0.100:8000',
+        // TODO Take local network ip from server side and replace with baseURL
+        baseURL: 'http://localhost:8000' || 'http://192.168.0.100:8000',
         timeout: 1000,
         headers: {'X-Custom-Header': 'foobar'}
     })
@@ -20,8 +21,8 @@ const DictionariesPage = () => {
 
     const userId = '726d6368-80bd-4820-9d11-bc43fc215d47'
     const dictionaryId = '726d6368-80bd-4820-9d11-bc43fc215d47'
-    const createCard = async () => {
-        await host.post(`/users/${userId}/dictionaries/${dictionaryId}/cards/`, {key: word, value})
+    const createEntry = async () => {
+        await host.post(`/users/${userId}/dictionaries/${dictionaryId}/entries/`, {key: word, value})
         setWord('')
         setValue('')
     }
@@ -31,10 +32,7 @@ const DictionariesPage = () => {
         setRandomWord(res.data.key)
     }
 
-
-
-
-        return (
+    return (
         <Container className="d-flex flex-column">
             <Form>
                 <Form.Control
@@ -48,7 +46,7 @@ const DictionariesPage = () => {
                     placeholder={"Value"}
                 />
             </Form>
-            <Button variant="outline-success" onClick={createCard}>Добавить</Button>
+            <Button variant="outline-success" onClick={createEntry}>Добавить</Button>
             <Button variant="outline-warning" onClick={getRandomOne}>Random</Button>
             <h2 className="m-auto">{randomWord}</h2>
         </Container>

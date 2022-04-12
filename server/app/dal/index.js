@@ -2,11 +2,11 @@
 
 const users = require('./users')
 const verificationCodes = require('./verificationCodes')
-const cards = require('./cards')
+const entries = require('./entries')
 
 
 module.exports = {
     users,
     verificationCodes,
-    cards,
+    entries,
 }

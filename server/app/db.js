@@ -43,7 +43,7 @@ const dictionaries = sequelize.define('dictionaries', {
 }, {underscored: true})
 
 
-const instances = sequelize.define('instances', {
+const entries = sequelize.define('entries', {
     id: {type: DataTypes.UUID, primaryKey: true, allowNull: false},
     dictionaryId: {type: DataTypes.UUID, allowNull: false},
     key: {type: DataTypes.TEXT},
@@ -57,5 +57,5 @@ module.exports = {
     user,
     verificationCodes,
     dictionaries,
-    instances
+    entries
 }

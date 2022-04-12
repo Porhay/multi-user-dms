@@ -4,19 +4,19 @@ const uuid = require('uuid')
 
 exports.create = async (dictionaryId, key, value) => {
     const id = uuid.v4()
-    const card = {
+    const entry = {
         id,
         dictionaryId,
         key,
         value,
     }
-    await db.instances.create(card) // cards
-    return card
+    await db.entries.create(entry) // entries
+    return entry
 }
 
 
 exports.getByDictionaryId = async (dictionaryId) => {
-    const result = await db.instances.findAll({ where: { dictionaryId } })
+    const result = await db.entries.findAll({ where: { dictionaryId } })
     if (!result) {
         return null
     }

@@ -11,22 +11,22 @@ exports.create = async (req, res) => {
         throw new Error('key and value is required!')
     }
 
-    const card = await dal.cards.create(dictionaryId, key, value)
-    console.log(card)
+    const entry = await dal.entries.create(dictionaryId, key, value)
+    console.log(entry)
     res.json({message: 'OK'})
 }
 
 
 exports.getCards = async (req, res) => {
     const dictionaryId = req.params.dictionaryId
-    const cards = await dal.cards.getByDictionaryId(dictionaryId)
-    res.json(cards)
+    const entries = await dal.entries.getByDictionaryId(dictionaryId)
+    res.json(entries)
 }
 
 exports.getRandomOne = async (req, res) => {
     const dictionaryId = req.params.dictionaryId
-    const rows = await dal.cards.getByDictionaryId(dictionaryId)
-    return res.json(_randomOne(rows))
+    const entries = await dal.entries.getByDictionaryId(dictionaryId)
+    return res.json(_randomOne(entries))
 }
 
 
