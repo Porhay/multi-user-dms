@@ -8,6 +8,7 @@ const users =  require('./controllers/users')
 const email =  require('./controllers/email')
 const verificationCodes = require('./controllers/verificationCodes')
 const entries = require('./controllers/entries')
+const dictionaries = require('./controllers/dictionaries')
 
 const errors = require('./lib/errors')
 const jwt = require('./lib/jwt')
@@ -63,6 +64,10 @@ app.post('/users/:userId/dictionaries/:dictionaryId/entries/', entries.createEnt
 app.get('/users/:userId/dictionaries/:dictionaryId/entries/', entries.getEntries)
 app.get('/random/:dictionaryId/', entries.getRandomOne)
 // app.get('/users/:userId/dictionaries/:dictionaryId/entries/:entryId', entries.getRandomOne)
+
+
+app.post('/users/:userId/dictionaries/', dictionaries.createDictionary)
+app.get('/users/:userId/dictionaries/', dictionaries.getDictionaries)
 
 
 // TODO add migrations directory for db
