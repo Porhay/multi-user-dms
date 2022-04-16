@@ -20,15 +20,28 @@ authHost.interceptors.request.use((config) => {
 })
 
 
+const createDictionary = async (userId, name) => {
+    return await host.post(`/users/${userId}/dictionaries/`, {name})
+}
 
-const userId = '726d6368-80bd-4820-9d11-bc43fc215d47'
-const dictionaryId = '726d6368-80bd-4820-9d11-bc43fc215d47'
-const createEntry = async (key, value) => {
+const getDictionaries = async (userId) => {
+    return await host.get(`/users/${userId}/dictionaries/`)
+}
+
+
+
+const createEntry = async (data) => {
+    const {userId, dictionaryId, key, value} = data
     return await host.post(`/users/${userId}/dictionaries/${dictionaryId}/entries/`,
         {key, value})
 }
 
-const getRandomOne = async () => {
+const getAll = async (userId, dictionaryId) => {
+    return await host.get(`/users/${userId}/dictionaries/${dictionaryId}/entries/`)
+
+}
+
+const getRandomOne = async (dictionaryId) => {
     return await host.get(`/random/${dictionaryId}`)
 }
 

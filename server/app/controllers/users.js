@@ -21,6 +21,11 @@ exports.create = async (req, res) => {
     }
 
     const user = await dal.users.create(email, password)
+
+    // default user's dictionary with entries
+    const dictionary = await dal.dictionaries.create(user.id, 'Get Started')
+    const entries = await dal.entries.create(dictionary.id, 'some word', 'some translation')
+
     return res.json({id: user.id})
 }
 

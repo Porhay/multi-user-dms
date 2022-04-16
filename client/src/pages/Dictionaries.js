@@ -7,17 +7,20 @@ const DictionariesPage = () => {
 
     const [key, setKey] = useState('')
     const [value, setValue] = useState('')
-    const [randomWord, setRandomWord] = useState('halo')
+    const [randomWord, setRandomWord] = useState('Halo :D')
 
 
-    const create = async () => {
-        await createEntry(key, value)
+    const newEntry = async () => {
+        const userId = '726d6368-80bd-4820-9d11-bc43fc215d47'
+        const dictionaryId = '726d6368-80bd-4820-9d11-bc43fc215d47'
+        await createEntry({userId, dictionaryId, key, value})
         setKey('')
         setValue('')
     }
 
     const showRandomOne = async () => {
-        const res = await getRandomOne()
+        const dictionaryId = '726d6368-80bd-4820-9d11-bc43fc215d47'
+        const res = await getRandomOne(dictionaryId)
         setRandomWord(res.data.key)
     }
 
@@ -35,7 +38,7 @@ const DictionariesPage = () => {
                     placeholder={"Value"}
                 />
             </Form>
-            <Button variant="outline-success" onClick={create}>Добавить</Button>
+            <Button variant="outline-success" onClick={newEntry}>Добавить</Button>
             <Button variant="outline-warning" onClick={showRandomOne}>Random</Button>
             <h2 className="m-auto">{randomWord}</h2>
         </Container>
