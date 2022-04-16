@@ -8,9 +8,7 @@ exports.generateAccessToken = (id, role) => {
 }
 
 exports.verifyAccessToken = (token) => {
-    return jwt.verify(token, config.JWT_TOKEN.SECRET, {}, function(err, token) {
-        console.log(token)
-    })
+    return jwt.verify(token, config.JWT_TOKEN.SECRET, {})
 }
 
 

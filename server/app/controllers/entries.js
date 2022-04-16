@@ -4,7 +4,7 @@ const _randomOne = (arr) => {
     return arr[Math.floor(Math.random() * arr.length)]
 }
 
-exports.create = async (req, res) => {
+exports.createEntry = async (req, res) => {
     const dictionaryId = req.params.dictionaryId
     const {key, value} = req.body
     if(!key || !value) {
@@ -17,7 +17,7 @@ exports.create = async (req, res) => {
 }
 
 
-exports.getCards = async (req, res) => {
+exports.getEntries = async (req, res) => {
     const dictionaryId = req.params.dictionaryId
     const entries = await dal.entries.getByDictionaryId(dictionaryId)
     res.json(entries)

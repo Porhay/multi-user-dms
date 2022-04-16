@@ -32,7 +32,10 @@ const auth = (req, res, next) => {
             return new errors.BadRequest('Unauthorized')
         }
 
-        req.user = jwt.verifyAccessToken(token)
+        // throw 'error: jwt malformed' if not valid jwt
+        const verified = jwt.verifyAccessToken(token)
+
+        req.user = verified
         next()
     } catch (e) {
         console.log(e)
@@ -56,8 +59,8 @@ app.post('/users/:userId/verification-codes/', verificationCodes.create)
 app.post('/users/:userId/verification-codes/:codeId/', verificationCodes.setAsUsed)
 
 
-app.post('/users/:userId/dictionaries/:dictionaryId/entries/', entries.create)
-app.get('/users/:userId/dictionaries/:dictionaryId/entries/', entries.getCards)
+app.post('/users/:userId/dictionaries/:dictionaryId/entries/', entries.createEntry)
+app.get('/users/:userId/dictionaries/:dictionaryId/entries/', entries.getEntries)
 app.get('/random/:dictionaryId/', entries.getRandomOne)
 // app.get('/users/:userId/dictionaries/:dictionaryId/entries/:entryId', entries.getRandomOne)
 
