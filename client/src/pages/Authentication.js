@@ -24,9 +24,9 @@ const AuthenticationPage = observer(() => {
             user.setIsAuth(true)
             navigate(ROUTES.DICTIONARIES)
         } catch (e) {
+            // TODO use modern alerts in future versions
             alert(e.response.data.message)
         }
-
     }
 
     return (
@@ -35,17 +35,17 @@ const AuthenticationPage = observer(() => {
             style={{height: window.innerHeight - 54}}
         >
             <Card style={{width: 600}} className="p-5">
-                <h2 className="m-auto">{isLogin ? 'Авторизация' : "Регистрация"}</h2>
+                <h2 className="m-auto">{isLogin ? 'Log in' : "Registration"}</h2>
                 <Form className="d-flex flex-column">
                     <Form.Control
                         className="mt-3"
-                        placeholder="Введите ваш email..."
+                        placeholder="Email"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                     />
                     <Form.Control
                         className="mt-3"
-                        placeholder="Введите ваш пароль..."
+                        placeholder="Password"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                         type="password"
@@ -53,18 +53,18 @@ const AuthenticationPage = observer(() => {
                     <Row className="d-flex justify-content-between mt-3 pl-3 pr-3">
                         {isLogin ?
                             <div>
-                                Нет аккаунта? <NavLink to={ROUTES.REGISTRATION}>Зарегистрируйся!</NavLink>
+                                Dont have an account? <NavLink to={ROUTES.REGISTRATION}>Register!</NavLink>
                             </div>
                             :
                             <div>
-                                Есть аккаунт? <NavLink to={ROUTES.LOGIN}>Войдите!</NavLink>
+                                Have an account? <NavLink to={ROUTES.LOGIN}>Log in!</NavLink>
                             </div>
                         }
                         <Button
                             variant={"outline-success"}
                             onClick={click}
                         >
-                            {isLogin ? 'Войти' : 'Регистрация'}
+                            {isLogin ? 'Log in' : 'Registration'}
                         </Button>
                     </Row>
 
