@@ -8,16 +8,16 @@ exports.create = async (req, res) => {
     const {email, password} = req.body
 
     if(!email) {
-        throw new Error('Email is required!')
+        return console.log(new Error('Email is required!'))
     }
     if(!password) {
-        throw new Error('Password is required!')
+        return console.log(new Error('Password is required!'))
     }
 
     // check for existence
     const candidate = await dal.users.getByEmail(email)
     if(candidate){
-        throw new Error('User with the same email is already exists!')
+        return console.log(new Error('User with the same email is already exists!'))
     }
 
     const user = await dal.users.create(email, password)
@@ -31,20 +31,20 @@ exports.login = async (req, res) => {
     const ip = req.ip
 
     if (email == null) {
-        throw new errors.BadRequest('email isn\'t provided')
+        return console.log(new errors.BadRequest('email isn\'t provided'))
     }
     if (password == null) {
-        throw new errors.BadRequest('password isn\'t provided')
+        return console.log(new errors.BadRequest('password isn\'t provided'))
     }
 
     const user = await dal.users.getByEmail(email)
     if (!user) {
-        throw new errors.NotFound('user does not exist or wrong password')
+        return console.log(new errors.NotFound('user does not exist or wrong password'))
     }
 
     const compared = await hash.comparePasswords(password, user.password)
     if (!compared) {
-        throw new errors.NotFound('user does not exist or wrong password')
+        return console.log(new errors.NotFound('user does not exist or wrong password'))
     }
 
     const token = jwt.generateAccessToken(user.id, user.role)
