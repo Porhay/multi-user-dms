@@ -48,7 +48,7 @@ exports.login = async (req, res) => {
     }
 
     const token = jwt.generateAccessToken(user.id, user.role)
-    return res.json('OK')
+    res.json({token})
 }
 
 

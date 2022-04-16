@@ -37,7 +37,9 @@ const registration = async (email, password) => {
 
 const login = async (email, password) => {
     const {data} = await host.post('/users/login/', {email, password})
+    console.log(data)
     localStorage.setItem('token', data.token)
+    console.log(data.token)
     return jwt_decode(data.token)
 }
 
