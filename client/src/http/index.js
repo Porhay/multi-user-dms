@@ -15,6 +15,11 @@ const authHost = axios.create({
     headers: {'X-Custom-Header': 'foobar'}
 })
 
+authHost.interceptors.request.use((config) => {
+    config.headers.authorization = `Bearer ${localStorage.getItem('token')}`
+})
+
+
 
 const userId = '726d6368-80bd-4820-9d11-bc43fc215d47'
 const dictionaryId = '726d6368-80bd-4820-9d11-bc43fc215d47'
@@ -37,17 +42,15 @@ const registration = async (email, password) => {
 
 const login = async (email, password) => {
     const {data} = await host.post('/users/login/', {email, password})
-    console.log(data)
     localStorage.setItem('token', data.token)
-    console.log(data.token)
     return jwt_decode(data.token)
 }
 
-const check = async () => {
-    const {data} = await authHost.get('api/user/auth' )
-    localStorage.setItem('token', data.token)
-    return jwt_decode(data.token)
-}
+// const check = async () => {
+//     const {data} = await authHost.get('api/user/auth' )
+//     localStorage.setItem('token', data.token)
+//     return jwt_decode(data.token)
+// }
 
 
 export {
@@ -56,5 +59,5 @@ export {
     getRandomOne,
     registration,
     login,
-    check
+    // check
 }

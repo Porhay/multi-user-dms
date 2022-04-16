@@ -19,7 +19,6 @@ const AuthenticationPage = observer(() => {
     const click = async () => {
         try {
             isLogin ? await login(email, password) : await registration(email, password)
-
             user.setUser(user)
             user.setIsAuth(true)
             navigate(ROUTES.DICTIONARIES)
