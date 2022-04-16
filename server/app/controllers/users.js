@@ -1,5 +1,5 @@
 const dal = require('../dal')
-const helpers = require('../lib/helpers')
+const jwt = require('../lib/jwt')
 const errors = require('../lib/errors')
 const hash = require('../lib/hash')
 
@@ -25,7 +25,7 @@ exports.create = async (req, res) => {
 }
 
 
-exports.signIn = async (req, res) => {
+exports.login = async (req, res) => {
     const {email, password} = req.body
     const browser = req.headers['user-agent']
     const ip = req.ip
@@ -47,7 +47,7 @@ exports.signIn = async (req, res) => {
         throw new errors.NotFound('user does not exist or wrong password')
     }
 
-    const token = helpers.generateAccessToken(user.id, user.role)
+    const token = jwt.generateAccessToken(user.id, user.role)
     return res.json('OK')
 }
 

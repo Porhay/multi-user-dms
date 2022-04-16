@@ -45,7 +45,7 @@ const auth = (req, res, next) => {
 app.get('/status/', status.getStatus)
 
 app.post('/users/', users.create)
-app.post('/users/sign-in/', users.signIn)
+app.post('/users/login/', users.login)
 
 app.get('/users/', auth, users.getUsers)
 app.delete('/users/:userId/', users.deleteOne)

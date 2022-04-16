@@ -30,13 +30,13 @@ const getRandomOne = async () => {
 
 
 const registration = async (email, password) => {
-    const {data} = await host.post('/user/registration', {email, password})
+    const {data} = await host.post('/users/', {email, password})
     localStorage.setItem('token', data.token)
     return jwt_decode(data.token)
 }
 
 const login = async (email, password) => {
-    const {data} = await host.post('/user/login', {email, password})
+    const {data} = await host.post('/users/login/', {email, password})
     localStorage.setItem('token', data.token)
     return jwt_decode(data.token)
 }
