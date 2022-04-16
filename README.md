@@ -1,7 +1,7 @@
-# multi-user-dms
-Multi-user dictionary management system
+# MUDMS &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Porhay/multi-user-dms/blob/master/LICENSE)
 
-
+Multi-user dictionary management system is an application that will allow you to organize all your notes in one place. 
+Thanks to the dictionary system, it will be possible to divide entries into different dictionaries and easily manipulate them.
 
 ## Installation and run
 <details>
