@@ -1,34 +1,23 @@
 import React, {useState} from 'react'
-import axios from 'axios'
 import {Button, Container, Form} from 'react-bootstrap'
+import {createEntry, getRandomOne} from '../http'
+
 
 const DictionariesPage = () => {
 
-    const [word, setWord] = useState('')
+    const [key, setKey] = useState('')
     const [value, setValue] = useState('')
-
-
     const [randomWord, setRandomWord] = useState('halo')
 
 
-    const host = axios.create({
-        // TODO Take local network ip from server side and replace with baseURL
-        baseURL: 'http://localhost:8000' || 'http://192.168.0.100:8000',
-        timeout: 1000,
-        headers: {'X-Custom-Header': 'foobar'}
-    })
-
-
-    const userId = '726d6368-80bd-4820-9d11-bc43fc215d47'
-    const dictionaryId = '726d6368-80bd-4820-9d11-bc43fc215d47'
-    const createEntry = async () => {
-        await host.post(`/users/${userId}/dictionaries/${dictionaryId}/entries/`, {key: word, value})
-        setWord('')
+    const create = async () => {
+        await createEntry(key, value)
+        setKey('')
         setValue('')
     }
 
-    const getRandomOne = async () => {
-        const res = await host.get(`/random/${dictionaryId}`)
+    const showRandomOne = async () => {
+        const res = await getRandomOne()
         setRandomWord(res.data.key)
     }
 
@@ -36,8 +25,8 @@ const DictionariesPage = () => {
         <Container className="d-flex flex-column">
             <Form>
                 <Form.Control
-                    value={word}
-                    onChange={e => setWord(e.target.value)}
+                    value={key}
+                    onChange={e => setKey(e.target.value)}
                     placeholder={"Word"}
                 />
                 <Form.Control
@@ -46,8 +35,8 @@ const DictionariesPage = () => {
                     placeholder={"Value"}
                 />
             </Form>
-            <Button variant="outline-success" onClick={createEntry}>Добавить</Button>
-            <Button variant="outline-warning" onClick={getRandomOne}>Random</Button>
+            <Button variant="outline-success" onClick={create}>Добавить</Button>
+            <Button variant="outline-warning" onClick={showRandomOne}>Random</Button>
             <h2 className="m-auto">{randomWord}</h2>
         </Container>
     )
