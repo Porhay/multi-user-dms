@@ -2,7 +2,7 @@
 export const ROUTES = {
     REGISTRATION: '/registration',
     LOGIN: '/login',
-    DICTIONARIES: '/dictionaries',
+    DICTIONARIES: '/',
     ENTRIES: '/entries',
     RANDOMIZER: '/randomizer',
 }
