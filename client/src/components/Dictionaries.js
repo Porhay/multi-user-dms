@@ -1,30 +1,39 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Container, Form, ListGroup} from 'react-bootstrap'
+import {useNavigate} from "react-router-dom";
+
 import {createDictionary, getDictionaries} from '../http'
+import {ROUTES} from "../constants";
+
+
+const userId = '726d6368-80bd-4820-9d11-bc43fc215d47'
 
 
 const Dictionaries = () => {
+    const navigate = useNavigate()
+
     const [data, setData] = useState([])
     const [name, setName] = useState('')
 
-    const userId = '726d6368-80bd-4820-9d11-bc43fc215d47'
+    useEffect(() => {
+        updateData(userId)
+    }, [])
+
+    const updateData = (userId) => {
+        getDictionaries(userId).then((response) => {
+            setData(response.data)
+        })
+    }
+
     const newDictionary = async () => {
         await createDictionary({userId, name})
+        updateData(userId)
         setName('')
-
-        let response = await getDictionaries(userId)
-        setData(response.data)
     }
 
-    const alertClicked = async (dictionaryId) => {
-        alert(`You clicked ${dictionaryId}`)
+    const openDictionary = async (dictionaryId) => {
+        navigate(ROUTES.ENTRIES + '/' + dictionaryId)
     }
-
-    // TODO investigate useEffect fetch
-    // useEffect(async () => {
-    //     let response = await getDictionaries(userId)
-    //     setData(response.data)
-    // })
 
     return (
         <Container className="d-flex flex-column">
@@ -37,10 +46,10 @@ const Dictionaries = () => {
             </Form>
             <Button variant="outline-success" onClick={newDictionary}>New Dictionary</Button>
 
-            <ListGroup defaultActiveKey="#link1">
+            <ListGroup>
                 {data.map((item) => {
                     return (
-                        <ListGroup.Item key={item.id} action onClick={() => alertClicked(item.id)}>
+                        <ListGroup.Item key={item.id} action onClick={() => openDictionary(item.id)}>
                             {item.name}
                         </ListGroup.Item>
                     )
@@ -50,5 +59,4 @@ const Dictionaries = () => {
         </Container>
     )
 }
-
 export default Dictionaries

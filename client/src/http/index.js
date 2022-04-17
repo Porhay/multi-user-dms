@@ -40,8 +40,8 @@ const createEntry = async (data) => {
 }
 
 const getEntries = async (userId, dictionaryId) => {
+    console.log(dictionaryId)
     return await host.get(`/users/${userId}/dictionaries/${dictionaryId}/entries/`)
-
 }
 
 const getRandomOne = async (dictionaryId) => {

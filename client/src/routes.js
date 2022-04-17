@@ -1,28 +1,33 @@
 import {ROUTES} from "./constants";
 
-import Authentication from "./pages/Authentication";
-import Dictionaries from "./pages/Dictionaries";
-import Randomizer from "./pages/Randomizer";
+import AuthenticationPage from "./pages/Authentication";
+import DictionariesPage from "./pages/Dictionaries";
+import EntriesPage from "./pages/Entries";
+import RandomizerPage from "./pages/Randomizer";
 
 
 export const authRoutes = [
     {
         path: ROUTES.DICTIONARIES,
-        Component: Dictionaries
+        Component: DictionariesPage
+    },
+    {
+        path: ROUTES.ENTRIES + '/:id',
+        Component: EntriesPage
     },
     {
         path: ROUTES.RANDOMIZER,
-        Component: Randomizer
+        Component: RandomizerPage
     },
 ]
 
 export const publicRoutes = [
     {
         path: ROUTES.LOGIN,
-        Component: Authentication
+        Component: AuthenticationPage
     },
     {
         path: ROUTES.REGISTRATION,
-        Component: Authentication
+        Component: AuthenticationPage
     },
 ]

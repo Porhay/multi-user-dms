@@ -75,7 +75,6 @@ app.get('/users/:userId/dictionaries/', dictionaries.getDictionaries)
 // TODO saving jwt in db
 // TODO one-many users-dictionaries model
 // TODO separated log file to tail -f
-// TODO
 
 
 module.exports = app
