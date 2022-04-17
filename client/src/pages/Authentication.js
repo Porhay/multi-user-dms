@@ -18,8 +18,8 @@ const AuthenticationPage = observer(() => {
 
     const loginOrRegister = async () => {
         try {
-            isLogin ? await login(email, password) : await registration(email, password)
-            user.setUser(user)
+            const userData = isLogin ? await login(email, password) : await registration(email, password)
+            user.setUser(userData)
             user.setIsAuth(true)
             navigate(ROUTES.DICTIONARIES)
         } catch (e) {

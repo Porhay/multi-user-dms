@@ -1,15 +1,20 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {Button, Container, Form, ListGroup} from 'react-bootstrap'
 import {useNavigate} from "react-router-dom";
+import {observer} from "mobx-react-lite";
 
 import {createDictionary, getDictionaries} from '../http'
 import {ROUTES} from "../constants";
+import {Context} from "../index";
 
 
-const userId = '726d6368-80bd-4820-9d11-bc43fc215d47'
+// const userId = '726d6368-80bd-4820-9d11-bc43fc215d47'
 
 
-const DictionariesPage = () => {
+const DictionariesPage = observer(() => {
+    const {user} = useContext(Context)
+    const userId = user.user.id
+
     const navigate = useNavigate()
 
     const [data, setData] = useState([])
@@ -58,6 +63,6 @@ const DictionariesPage = () => {
 
         </Container>
     )
-}
+})
 
 export default DictionariesPage
