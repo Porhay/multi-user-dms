@@ -15,6 +15,7 @@ const Navigation = observer(() => {
         user.setUser({})
         user.setIsAuth(false)
         navigate(ROUTES.LOGIN)
+        localStorage.clear()
     }
 
     return (
