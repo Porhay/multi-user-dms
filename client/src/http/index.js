@@ -15,9 +15,11 @@ const authHost = axios.create({
     headers: {'X-Custom-Header': 'foobar'}
 })
 
-authHost.interceptors.request.use((config) => {
+const authInterceptor = config => {
     config.headers.authorization = `Bearer ${localStorage.getItem('token')}`
-})
+    return config
+}
+authHost.interceptors.request.use(authInterceptor)
 
 
 const createDictionary = async (data) => {
