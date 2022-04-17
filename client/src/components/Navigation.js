@@ -26,6 +26,13 @@ const Navigation = observer(() => {
                     <Nav className="ml-auto" style={{color: 'white'}}>
                         <Button
                             variant={"outline-light"}
+                            onClick={() => navigate(ROUTES.RANDOMIZER)}
+                            className="me-4"
+                        >
+                            Randomizer
+                        </Button>
+                        <Button
+                            variant={"outline-light"}
                             onClick={() => logOut()}
                             className="ml-2"
                         >

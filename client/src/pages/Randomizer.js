@@ -7,7 +7,7 @@ const RandomizerPage = () => {
     const [visible, setVisible] = useState('Halo :D')
     const [data, setData] = useState({})
 
-    const dictionaryId = '726d6368-80bd-4820-9d11-bc43fc215d47'
+    const dictionaryId = '90a45dd7-f531-4c46-9794-27410ef0ae58'
     const showRandomOne = async () => {
         const res = await getRandomOne(dictionaryId)
         setData(res.data)
