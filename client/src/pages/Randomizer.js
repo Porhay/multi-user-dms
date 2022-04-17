@@ -4,12 +4,17 @@ import {getRandomOne} from '../http'
 
 
 const RandomizerPage = () => {
-    const [randomWord, setRandomWord] = useState('Halo :D')
+    const [visible, setVisible] = useState('Halo :D')
+    const [data, setData] = useState({})
 
+    const dictionaryId = '726d6368-80bd-4820-9d11-bc43fc215d47'
     const showRandomOne = async () => {
-        const dictionaryId = '726d6368-80bd-4820-9d11-bc43fc215d47'
         const res = await getRandomOne(dictionaryId)
-        setRandomWord(res.data.key)
+        setData(res.data)
+        setVisible(res.data.key)
+    }
+    const showValue = async () => {
+        setVisible(data.value)
     }
 
     return (
@@ -17,11 +22,9 @@ const RandomizerPage = () => {
             <Card className="text-center">
                 <Card.Header>Randomizer</Card.Header>
                 <Card.Body>
-                    <Card.Title>Click the button to randomize your dictionary entries</Card.Title>
-                    <Card.Text>
-                        {randomWord}
-                    </Card.Text>
-                    <Button variant="primary" onClick={showRandomOne}>Next</Button>
+                    <Card.Title>{visible}</Card.Title>
+                    <Button variant="primary" className="me-3" onClick={showRandomOne}>Next</Button>
+                    <Button variant="secondary" onClick={showValue}>Value</Button>
                 </Card.Body>
                 <Card.Footer className="text-muted">2 days ago</Card.Footer>
             </Card>
