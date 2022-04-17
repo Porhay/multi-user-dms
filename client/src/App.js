@@ -22,7 +22,14 @@ const App = observer(() => {
     }, [])
 
     if (loading) {
-        return <Spinner className={"d-flex align-items-center justify-content-center"} animation={"border"}/>
+        return (
+            <div
+                className={"d-flex justify-content-center align-items-center "}
+                style={{height: window.innerHeight - 12}}
+            >
+                <Spinner animation={"border"}/>
+            </div>
+        )
     }
 
     return (
