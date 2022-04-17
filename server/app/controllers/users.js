@@ -56,9 +56,9 @@ exports.login = async (req, res) => {
     res.json({token})
 }
 
-
-const _login = async (user, req, res) => {
-    res.cookie('psp', passphrase, {httpOnly: true, secure: true})
+exports.check = async (req, res) => {
+    const token = jwt.generateAccessToken(req.user.id, req.user.role)
+    return res.json({token})
 }
 
 

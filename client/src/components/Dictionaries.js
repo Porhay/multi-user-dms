@@ -5,19 +5,20 @@ import {createDictionary} from '../http'
 
 const Dictionaries = () => {
     const [data, setData] = useState('')
-    const [value, setValue] = useState('')
+    const [name, setName] = useState('')
 
     const newDictionary = async () => {
         const userId = '726d6368-80bd-4820-9d11-bc43fc215d47'
-        await createDictionary({userId, value})
+        await createDictionary({userId, name})
+        setName('')
     }
 
     return (
         <Container className="d-flex flex-column">
             <Form>
                 <Form.Control
-                    value={value}
-                    onChange={e => setValue(e.target.value)}
+                    value={name}
+                    onChange={e => setName(e.target.value)}
                     placeholder={"Type dictionary name here..."}
                 />
             </Form>

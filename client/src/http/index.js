@@ -20,7 +20,8 @@ authHost.interceptors.request.use((config) => {
 })
 
 
-const createDictionary = async (userId, name) => {
+const createDictionary = async (data) => {
+    const {userId, name} = data
     return await host.post(`/users/${userId}/dictionaries/`, {name})
 }
 
@@ -59,11 +60,11 @@ const login = async (email, password) => {
     return jwt_decode(data.token)
 }
 
-// const check = async () => {
-//     const {data} = await authHost.get('api/user/auth' )
-//     localStorage.setItem('token', data.token)
-//     return jwt_decode(data.token)
-// }
+const check = async () => {
+    const {data} = await authHost.get('/users/check/' )
+    localStorage.setItem('token', data.token)
+    return jwt_decode(data.token)
+}
 
 
 export {
@@ -75,5 +76,5 @@ export {
     registration,
     login,
     getRandomOne,
-    // check
+    check
 }

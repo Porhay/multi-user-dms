@@ -21,16 +21,15 @@ app.use(express.json())
 // app.use('/users/', auth )
 
 
-// TODO fix and investigate
-const auth = (req, res, next) => {
+const authCheck = (req, res, next) => {
     if (req.method === "OPTIONS") {
         next()
     }
 
     try {
-        const token = req.headers.authorization.split(' ')[1]
+        let token = req.headers.authorization.split(' ')[1]
         if (!token) {
-            return new errors.BadRequest('Unauthorized')
+            return res.status(401).json({message: "Unauthorized"})
         }
 
         // throw 'error: jwt malformed' if not valid jwt
@@ -39,8 +38,7 @@ const auth = (req, res, next) => {
         req.user = verified
         next()
     } catch (e) {
-        console.log(e)
-        return new errors.BadRequest('Unauthorized')
+        return res.status(401).json({message: "Unauthorized"})
     }
 }
 
@@ -50,9 +48,11 @@ app.get('/status/', status.getStatus)
 
 app.post('/users/', users.create)
 app.post('/users/login/', users.login)
+app.get('/users/check/', authCheck, users.check)
 
-app.get('/users/', auth, users.getUsers)
+app.get('/users/', authCheck, users.getUsers)
 app.delete('/users/:userId/', users.deleteOne)
+
 
 app.post('/verification-code/', email.sendEmail)
 
