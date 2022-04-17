@@ -7,7 +7,7 @@ import Dictionaries from "../components/Dictionaries";
 
 const DictionariesPage = () => {
     return (
-        <Container className="d-flex flex-column">
+        <Container className="d-flex flex-column mt-3">
             <Dictionaries />
             {/*<Entries />*/}
         </Container>
