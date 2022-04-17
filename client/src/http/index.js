@@ -36,7 +36,7 @@ const createEntry = async (data) => {
         {key, value})
 }
 
-const getAll = async (userId, dictionaryId) => {
+const getEntries = async (userId, dictionaryId) => {
     return await host.get(`/users/${userId}/dictionaries/${dictionaryId}/entries/`)
 
 }
@@ -68,9 +68,12 @@ const login = async (email, password) => {
 
 export {
     host,
+    createDictionary,
+    getDictionaries,
     createEntry,
-    getRandomOne,
+    getEntries,
     registration,
     login,
+    getRandomOne,
     // check
 }
