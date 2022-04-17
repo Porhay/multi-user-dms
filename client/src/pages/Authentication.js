@@ -16,7 +16,7 @@ const AuthenticationPage = observer(() => {
     const [password, setPassword] = useState('')
 
 
-    const click = async () => {
+    const loginOrRegister = async () => {
         try {
             isLogin ? await login(email, password) : await registration(email, password)
             user.setUser(user)
@@ -59,15 +59,15 @@ const AuthenticationPage = observer(() => {
                                 Have an account? <NavLink to={ROUTES.LOGIN}>Log in!</NavLink>
                             </div>
                         }
-                        <Button
-                            variant={"outline-success"}
-                            onClick={click}
-                        >
-                            {isLogin ? 'Log in' : 'Registration'}
-                        </Button>
                     </Row>
-
                 </Form>
+                <Button
+                    variant={"outline-success"}
+                    onClick={loginOrRegister}
+                    style={{marginTop: 6}}
+                >
+                    {isLogin ? 'Log in' : 'Registration'}
+                </Button>
             </Card>
         </Container>
     );
