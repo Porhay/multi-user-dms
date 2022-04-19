@@ -3,7 +3,7 @@ import {Button, Container, Form, ListGroup} from 'react-bootstrap'
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 
-import {createDictionary, getDictionaries} from '../http'
+import {createDictionary, getDictionaries, deleteDictionary} from '../http'
 import {ROUTES} from "../constants";
 import {Context} from "../index";
 
@@ -23,10 +23,10 @@ const DictionariesPage = observer(() => {
     const [name, setName] = useState('')
 
     useEffect(() => {
-        updateData(userId)
+        updateData()
     }, [])
 
-    const updateData = (userId) => {
+    const updateData = () => {
         getDictionaries(userId).then((response) => {
             setData(response.data)
         })
@@ -34,7 +34,7 @@ const DictionariesPage = observer(() => {
 
     const newDictionary = async () => {
         await createDictionary({userId, name})
-        updateData(userId)
+        updateData()
         setName('')
     }
 
@@ -42,8 +42,13 @@ const DictionariesPage = observer(() => {
         navigate(ROUTES.ENTRIES + '/' + dictionaryId)
     }
 
+    const deleteCurrentDictionary = async (dictionaryId) => {
+        await deleteDictionary(userId, dictionaryId)
+        updateData()
+    }
+
     return (
-        <Container className="d-flex flex-column w-75 ">
+        <Container className="d-flex flex-column w-75">
             <Container className="d-flex flex mt-5 mb-1">
                 <Form
                     className="w-100"
@@ -62,11 +67,20 @@ const DictionariesPage = observer(() => {
                     {data.map((item) => {
                         return (
                             <ListGroup.Item
+                                className="d-flex flex-row align-items-center justify-content-between"
                                 key={item.id}
                                 action
                                 onClick={() => openDictionary(item.id)}
                             >
                                 <div className="bold">{item.name}</div>
+                                <Button
+                                    className="remove"
+                                    size="sm"
+                                    variant="link"
+                                    onClick={() => deleteCurrentDictionary(item.id)}
+                                >
+                                    Delete
+                                </Button>
                             </ListGroup.Item>
                         )
                     })}

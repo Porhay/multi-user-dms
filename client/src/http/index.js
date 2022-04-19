@@ -4,7 +4,7 @@ import jwt_decode from 'jwt-decode'
 
 const host = axios.create({
     // TODO Take local network ip from server side and replace with baseURL
-    baseURL: 'http://localhost:8000' || 'http://192.168.0.100:8000',
+    baseURL: 'http://localhost:8000' || 'http://192.168.0.102:8000', // 'http://localhost:8000' ||
     timeout: 1000,
     headers: {'X-Custom-Header': 'foobar'}
 })
@@ -29,6 +29,10 @@ const createDictionary = async (data) => {
 
 const getDictionaries = async (userId) => {
     return await host.get(`/users/${userId}/dictionaries/`)
+}
+
+const deleteDictionary = async (userId, dictionaryId) => {
+    return await host.delete(`/users/${userId}/dictionaries/${dictionaryId}/`)
 }
 
 
@@ -73,6 +77,7 @@ export {
     host,
     createDictionary,
     getDictionaries,
+    deleteDictionary,
     createEntry,
     getEntries,
     registration,

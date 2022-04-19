@@ -68,6 +68,7 @@ app.get('/random/:dictionaryId/', entries.getRandomOne)
 
 app.post('/users/:userId/dictionaries/', dictionaries.createDictionary)
 app.get('/users/:userId/dictionaries/', dictionaries.getDictionaries)
+app.delete('/users/:userId/dictionaries/:dictionaryId/', dictionaries.deleteDictionary)
 
 
 // TODO add migrations directory for db

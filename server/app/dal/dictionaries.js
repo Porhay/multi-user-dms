@@ -21,3 +21,8 @@ exports.getByUserId = async (userId) => {
     }
     return result
 }
+
+
+exports.deleteById = async (dictionaryId) => {
+    return await db.dictionaries.destroy({ where: {id: dictionaryId} })
+}

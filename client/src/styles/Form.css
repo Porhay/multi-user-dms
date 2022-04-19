@@ -13,3 +13,8 @@
 .bold {
     font-weight: bold;
 }
+
+.remove {
+    text-decoration: none;
+
+}
