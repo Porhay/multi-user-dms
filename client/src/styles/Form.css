@@ -9,3 +9,7 @@
 .div {
     opacity: .3;
 }
+
+.bold {
+    font-weight: bold;
+}

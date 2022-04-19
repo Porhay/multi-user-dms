@@ -43,7 +43,7 @@ const DictionariesPage = observer(() => {
     }
 
     return (
-        <Container className="d-flex flex-column w-75">
+        <Container className="d-flex flex-column w-75 ">
             <Container className="d-flex flex mt-5 mb-1">
                 <Form
                     className="w-100"
@@ -57,19 +57,16 @@ const DictionariesPage = observer(() => {
                 </Form>
                 <Button size="md" variant="outline-success" onClick={newDictionary}>New</Button>
             </Container>
-            <Container
-                className="justify-content-center"
-            >
+            <Container>
                 <ListGroup>
                     {data.map((item) => {
                         return (
                             <ListGroup.Item
-                                size="sm"
                                 key={item.id}
                                 action
                                 onClick={() => openDictionary(item.id)}
                             >
-                                {item.name}
+                                <div className="bold">{item.name}</div>
                             </ListGroup.Item>
                         )
                     })}
