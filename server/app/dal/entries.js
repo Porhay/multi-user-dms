@@ -16,9 +16,19 @@ exports.create = async (dictionaryId, key, value) => {
 
 
 exports.getByDictionaryId = async (dictionaryId) => {
-    const result = await db.entries.findAll({ where: { dictionaryId } })
+    const result = await db.entries.findAll({ where: {dictionaryId} })
     if (!result) {
         return null
     }
     return result
+}
+
+
+exports.deleteByDictionaryId = async (dictionaryId) => {
+    return await db.entries.destroy({ where: {dictionaryId} })
+}
+
+
+exports.deleteById = async (id) => {
+    return await db.dictionaries.destroy({ where: {id} })
 }

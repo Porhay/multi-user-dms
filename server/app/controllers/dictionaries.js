@@ -23,10 +23,10 @@ exports.getDictionaries = async (req, res) => {
 exports.deleteDictionary = async (req, res) => {
     const dictionaryId = req.params.dictionaryId
     await dal.dictionaries.deleteById(dictionaryId)
-    // TODO delete all entries
+    await dal.entries.deleteByDictionaryId(dictionaryId)
     res.json({message: "OK"})
 }
 
-// TODO deleteDictionary, updateDictionary
+// TODO updateDictionary
 
 
