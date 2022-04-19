@@ -45,6 +45,8 @@ const DictionariesPage = observer(() => {
     const deleteCurrentDictionary = async (dictionaryId) => {
         await deleteDictionary(userId, dictionaryId)
         updateData()
+        // this is an invalid way, remove after ui fix
+        navigate(ROUTES.DICTIONARIES)
     }
 
     return (

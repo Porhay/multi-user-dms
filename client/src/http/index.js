@@ -48,6 +48,10 @@ const getEntries = async (userId, dictionaryId) => {
     return await host.get(`/users/${userId}/dictionaries/${dictionaryId}/entries/`)
 }
 
+const deleteEntry = async (userId, dictionaryId, entryId) => {
+    return await host.delete(`/users/${userId}/dictionaries/${dictionaryId}/entries/${entryId}/`)
+}
+
 const getRandomOne = async (dictionaryId) => {
     return await host.get(`/random/${dictionaryId}`)
 }
@@ -75,13 +79,18 @@ const check = async () => {
 
 export {
     host,
+
     createDictionary,
     getDictionaries,
     deleteDictionary,
+
     createEntry,
     getEntries,
+    deleteEntry,
+
     registration,
     login,
     getRandomOne,
+
     check
 }

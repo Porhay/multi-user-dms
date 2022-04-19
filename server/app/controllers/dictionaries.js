@@ -12,13 +12,11 @@ exports.createDictionary = async (req, res) => {
     res.json({message: 'OK'})
 }
 
-
 exports.getDictionaries = async (req, res) => {
     const userId = req.params.userId
     const dictionaries = await dal.dictionaries.getByUserId(userId)
     res.json(dictionaries)
 }
-
 
 exports.deleteDictionary = async (req, res) => {
     const dictionaryId = req.params.dictionaryId

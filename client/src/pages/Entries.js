@@ -1,15 +1,19 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {Button, Container, Form, ListGroup} from 'react-bootstrap'
-import {createEntry, getEntries} from "../http";
 import {useParams} from 'react-router-dom';
+import {observer} from "mobx-react-lite";
+
+import {createEntry, getEntries, deleteEntry} from "../http";
 
 import '../styles/Form.css';
+import {Context} from "../index";
 
 
-
-const EntriesPage = () => {
+const EntriesPage = observer(() => {
     const {id: dictionaryId} = useParams() // dictionaryId
-    const userId = 'random'
+
+    const {user} = useContext(Context)
+    const userId = user.user.id
 
     const [data, setData] = useState([])
     const updateData = (userId, dictionaryId) => {
@@ -33,7 +37,12 @@ const EntriesPage = () => {
         updateData(userId, dictionaryId)
     }
 
-    // TODO Fix ListGroup.Item output, make cards
+
+    const deleteCurrentEntry = async (entryId) => {
+        await deleteEntry(userId, dictionaryId, entryId)
+        updateData(userId, dictionaryId)
+    }
+
     return (
         <Container className="d-flex flex-column w-75">
             <Container className="d-flex mt-5 mb-1">
@@ -59,9 +68,19 @@ const EntriesPage = () => {
                 <ListGroup className="w-100">
                     {data.map((item) => {
                         return (
-                            <ListGroup.Item key={item.id}>
-                                <h6 className="mb-0">{item.key}</h6>
-                                <div className="div">{item.value}</div>
+                            <ListGroup.Item key={item.id} className="d-flex flex-row">
+                                <Container>
+                                    <h6 className="mb-0">{item.key}</h6>
+                                    <div className="div">{item.value}</div>
+                                </Container>
+                                <Button
+                                    className="remove"
+                                    size="sm"
+                                    variant="link"
+                                    onClick={() => deleteCurrentEntry(item.id)}
+                                >
+                                    Delete
+                                </Button>
                             </ListGroup.Item>
                         )
                     })}
@@ -69,6 +88,6 @@ const EntriesPage = () => {
             </Container>
         </Container>
     )
-}
+})
 
 export default EntriesPage

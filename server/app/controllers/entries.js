@@ -16,11 +16,16 @@ exports.createEntry = async (req, res) => {
     res.json({message: 'OK'})
 }
 
-
 exports.getEntries = async (req, res) => {
     const dictionaryId = req.params.dictionaryId
     const entries = await dal.entries.getByDictionaryId(dictionaryId)
     res.json(entries)
+}
+
+exports.deleteEntry = async (req, res) => {
+    const {userId, dictionaryId, entryId} = req.params
+    await dal.entries.deleteById(entryId)
+    res.json({message: "halo"})
 }
 
 exports.getRandomOne = async (req, res) => {
@@ -28,5 +33,4 @@ exports.getRandomOne = async (req, res) => {
     const entries = await dal.entries.getByDictionaryId(dictionaryId)
     return res.json(_randomOne(entries))
 }
-
 

@@ -62,6 +62,7 @@ app.post('/users/:userId/verification-codes/:codeId/', verificationCodes.setAsUs
 
 app.post('/users/:userId/dictionaries/:dictionaryId/entries/', entries.createEntry)
 app.get('/users/:userId/dictionaries/:dictionaryId/entries/', entries.getEntries)
+app.delete('/users/:userId/dictionaries/:dictionaryId/entries/:entryId/', entries.deleteEntry)
 app.get('/random/:dictionaryId/', entries.getRandomOne)
 // app.get('/users/:userId/dictionaries/:dictionaryId/entries/:entryId', entries.getRandomOne)
 
