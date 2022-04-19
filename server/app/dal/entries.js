@@ -30,5 +30,5 @@ exports.deleteByDictionaryId = async (dictionaryId) => {
 
 
 exports.deleteById = async (id) => {
-    return await db.dictionaries.destroy({ where: {id} })
+    return await db.entries.destroy({ where: {id} })
 }
