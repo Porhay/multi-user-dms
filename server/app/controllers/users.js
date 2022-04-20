@@ -84,3 +84,16 @@ exports.deleteOne = async (req, res) => {
     res.json({message: "OK"})
 }
 
+exports.getFriends = async (req, res) => {
+    const userId = req.params.userId
+    const user = await dal.users.getById(userId)
+
+    let friends = []
+    for (let userId of user.friends) {
+        const friend = await dal.users.getById(userId)
+        friends.push({id: userId, name: friend.name})
+    }
+
+    res.json(friends)
+}
+

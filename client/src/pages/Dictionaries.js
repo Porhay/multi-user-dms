@@ -1,11 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {Button, Container, Form, ListGroup} from 'react-bootstrap'
+import {Button, ButtonGroup, Container, DropdownButton, Dropdown, Form, ListGroup} from 'react-bootstrap'
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 
 import {createDictionary, getDictionaries, deleteDictionary} from '../http'
 import {ROUTES} from "../constants";
 import {Context} from "../index";
+
+
+import Friends from "../modals/Friends";
 
 import '../styles/Form.css';
 
@@ -21,6 +24,10 @@ const DictionariesPage = observer(() => {
 
     const [data, setData] = useState([])
     const [name, setName] = useState('')
+
+
+    const [showFriendsModal, setShowFriendsModal] = useState(false);
+
 
     useEffect(() => {
         updateData()
@@ -68,22 +75,40 @@ const DictionariesPage = observer(() => {
                 <ListGroup>
                     {data.map((item) => {
                         return (
-                            <ListGroup.Item
-                                className="d-flex flex-row align-items-center justify-content-between"
-                                key={item.id}
-                                action
-                                onClick={() => openDictionary(item.id)}
-                            >
-                                <div className="bold">{item.name}</div>
-                                <Button
-                                    className="remove"
-                                    size="sm"
-                                    variant="link"
-                                    onClick={() => deleteCurrentDictionary(item.id)}
+                            <Container className="d-flex flex-row w-100">
+                                <ListGroup.Item
+                                    className="d-flex flex-row align-items-center justify-content-between"
+                                    key={item.id}
+                                    action
+                                    onClick={() => openDictionary(item.id)}
                                 >
-                                    Delete
-                                </Button>
-                            </ListGroup.Item>
+                                    <div className="bold">{item.name}</div>
+                                    <Button
+                                        className="remove"
+                                        size="sm"
+                                        variant="link"
+                                        onClick={() => deleteCurrentDictionary(item.id)}
+                                    >
+                                        Delete
+                                    </Button>
+                                </ListGroup.Item>
+                                {[DropdownButton].map((DropdownType, idx) => (
+                                    <DropdownType
+                                        as={ButtonGroup}
+                                        key={idx}
+                                        id={`dropdown-button-drop-${idx}`}
+                                        size="sm"
+                                        variant="secondary"
+                                        title="Friends"
+                                    >
+                                        <Dropdown.Item onClick={() => setShowFriendsModal(true)}
+                                                       eventKey="1">Share</Dropdown.Item>
+                                        <Dropdown.Item onClick={() => console.log('Halo')}
+                                                       eventKey="2">Delete</Dropdown.Item>
+                                    </DropdownType>
+                                ))}
+                                <Friends show={showFriendsModal} onHide={() => setShowFriendsModal(false)}/>
+                            </Container>
                         )
                     })}
                 </ListGroup>

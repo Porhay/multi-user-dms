@@ -76,6 +76,10 @@ const check = async () => {
     return jwt_decode(data.token)
 }
 
+const getFriends = async (userId) => {
+    return await authHost.get(`/users/${userId}/friends/`)
+}
+
 
 export {
     host,
@@ -92,5 +96,7 @@ export {
     login,
     getRandomOne,
 
-    check
+    check,
+
+    getFriends,
 }
