@@ -2,6 +2,7 @@ const dal = require('../dal')
 const jwt = require('../lib/jwt')
 const errors = require('../lib/errors')
 const hash = require('../lib/hash')
+const helpers = require("../lib/helpers");
 
 
 exports.create = async (req, res) => {
@@ -20,7 +21,17 @@ exports.create = async (req, res) => {
         return console.log(new Error('User with the same email is already exists!'))
     }
 
-    const user = await dal.users.create(email, password)
+    const setUniqueRandomName = async () => {
+        const newName = helpers.createRandomUserName()
+        const nameExisted = await dal.users.getByName(newName)
+        if(!nameExisted){
+            return newName
+        }
+        return setUniqueRandomName()
+    }
+    const name = await setUniqueRandomName()
+
+    const user = await dal.users.create(email, password, name)
 
     // default user's dictionary with entries
     const dictionary = await dal.dictionaries.create(user.id, 'Get Started')

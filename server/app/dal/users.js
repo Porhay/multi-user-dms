@@ -5,7 +5,7 @@ const constants = require('../lib/constants')
 const hash = require('../lib/hash')
 
 
-exports.create = async (email, password, emailVerified = false) => {
+exports.create = async (email, password, name, emailVerified = false) => {
     const id = uuid.v4()
 
     let hashedPassword
@@ -18,7 +18,8 @@ exports.create = async (email, password, emailVerified = false) => {
         email: email.toLowerCase(),
         emailVerified,
         password: hashedPassword,
-        role: constants.USER_ROLES.USER
+        role: constants.USER_ROLES.USER,
+        name
     }
     await db.user.create(user)
     return user
@@ -30,6 +31,14 @@ exports.signIn = () => {
 
 exports.getByEmail = async (email) => {
     const result = await db.user.findOne({ where: { email: email.toLowerCase() } })
+    if (!result) {
+        return null
+    }
+    return result
+}
+
+exports.getByName = async (name) => {
+    const result = await db.user.findOne({ where: { name } })
     if (!result) {
         return null
     }
