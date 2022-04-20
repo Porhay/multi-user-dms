@@ -107,7 +107,7 @@ const DictionariesPage = observer(() => {
                                                        eventKey="2">Delete</Dropdown.Item>
                                     </DropdownType>
                                 ))}
-                                <Friends show={showFriendsModal} onHide={() => setShowFriendsModal(false)}/>
+                                <Friends dictionary={item} show={showFriendsModal} onHide={() => setShowFriendsModal(false)}/>
                             </Container>
                         )
                     })}

@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
 import Modal from "react-bootstrap/Modal";
 import {Button, Form, ListGroup} from "react-bootstrap";
-import {getFriends} from "../http";
+import {getFriends, shareDictionary} from "../http";
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 
-const Friends = observer(({show, onHide}) => {
+const Friends = observer(({dictionary, show, onHide}) => {
     const {user} = useContext(Context)
     const userId = user.user.id
 
@@ -25,9 +25,8 @@ const Friends = observer(({show, onHide}) => {
     }
 
 
-    const shareDictionary = (id) => {
-
-
+    const shareCurrentDictionary = async (id, dictionaryId, recipientId) => {
+        await shareDictionary(id, dictionaryId, recipientId)
         onHide()
     }
 
@@ -59,7 +58,7 @@ const Friends = observer(({show, onHide}) => {
                                     className="d-flex flex-row align-items-center justify-content-between"
                                     key={id}
                                     action
-                                    onClick={() => shareDictionary(id)}
+                                    onClick={() => shareCurrentDictionary(id, dictionary.id, id)}
                                 >
                                     {name}
                                 </ListGroup.Item>

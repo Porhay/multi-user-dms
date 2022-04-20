@@ -80,6 +80,11 @@ const getFriends = async (userId) => {
     return await authHost.get(`/users/${userId}/friends/`)
 }
 
+const shareDictionary = async (userId, dictionaryId, recipientId) => {
+    // TODO fix data must be in body
+    return await authHost.post(`/users/${userId}/dictionaries/${dictionaryId}/share/${recipientId}/`)
+}
+
 
 export {
     host,
@@ -99,4 +104,5 @@ export {
     check,
 
     getFriends,
+    shareDictionary,
 }

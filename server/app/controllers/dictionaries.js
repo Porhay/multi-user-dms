@@ -28,3 +28,12 @@ exports.deleteDictionary = async (req, res) => {
 // TODO updateDictionary
 
 
+
+exports.shareDictionary = async (req, res) => {
+    const {userId, dictionaryId, recipientId} = req.params
+    console.log(userId, dictionaryId, recipientId)
+    await dal.dictionaries.shareDictionary(userId, recipientId, dictionaryId)
+    res.json({message: "OK"})
+}
+
+
