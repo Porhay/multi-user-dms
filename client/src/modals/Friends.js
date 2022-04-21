@@ -5,7 +5,7 @@ import {getFriends, shareDictionary} from "../http";
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 
-const Friends = observer(({dictionary, show, onHide}) => {
+const Friends = observer(({dictionaryId, show, onHide}) => {
     const {user} = useContext(Context)
     const userId = user.user.id
 
@@ -25,8 +25,9 @@ const Friends = observer(({dictionary, show, onHide}) => {
     }
 
 
-    const shareCurrentDictionary = async (id, dictionaryId, recipientId) => {
-        await shareDictionary(id, dictionaryId, recipientId)
+    const shareCurrentDictionary = async (userId, dictionaryId, recipientId) => {
+        console.log(`Словарь inner: ${dictionaryId}`)
+        await shareDictionary(userId, dictionaryId, recipientId)
         onHide()
     }
 
@@ -52,13 +53,13 @@ const Friends = observer(({dictionary, show, onHide}) => {
                 </Form>
 
                 <ListGroup>
-                    {friends.map(({id, name}) => {
+                    {friends.map(({id:friendId, name}) => {
                         return (
                                 <ListGroup.Item
                                     className="d-flex flex-row align-items-center justify-content-between"
-                                    key={id}
+                                    key={friendId}
                                     action
-                                    onClick={() => shareCurrentDictionary(id, dictionary.id, id)}
+                                    onClick={() => shareCurrentDictionary(userId, dictionaryId, friendId)}
                                 >
                                     {name}
                                 </ListGroup.Item>

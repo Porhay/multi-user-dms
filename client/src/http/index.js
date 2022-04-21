@@ -36,8 +36,7 @@ const deleteDictionary = async (userId, dictionaryId) => {
 }
 
 const shareDictionary = async (userId, dictionaryId, recipientId) => {
-    // TODO fix data must be in body
-    return await authHost.post(`/users/${userId}/dictionaries/${dictionaryId}/share/${recipientId}/`)
+    return await authHost.post(`/users/${userId}/share-dictionary/`, {dictionaryId, recipientId})
 }
 
 

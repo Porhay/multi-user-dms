@@ -96,13 +96,26 @@ const DictionariesPage = observer(() => {
                                         variant="secondary"
                                         title="Friends"
                                     >
-                                        <Dropdown.Item onClick={() => setShowFriendsModal(true)}
-                                                       eventKey="1">Share</Dropdown.Item>
-                                        <Dropdown.Item onClick={() => console.log('Halo')}
-                                                       eventKey="2">Delete</Dropdown.Item>
+                                        <Dropdown.Item
+                                            onClick={() => setShowFriendsModal(true)}
+                                            eventKey="1">
+                                            Share
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                            onClick={() => console.log(``)}
+                                            eventKey="2">
+                                            Delete
+                                        </Dropdown.Item>
                                     </DropdownType>
                                 ))}
-                                <Friends dictionary={item} show={showFriendsModal} onHide={() => setShowFriendsModal(false)}/>
+                                <Friends
+                                    dictionaryId={item.id}
+                                    show={showFriendsModal}
+                                    onHide={() => {
+                                        console.log(`Словарь outer: ${item.id}`)
+                                        setShowFriendsModal(false)}
+                                    }
+                                />
                             </Container>
                         )
                     })}

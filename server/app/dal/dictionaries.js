@@ -38,19 +38,9 @@ exports.getById = async (id) => {
 }
 
 
-exports.shareDictionary = async (ownerId, recipientId, dictionaryId) => {
-    console.log(dictionaryId)
-    // var myUuid = Uuid.fromString('ce547c40-acf9-11e6-80f5-76304dec7eb7');
-
+exports.copyDictionary = async (userToCopy, dictionaryId) => {
     const dictionary = await exports.getById(dictionaryId)
-
-    console.log(dictionary.name)
-    await exports.create(recipientId, dictionary.name)
-
-    const entries = await dal.entries.getByDictionaryId(dictionaryId)
-    for(let entry of entries) {
-        await dal.entries.create(entry.dictionaryId, entry.key, entry.value)
-    }
+    await exports.create(userToCopy, dictionary.name)
 }
 
 

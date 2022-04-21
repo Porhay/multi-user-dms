@@ -70,7 +70,7 @@ app.delete('/users/:userId/dictionaries/:dictionaryId/entries/:entryId/', entrie
 app.get('/random/:dictionaryId/', entries.getRandomOne)
 // app.get('/users/:userId/dictionaries/:dictionaryId/entries/:entryId', entries.getRandomOne)
 
-app.post('/users/:userId/dictionaries/:dictionaryId/share/:recipientId/', dictionaries.shareDictionary)
+app.post('/users/:userId/share-dictionary/', dictionaries.shareDictionary)
 
 
 
