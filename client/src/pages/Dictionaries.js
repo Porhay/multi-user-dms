@@ -7,15 +7,12 @@ import {createDictionary, getDictionaries, deleteDictionary} from '../http'
 import {ROUTES} from "../constants";
 import {Context} from "../index";
 
-
 import Friends from "../modals/Friends";
 
 import '../styles/Form.css';
 
 
 // const userId = '726d6368-80bd-4820-9d11-bc43fc215d47'
-
-
 const DictionariesPage = observer(() => {
     const {user} = useContext(Context)
     const userId = user.user.id
@@ -25,9 +22,7 @@ const DictionariesPage = observer(() => {
     const [data, setData] = useState([])
     const [name, setName] = useState('')
 
-
     const [showFriendsModal, setShowFriendsModal] = useState(false);
-
 
     useEffect(() => {
         updateData()
@@ -52,7 +47,7 @@ const DictionariesPage = observer(() => {
     const deleteCurrentDictionary = async (dictionaryId) => {
         await deleteDictionary(userId, dictionaryId)
         updateData()
-        // this is an invalid way, remove after ui fix
+        // TODO this is an invalid way, remove after ui fix
         navigate(ROUTES.DICTIONARIES)
     }
 

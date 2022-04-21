@@ -7,7 +7,7 @@ import {createEntry, getEntries, deleteEntry} from "../http";
 
 import '../styles/Form.css';
 import {Context} from "../index";
-
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 const EntriesPage = observer(() => {
     const {id: dictionaryId} = useParams() // dictionaryId
@@ -79,7 +79,14 @@ const EntriesPage = observer(() => {
                                     variant="link"
                                     onClick={() => deleteCurrentEntry(item.id)}
                                 >
-                                    Delete
+                                    <Container
+                                        className="d-flex flex-row align-items-center justify-content-between"
+                                        style={{color: 'black', opacity: 0.5}}
+                                    >
+                                        <DeleteOutlineIcon  />
+                                        {/*<text style={{fontSize:'12'}}>Delete</text>*/}
+                                    </Container>
+
                                 </Button>
                             </ListGroup.Item>
                         )
