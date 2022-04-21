@@ -22,7 +22,8 @@ const Navigation = observer(() => {
         localStorage.clear()
     }
 
-    // TODO image dropdown title instead of text
+    // TODO image dropdown title instead of icon
+    // TODO custom dropdown for notifications button
     return (
         <Navbar variant="dark" bg="dark" expand="lg" >
             <Container>

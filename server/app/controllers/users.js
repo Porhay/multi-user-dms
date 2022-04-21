@@ -84,6 +84,17 @@ exports.deleteOne = async (req, res) => {
     res.json({message: "OK"})
 }
 
+exports.updateProfile = async (req, res) => {
+    const userId = req.params.userId
+
+    /**
+     * fields: {name, city, theme...}
+     */
+    const fields = req.body.fields
+    await dal.users.updateUserFields(userId, fields)
+    res.json({message: "OK"})
+}
+
 exports.getFriends = async (req, res) => {
     const userId = req.params.userId
     const user = await dal.users.getById(userId)

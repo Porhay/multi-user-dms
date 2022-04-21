@@ -45,6 +45,17 @@ exports.getByName = async (name) => {
     return result
 }
 
+exports.updateUserFields = async (userId, fields) => {
+    const {name} = fields
+    console.log(name, userId)
+
+    await db.user.update(
+        {name},
+        {where: {id: userId}}
+    )
+}
+
+
 exports.getById = async (id) => {
     const result = await db.user.findByPk(id)
     if (!result) {

@@ -35,6 +35,11 @@ const deleteDictionary = async (userId, dictionaryId) => {
     return await host.delete(`/users/${userId}/dictionaries/${dictionaryId}/`)
 }
 
+const shareDictionary = async (userId, dictionaryId, recipientId) => {
+    // TODO fix data must be in body
+    return await authHost.post(`/users/${userId}/dictionaries/${dictionaryId}/share/${recipientId}/`)
+}
+
 
 
 const createEntry = async (data) => {
@@ -76,14 +81,14 @@ const check = async () => {
     return jwt_decode(data.token)
 }
 
+const updateProfile = async (userId, fields) => {
+    return await authHost.post(`/users/${userId}/update-profile/`, {fields})
+}
+
 const getFriends = async (userId) => {
     return await authHost.get(`/users/${userId}/friends/`)
 }
 
-const shareDictionary = async (userId, dictionaryId, recipientId) => {
-    // TODO fix data must be in body
-    return await authHost.post(`/users/${userId}/dictionaries/${dictionaryId}/share/${recipientId}/`)
-}
 
 
 export {
@@ -92,6 +97,7 @@ export {
     createDictionary,
     getDictionaries,
     deleteDictionary,
+    shareDictionary,
 
     createEntry,
     getEntries,
@@ -103,6 +109,6 @@ export {
 
     check,
 
+    updateProfile,
     getFriends,
-    shareDictionary,
 }

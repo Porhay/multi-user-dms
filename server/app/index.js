@@ -54,6 +54,8 @@ app.get('/users/', authCheck, users.getUsers)
 app.delete('/users/:userId/', authCheck, users.deleteOne)
 app.get('/users/:userId/friends/', authCheck, users.getFriends)
 
+app.post('/users/:userId/update-profile/', authCheck, users.updateProfile)
+
 
 
 app.post('/verification-code/', email.sendEmail)
