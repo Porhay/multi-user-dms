@@ -4,6 +4,8 @@ import AuthenticationPage from "./pages/Authentication";
 import DictionariesPage from "./pages/Dictionaries";
 import EntriesPage from "./pages/Entries";
 import RandomizerPage from "./pages/Randomizer";
+import AccountPage from "./pages/Account";
+import SettingsPage from "./pages/Settings";
 
 
 export const authRoutes = [
@@ -18,6 +20,14 @@ export const authRoutes = [
     {
         path: ROUTES.RANDOMIZER,
         Component: RandomizerPage
+    },
+    {
+        path: ROUTES.ACCOUNT,
+        Component: AccountPage
+    },
+    {
+        path: ROUTES.SETTINGS,
+        Component: SettingsPage
     },
 ]
 

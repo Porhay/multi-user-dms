@@ -5,6 +5,8 @@ export const ROUTES = {
     DICTIONARIES: '/',
     ENTRIES: '/entries',
     RANDOMIZER: '/randomizer',
+    ACCOUNT: '/account',
+    SETTINGS: '/settings',
 }
 
 

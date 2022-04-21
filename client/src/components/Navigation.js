@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
-import {NavLink, useNavigate} from "react-router-dom";
+import {Container, Nav, Navbar, Button, NavDropdown} from "react-bootstrap";
+import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
-import {Container, Nav, Navbar, Button} from "react-bootstrap";
 
 import {Context} from "../index";
 import {ROUTES} from "../constants";
@@ -19,25 +19,22 @@ const Navigation = observer(() => {
     }
 
     return (
-        <Navbar bg="dark" variant="dark">
+        <Navbar variant="dark" bg="dark" expand="lg" >
             <Container>
-                <NavLink style={{color:'white', textDecoration: 'none'}} to={ROUTES.DICTIONARIES}>DMS</NavLink>
+                <Navbar.Brand onClick={() => navigate(ROUTES.DICTIONARIES)}>DMS</Navbar.Brand>
                 {user.isAuth ?
                     <Nav className="ml-auto" style={{color: 'white'}}>
-                        <Button
-                            variant={"outline-light"}
-                            onClick={() => navigate(ROUTES.RANDOMIZER)}
-                            className="me-4"
+                        <NavDropdown
+                            id="nav-dropdown-dark"
+                            title="Account"
+                            menuVariant="dark"
                         >
-                            Randomizer
-                        </Button>
-                        <Button
-                            variant={"outline-light"}
-                            onClick={() => logOut()}
-                            className="ml-2"
-                        >
-                            Log out
-                        </Button>
+                            <NavDropdown.Item onClick={() => navigate(ROUTES.ACCOUNT)}>Account</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => navigate(ROUTES.SETTINGS)}>Settings</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => navigate(ROUTES.RANDOMIZER)}>Randomizer</NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item onClick={() => logOut()}>Log out</NavDropdown.Item>
+                        </NavDropdown>
                     </Nav>
                     :
                     <Nav className="ml-auto" style={{color: 'white'}}>
