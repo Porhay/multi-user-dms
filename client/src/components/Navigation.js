@@ -6,6 +6,10 @@ import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import {ROUTES} from "../constants";
 
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import AccessibleForwardIcon from '@mui/icons-material/AccessibleForward';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+
 
 const Navigation = observer(() => {
     const {user} = useContext(Context)
@@ -18,15 +22,24 @@ const Navigation = observer(() => {
         localStorage.clear()
     }
 
+    // TODO image dropdown title instead of text
     return (
         <Navbar variant="dark" bg="dark" expand="lg" >
             <Container>
-                <Navbar.Brand onClick={() => navigate(ROUTES.DICTIONARIES)}>DMS</Navbar.Brand>
+                <Navbar.Brand className="d-flex flex-row align-items-center justify-content-between" onClick={() => navigate(ROUTES.DICTIONARIES)}>
+                    <AccessibleForwardIcon/>
+                    DMS
+                </Navbar.Brand>
                 {user.isAuth ?
-                    <Nav className="ml-auto" style={{color: 'white'}}>
+                    <Nav className="ml-auto"  style={{color: 'white'}}>
+                        <Button variant="link" size="sm">
+                            <NotificationsNoneIcon style={{color: 'white', marginTop: '2px'}} />
+                        </Button>
                         <NavDropdown
                             id="nav-dropdown-dark"
-                            title="Account"
+                            title={
+                                <AccountCircleOutlinedIcon style={{color: 'white'}}/>
+                            }
                             menuVariant="dark"
                         >
                             <NavDropdown.Item onClick={() => navigate(ROUTES.ACCOUNT)}>Account</NavDropdown.Item>
@@ -38,7 +51,7 @@ const Navigation = observer(() => {
                     </Nav>
                     :
                     <Nav className="ml-auto" style={{color: 'white'}}>
-                        <Button variant={"outline-light"} onClick={() => navigate(ROUTES.LOGIN)}>Авторизация</Button>
+                        <Button variant={"outline-light"} onClick={() => navigate(ROUTES.LOGIN)}>Authorisation</Button>
                     </Nav>
                 }
             </Container>
