@@ -47,8 +47,6 @@ const DictionariesPage = observer(() => {
     const deleteCurrentDictionary = async (dictionaryId) => {
         await deleteDictionary(userId, dictionaryId)
         updateData()
-        // TODO this is an invalid way, remove after ui fix
-        navigate(ROUTES.DICTIONARIES)
     }
 
     return (
@@ -70,44 +68,42 @@ const DictionariesPage = observer(() => {
                 <ListGroup>
                     {data.map((item) => {
                         return (
-                            <Container className="d-flex flex-row w-100">
-                                <ListGroup.Item
-                                    className="d-flex flex-row align-items-center justify-content-between"
-                                    key={item.id}
-                                    action
-                                    onClick={() => openDictionary(item.id)}
-                                >
-                                    <div className="bold">{item.name}</div>
-                                    <Button
-                                        className="remove"
-                                        size="sm"
-                                        variant="link"
-                                        onClick={() => deleteCurrentDictionary(item.id)}
+                            <Container className="">
+                                <Container className="d-flex flex-row align-items-center">
+                                    <ListGroup.Item
+                                        className=""
+                                        key={item.id}
+                                        action
+                                        onClick={() => openDictionary(item.id)}
                                     >
-                                        Delete
-                                    </Button>
-                                </ListGroup.Item>
-                                {[DropdownButton].map((DropdownType, idx) => (
-                                    <DropdownType
-                                        as={ButtonGroup}
-                                        key={idx}
-                                        id={`dropdown-button-drop-${idx}`}
-                                        size="sm"
-                                        variant="secondary"
-                                        title="Friends"
-                                    >
-                                        <Dropdown.Item
-                                            onClick={() => setShowFriendsModal(true)}
-                                            eventKey="1">
-                                            Share
-                                        </Dropdown.Item>
-                                        <Dropdown.Item
-                                            onClick={() => console.log(``)}
-                                            eventKey="2">
-                                            Delete
-                                        </Dropdown.Item>
-                                    </DropdownType>
-                                ))}
+                                        <div className="bold">{item.name}</div>
+                                    </ListGroup.Item>
+                                    {[DropdownButton].map((DropdownType, idx) => (
+                                        <DropdownType
+                                            as={ButtonGroup}
+                                            key={idx}
+                                            id={`dropdown-button-drop-${idx}`}
+                                            size="sm"
+                                            variant="outline"
+                                            className="position-absolute"
+                                            style={{zIndex: 1, left: '76%'}}
+                                            title="Friends"
+                                        >
+                                            <Dropdown.Item
+                                                onClick={() => setShowFriendsModal(true)}
+                                                eventKey="1"
+                                            >
+                                                Share
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                onClick={() => deleteCurrentDictionary(item.id)}
+                                                eventKey="2"
+                                            >
+                                                Delete
+                                            </Dropdown.Item>
+                                        </DropdownType>
+                                    ))}
+                                </Container>
                                 <Friends
                                     dictionaryId={item.id}
                                     show={showFriendsModal}
