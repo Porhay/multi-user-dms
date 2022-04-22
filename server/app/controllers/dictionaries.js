@@ -27,18 +27,17 @@ exports.deleteDictionary = async (req, res) => {
 
 // TODO updateDictionary
 
-
-
 exports.shareDictionary = async (req, res) => {
     const userId = req.params.userId
     const {recipientId, dictionaryId} = req.body
 
-    await dal.dictionaries.copyDictionary(recipientId, dictionaryId)
+    const newDictionary = await dal.dictionaries.copyDictionary(recipientId, dictionaryId)
 
     const entries = await dal.entries.getByDictionaryId(dictionaryId)
     if(entries) {
         for(let entry of entries) {
-            await dal.entries.create(dictionaryId, entry.key, entry.value)
+            // TODO make {data} object instead of key and value
+            await dal.entries.create(newDictionary.id, entry.key, entry.value)
         }
     }
     res.json({message: "OK"})

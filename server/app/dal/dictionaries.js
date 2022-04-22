@@ -40,7 +40,7 @@ exports.getById = async (id) => {
 
 exports.copyDictionary = async (userToCopy, dictionaryId) => {
     const dictionary = await exports.getById(dictionaryId)
-    await exports.create(userToCopy, dictionary.name)
+    return await exports.create(userToCopy, dictionary.name)
 }
 
 

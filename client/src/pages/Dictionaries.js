@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {Button, ButtonGroup, Container, DropdownButton, Dropdown, Form, ListGroup} from 'react-bootstrap'
+import {Button, Container, Dropdown, DropdownButton, Form, ListGroup} from 'react-bootstrap'
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 
@@ -8,8 +8,10 @@ import {ROUTES} from "../constants";
 import {Context} from "../index";
 
 import Friends from "../modals/Friends";
+// import Dropdown from "../components/Dropdown";
 
 import '../styles/Form.css';
+import {ButtonGroup} from "@mui/material";
 
 
 // const userId = '726d6368-80bd-4820-9d11-bc43fc215d47'
@@ -68,50 +70,47 @@ const DictionariesPage = observer(() => {
                 <ListGroup>
                     {data.map((item) => {
                         return (
-                            <Container className="">
-                                <Container className="d-flex flex-row align-items-center">
-                                    <ListGroup.Item
-                                        className=""
-                                        key={item.id}
-                                        action
-                                        onClick={() => openDictionary(item.id)}
+                            <Container className="d-flex flex-row align-items-center">
+                                <ListGroup.Item
+                                    key={item.id}
+                                    onClick={() => openDictionary(item.id)}
+                                    action
+                                >
+                                    <div className="bold">{item.name}</div>
+                                </ListGroup.Item>
+
+                                {[DropdownButton].map((DropdownType, idx) => (
+                                    <DropdownType
+                                        as={ButtonGroup}
+                                        key={idx}
+                                        id={`dropdown-button-drop-${idx}`}
+                                        title="Friends"
                                     >
-                                        <div className="bold">{item.name}</div>
-                                    </ListGroup.Item>
-                                    {[DropdownButton].map((DropdownType, idx) => (
-                                        <DropdownType
-                                            as={ButtonGroup}
-                                            key={idx}
-                                            id={`dropdown-button-drop-${idx}`}
-                                            size="sm"
-                                            variant="outline"
-                                            className="position-absolute"
-                                            style={{zIndex: 1, left: '76%'}}
-                                            title="Friends"
+                                        <Dropdown.Item
+                                            onClick={
+                                                () => {
+                                                    setShowFriendsModal(true)
+                                                    console.log(item.id)
+                                                }
+
+                                            }
+                                            eventKey="1"
                                         >
-                                            <Dropdown.Item
-                                                onClick={() => setShowFriendsModal(true)}
-                                                eventKey="1"
-                                            >
-                                                Share
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                onClick={() => deleteCurrentDictionary(item.id)}
-                                                eventKey="2"
-                                            >
-                                                Delete
-                                            </Dropdown.Item>
-                                        </DropdownType>
-                                    ))}
-                                </Container>
-                                <Friends
-                                    dictionaryId={item.id}
-                                    show={showFriendsModal}
-                                    onHide={() => {
-                                        console.log(`Словарь outer: ${item.id}`)
-                                        setShowFriendsModal(false)}
-                                    }
-                                />
+                                            <Friends
+                                                itemId={item.id}
+                                                show={showFriendsModal}
+                                                onHide={() => setShowFriendsModal(false)}
+                                            />
+                                            Share
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                            onClick={() => deleteCurrentDictionary(item.id)}
+                                            eventKey="2"
+                                        >
+                                            Delete
+                                        </Dropdown.Item>
+                                    </DropdownType>
+                                ))}
                             </Container>
                         )
                     })}
