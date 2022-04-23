@@ -1,5 +1,6 @@
 const dal = require('../dal')
 
+
 exports.createDictionary = async (req, res) => {
     const userId = req.params.userId
     const name = req.body.name
@@ -25,10 +26,22 @@ exports.deleteDictionary = async (req, res) => {
     res.json({message: "OK"})
 }
 
-// TODO updateDictionary
+exports.updateDictionary = async (req, res) => {
+    // const userId = req.params.userId
+    const {dictionaryId, name} = req.body
+    if(!dictionaryId || !name) {
+        return console.log(new Error('dictionaryId and name is required!'))
+    }
+
+    const fields = {
+        name,
+    }
+    const dictionary = await dal.dictionaries.updateDictionary(dictionaryId, fields)
+    res.json(dictionary)
+}
 
 exports.shareDictionary = async (req, res) => {
-    const userId = req.params.userId
+    // const userId = req.params.userId
     const {recipientId, dictionaryId} = req.body
 
     const newDictionary = await dal.dictionaries.copyDictionary(recipientId, dictionaryId)
