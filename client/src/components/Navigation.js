@@ -58,16 +58,20 @@ const Navigation = observer(() => {
 
     const NavItem = (props) => {
         const [open, setOpen] = useState(false);
+
         const onClickOutsideListener = () => {
             setOpen(false)
             document.removeEventListener("click", onClickOutsideListener)
         }
+
         return (
-            <li className="nav-item" onMouseLeave={() => {
-                document.addEventListener("click", onClickOutsideListener)
-            }}>
+            <li onMouseLeave={() => {document.addEventListener("click", onClickOutsideListener)}} className="nav-item">
                 <a className="icon-button" onClick={() => setOpen(!open)}>{props.icon}</a>
-                {open && props.children}
+                {open &&
+                    <Dropdown onMouseLeave={() => {document.addEventListener("click", onClickOutsideListener)}}
+                              items={props.items}>
+                    </Dropdown>
+                }
             </li>
         )
     }
@@ -77,13 +81,8 @@ const Navigation = observer(() => {
             <Logo/>
             {user.isAuth ?
                 <div className="nav-items-right">
-                    <NavItem icon={<NotificationsNoneIcon className="icon"/>}>
-                        <Dropdown items={notifications}></Dropdown>
-                    </NavItem>
-
-                    <NavItem icon={<AccountCircleOutlinedIcon className="icon"/>}>
-                        <Dropdown items={accountList}></Dropdown>
-                    </NavItem>
+                    <NavItem items={notifications} icon={<NotificationsNoneIcon className="icon"/>} />
+                    <NavItem items={accountList} icon={<AccountCircleOutlinedIcon className="icon"/>} />
                 </div>
                 :
                 <div className="nav-items-right">
