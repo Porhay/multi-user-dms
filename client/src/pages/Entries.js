@@ -1,13 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {Button, Container, Form, ListGroup} from 'react-bootstrap'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import {useParams} from 'react-router-dom';
 import {observer} from "mobx-react-lite";
 
 import {createEntry, getEntries, deleteEntry} from "../http";
-
-import '../styles/Form.css';
 import {Context} from "../index";
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+
 
 const EntriesPage = observer(() => {
     const {id: dictionaryId} = useParams() // dictionaryId

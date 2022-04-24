@@ -9,8 +9,7 @@ exports.createDictionary = async (req, res) => {
     }
 
     const dictionary = await dal.dictionaries.create(userId, name)
-    console.log(dictionary)
-    res.json({message: 'OK'})
+    res.json(dictionary)
 }
 
 exports.getDictionaries = async (req, res) => {
@@ -20,10 +19,10 @@ exports.getDictionaries = async (req, res) => {
 }
 
 exports.deleteDictionary = async (req, res) => {
-    const dictionaryId = req.params.dictionaryId
-    await dal.dictionaries.deleteById(dictionaryId)
-    await dal.entries.deleteByDictionaryId(dictionaryId)
-    res.json({message: "OK"})
+    const id = req.params.dictionaryId
+    await dal.dictionaries.deleteById(id)
+    await dal.entries.deleteByDictionaryId(id)
+    res.json({id})
 }
 
 exports.updateDictionary = async (req, res) => {

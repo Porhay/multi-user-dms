@@ -1,19 +1,41 @@
-import React, {useContext} from 'react';
-import {Container, Nav, Navbar, Button, NavDropdown} from "react-bootstrap";
+import React, {useContext, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
-
-import {Context} from "../index";
-import {ROUTES} from "../constants";
 
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import AccessibleForwardIcon from '@mui/icons-material/AccessibleForward';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
+import {Context} from "../index";
+import {ROUTES} from "../constants";
+import Dropdown from './Dropdown'
+
+import '../styles/Navigation.css';
+
 
 const Navigation = observer(() => {
     const {user} = useContext(Context)
     const navigate = useNavigate()
+
+    const [notifications, setNotifications] = useState([{name: 'It\'s empty for now'}])
+    const accountList = [
+        {
+            name: 'Account',
+            action: () => navigate(ROUTES.ACCOUNT)
+        },
+        {
+            name: 'Settings',
+            action: () => navigate(ROUTES.SETTINGS)
+        },
+        {
+            name: 'Randomizer',
+            action: () => navigate(ROUTES.RANDOMIZER)
+        },
+        {
+            name: 'Log out',
+            action: () => logOut()
+        },
+    ]
 
     const logOut = () => {
         user.setUser({})
@@ -22,43 +44,56 @@ const Navigation = observer(() => {
         localStorage.clear()
     }
 
-    // TODO image dropdown title instead of icon
-    // TODO custom dropdown for notifications button
-    return (
-        <Navbar variant="dark" bg="dark" expand="lg" >
-            <Container>
-                <Navbar.Brand className="d-flex flex-row align-items-center justify-content-between" onClick={() => navigate(ROUTES.DICTIONARIES)}>
-                    <AccessibleForwardIcon/>
-                    DMS
-                </Navbar.Brand>
-                {user.isAuth ?
-                    <Nav className="ml-auto"  style={{color: 'white'}}>
-                        <Button variant="link" size="sm">
-                            <NotificationsNoneIcon style={{color: 'white', marginTop: '2px'}} />
-                        </Button>
-                        <NavDropdown
-                            id="nav-dropdown-dark"
-                            title={
-                                <AccountCircleOutlinedIcon style={{color: 'white'}}/>
-                            }
-                            menuVariant="dark"
-                        >
-                            <NavDropdown.Item onClick={() => navigate(ROUTES.ACCOUNT)}>Account</NavDropdown.Item>
-                            <NavDropdown.Item onClick={() => navigate(ROUTES.SETTINGS)}>Settings</NavDropdown.Item>
-                            <NavDropdown.Item onClick={() => navigate(ROUTES.RANDOMIZER)}>Randomizer</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item onClick={() => logOut()}>Log out</NavDropdown.Item>
-                        </NavDropdown>
-                    </Nav>
-                    :
-                    <Nav className="ml-auto" style={{color: 'white'}}>
-                        <Button variant={"outline-light"} onClick={() => navigate(ROUTES.LOGIN)}>Authorisation</Button>
-                    </Nav>
-                }
-            </Container>
-        </Navbar>
+    const Navbar = (props) => (
+        <nav className="navbar">
+            <ul className="navbar-nav">
+                {props.children}
+            </ul>
+        </nav>
+    )
 
-    );
-});
+    const Logo = () => (
+        <a href="/" className="a-logo" onClick={() => navigate(ROUTES.DICTIONARIES)}><AccessibleForwardIcon/>DMS</a>
+    )
+
+    const NavItem = (props) => {
+        const [open, setOpen] = useState(false);
+        const onClickOutsideListener = () => {
+            setOpen(false)
+            document.removeEventListener("click", onClickOutsideListener)
+        }
+        return (
+            <li className="nav-item" onMouseLeave={() => {
+                document.addEventListener("click", onClickOutsideListener)
+            }}>
+                <a className="icon-button" onClick={() => setOpen(!open)}>{props.icon}</a>
+                {open && props.children}
+            </li>
+        )
+    }
+
+    return (
+        <Navbar>
+            <Logo/>
+            {user.isAuth ?
+                <div className="nav-items-right">
+                    <NavItem icon={<NotificationsNoneIcon className="icon"/>}>
+                        <Dropdown items={notifications}></Dropdown>
+                    </NavItem>
+
+                    <NavItem icon={<AccountCircleOutlinedIcon className="icon"/>}>
+                        <Dropdown items={accountList}></Dropdown>
+                    </NavItem>
+                </div>
+                :
+                <div className="nav-items-right">
+                    <a className="menu-item" onClick={() => navigate(ROUTES.LOGIN)}>
+                        Authorisation
+                    </a>
+                </div>
+            }
+        </Navbar>
+    )
+})
 
 export default Navigation;

@@ -8,7 +8,6 @@ import {Context} from "./index";
 
 import AppRouter from "./components/AppRouter";
 import Navigation from "./components/Navigation";
-import './styles/App.css';
 
 const App = observer(() => {
     const {user} = useContext(Context)
