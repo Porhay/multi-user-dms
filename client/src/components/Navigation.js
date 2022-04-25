@@ -1,10 +1,12 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import AccessibleForwardIcon from '@mui/icons-material/AccessibleForward';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+
+import {subscribeNotifications} from '../http'
 
 import {Context} from "../index";
 import {ROUTES} from "../constants";
@@ -17,24 +19,21 @@ const Navigation = observer(() => {
     const {user} = useContext(Context)
     const navigate = useNavigate()
 
-    const [notifications, setNotifications] = useState([{name: 'It\'s empty for now'}])
+    const [notifications, setNotifications] = useState([{message: 'It\'s empty for now'}])
+    useEffect(() => {
+        subscribe().catch(e => console.log(e))
+    }, [])
+
+    const subscribe = async () => {
+        const message = await subscribeNotifications()
+        setNotifications(prev => [{message: message, action: () => console.log(message)}, ...prev])
+    }
+
     const accountList = [
-        {
-            name: 'Account',
-            action: () => navigate(ROUTES.ACCOUNT)
-        },
-        {
-            name: 'Settings',
-            action: () => navigate(ROUTES.SETTINGS)
-        },
-        {
-            name: 'Randomizer',
-            action: () => navigate(ROUTES.RANDOMIZER)
-        },
-        {
-            name: 'Log out',
-            action: () => logOut()
-        },
+        {name: 'Account', action: () => navigate(ROUTES.ACCOUNT)},
+        {name: 'Settings', action: () => navigate(ROUTES.SETTINGS)},
+        {name: 'Randomizer', action: () => navigate(ROUTES.RANDOMIZER)},
+        {name: 'Log out', action: () => logOut()},
     ]
 
     const logOut = () => {
@@ -64,14 +63,17 @@ const Navigation = observer(() => {
             document.removeEventListener("click", onClickOutsideListener)
         }
 
+        const onMouseLeaveListener = () => {
+            return () => document.addEventListener("click", onClickOutsideListener)
+        }
+
         return (
-            <li onMouseLeave={() => {document.addEventListener("click", onClickOutsideListener)}} className="nav-item">
+            <li key={props.name || props.message}
+                onMouseLeave={onMouseLeaveListener()}
+                className="nav-item"
+            >
                 <a className="icon-button" onClick={() => setOpen(!open)}>{props.icon}</a>
-                {open &&
-                    <Dropdown onMouseLeave={() => {document.addEventListener("click", onClickOutsideListener)}}
-                              items={props.items}>
-                    </Dropdown>
-                }
+                {open && <Dropdown onMouseLeave={onMouseLeaveListener()} items={props.items} />}
             </li>
         )
     }
@@ -81,8 +83,8 @@ const Navigation = observer(() => {
             <Logo/>
             {user.isAuth ?
                 <div className="nav-items-right">
-                    <NavItem items={notifications} icon={<NotificationsNoneIcon className="icon"/>} />
-                    <NavItem items={accountList} icon={<AccountCircleOutlinedIcon className="icon"/>} />
+                    <NavItem items={notifications} icon={<NotificationsNoneIcon className="icon"/>}/>
+                    <NavItem items={accountList} icon={<AccountCircleOutlinedIcon className="icon"/>}/>
                 </div>
                 :
                 <div className="nav-items-right">

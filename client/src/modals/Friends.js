@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import Modal from "react-bootstrap/Modal";
 import {Button, Form, ListGroup} from "react-bootstrap";
-import {getFriends, shareDictionary} from "../http";
+import {getFriends, sendNotification, shareDictionary} from "../http";
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 
@@ -26,8 +26,13 @@ const Friends = observer(({itemId, show, onHide}) => {
 
 
     const shareCurrentDictionary = async (recipientId) => {
-        console.log(`Словарь inner: ${itemId}`)
         await shareDictionary(userId, itemId, recipientId)
+        onHide()
+    }
+
+
+    const sendNotificationMessage = async (message) => {
+        await sendNotification(message)
         onHide()
     }
 
@@ -59,7 +64,7 @@ const Friends = observer(({itemId, show, onHide}) => {
                                     className="d-flex flex-row align-items-center justify-content-between"
                                     key={friendId}
                                     action
-                                    onClick={() => shareCurrentDictionary(friendId)}
+                                    onClick={() => sendNotificationMessage('halo')}
                                 >
                                     {name}
                                 </ListGroup.Item>

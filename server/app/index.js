@@ -2,6 +2,7 @@
 
 const express = require('express')
 const cors = require('cors')
+const jwt = require('./lib/jwt')
 
 const status = require('./controllers/status')
 const users =  require('./controllers/users')
@@ -9,9 +10,7 @@ const email =  require('./controllers/email')
 const verificationCodes = require('./controllers/verificationCodes')
 const entries = require('./controllers/entries')
 const dictionaries = require('./controllers/dictionaries')
-
-const errors = require('./lib/errors')
-const jwt = require('./lib/jwt')
+const notifications = require('./controllers/notifications')
 
 
 const app = express()
@@ -78,11 +77,13 @@ app.post('/users/:userId/dictionaries/', dictionaries.createDictionary)
 app.get('/users/:userId/dictionaries/', dictionaries.getDictionaries)
 app.delete('/users/:userId/dictionaries/:dictionaryId/', dictionaries.deleteDictionary)
 
+app.post('/notifications/', notifications.newNotification)
+app.get('/notifications/', notifications.getNotifications)
+
 
 // TODO add migrations directory for db
 // TODO primary key for email in users table
 // TODO saving jwt in db
-// TODO one-many users-dictionaries model
 // TODO separated log file to tail -f
 
 
