@@ -21,21 +21,16 @@ const Navigation = observer(() => {
 
     const [notifications, setNotifications] = useState([{message: 'It\'s empty for now'}])
     useEffect(() => {
-        subscribe().catch(e => console.log(e))
+        // TODO if no connection to the server subscribe func occurs error every 2 sec
+        // subscribe().catch(e => console.log(e))
     }, [])
 
     const subscribe = async () => {
-        try {
-            const message = await subscribeNotifications()
-            if(!message) {
-                return
-            }
-            setNotifications(prev => [{message, action: () => console.log(message)}, ...prev])
-        } catch (e) {
-            console.log(e)
+        const message = await subscribeNotifications()
+        if (!message) {
+            return
         }
-
-
+        setNotifications(prev => [{message, action: () => console.log(message)}, ...prev])
     }
 
     const accountList = [
@@ -64,28 +59,11 @@ const Navigation = observer(() => {
         <a href="/" className="a-logo" onClick={() => navigate(ROUTES.DICTIONARIES)}><AccessibleForwardIcon/>DMS</a>
     )
 
-    const NavItem = (props) => {
-        const [open, setOpen] = useState(false);
-
-        const onClickOutsideListener = () => {
-            setOpen(false)
-            document.removeEventListener("click", onClickOutsideListener)
-        }
-
-        const onMouseLeaveListener = () => {
-            return () => document.addEventListener("click", onClickOutsideListener)
-        }
-
-        return (
-            <li key={props.message}
-                onMouseLeave={onMouseLeaveListener()}
-                className="nav-item"
-            >
-                <a className="icon-button" onClick={() => setOpen(!open)}>{props.icon}</a>
-                {open && <Dropdown onMouseLeave={onMouseLeaveListener()} items={props.items} />}
-            </li>
-        )
-    }
+    const NavItem = (props) => (
+        <li key={props.items.message} className="nav-item">
+            <Dropdown items={props.items} icon={props.icon} />
+        </li>
+    )
 
     return (
         <Navbar>
