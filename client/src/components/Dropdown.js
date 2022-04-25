@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import '../styles/Dropdown.css';
-// import '../styles/Navigation.css';
 
 
+// TODO fix onClickOutside: if mouse enter and leave without click, it will not be opened on next enter
 const Dropdown = (props) => {
     const [open, setOpen] = useState(false);
 

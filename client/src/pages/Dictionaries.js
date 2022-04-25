@@ -1,35 +1,34 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {Button, Container, Form, ListGroup} from 'react-bootstrap'
+import {Button, Container, Form} from 'react-bootstrap'
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
-import {ButtonGroup} from "@mui/material";
 
 import {createDictionary, getDictionaries, deleteDictionary} from '../http'
-import Friends from "../modals/Friends";
 import {ROUTES} from "../constants";
 import {Context} from "../index";
 
 import Dropdown from '../components/Dropdown'
+import Friends from "../modals/Friends";
 
+import '../styles/Dictionaries.css';
+import '../styles/ItemList.css';
 
-// const userId = '726d6368-80bd-4820-9d11-bc43fc215d47'
+import LayersIcon from '@mui/icons-material/Layers';
+
 const DictionariesPage = observer(() => {
     const {user} = useContext(Context)
     const userId = user.user.id
 
     const navigate = useNavigate()
 
-    const [data, setData] = useState([{id: 1, name:'Halo?'}])
+    const [data, setData] = useState([{id: 1, name: 'Halo?'}, {id: 2, name: 'No Halo!'}])
     const [name, setName] = useState('')
-
-    const dropdownListFunc = (id) => {
-        return [
-            {message: 'Share', action: () => setShowFriendsModal(true)},
-            {message: 'Delete', action: () => deleteCurrentDictionary(id)},
-        ]
-    }
-
     const [showFriendsModal, setShowFriendsModal] = useState(false);
+    const dropdownListFunc = (id) => [
+        {message: 'Share', action: () => setShowFriendsModal(true)},
+        {message: 'Delete', action: () => deleteCurrentDictionary(id)},
+    ]
+
 
     useEffect(() => {
         updateData()
@@ -72,53 +71,28 @@ const DictionariesPage = observer(() => {
                 <Button size="md" variant="outline-success" onClick={newDictionary}>New</Button>
             </Container>
             <Container>
-                <ListGroup>
-                    {data.map((item) => {
-                        return (
-                            <Container className="d-flex flex-row align-items-center">
-                                <ListGroup.Item
+                {data.map((item) =>
+                    <>
+                        <div className="list-item-div">
+                            <div className="list-item-left">
+                                <LayersIcon className="list-item-icon"/>
+                                <a
                                     key={item.id}
-                                    onClick={() => openDictionary(item.id)}
-                                    action
-                                >
-                                    <div className="bold">{item.name}</div>
-                                </ListGroup.Item>
+                                    className="list-item-a"
+                                    onClick={() => openDictionary(item.id)}>
+                                    {item.name}
+                                </a>
+                            </div>
+                            <Dropdown items={dropdownListFunc(item.id)} icon={'Options'}/>
+                        </div>
 
-                                <Dropdown items={dropdownListFunc(item.id)} icon={'Halo'} />
-
-                                {/*{[DropdownButton].map((DropdownType, idx) => {*/}
-                                {/*    return (*/}
-                                {/*        <DropdownType*/}
-                                {/*            as={ButtonGroup}*/}
-                                {/*            key={idx}*/}
-                                {/*            id={`dropdown-button-drop-${idx}`}*/}
-                                {/*            title="Friends"*/}
-                                {/*        >*/}
-                                {/*            <Dropdown.Item*/}
-                                {/*                onClick={() => setShowFriendsModal(true)}*/}
-                                {/*                eventKey="1"*/}
-                                {/*            >*/}
-                                {/*                <Friends*/}
-                                {/*                    itemId={item.id}*/}
-                                {/*                    show={showFriendsModal}*/}
-                                {/*                    onHide={() => setShowFriendsModal(false)}*/}
-                                {/*                />*/}
-                                {/*                Share*/}
-                                {/*            </Dropdown.Item>*/}
-                                {/*            <Dropdown.Item*/}
-                                {/*                onClick={() => deleteCurrentDictionary(item.id)}*/}
-                                {/*                eventKey="2"*/}
-                                {/*            >*/}
-                                {/*                Delete*/}
-                                {/*            </Dropdown.Item>*/}
-                                {/*        </DropdownType>*/}
-                                {/*    )*/}
-                                {/*})*/}
-                                {/*}*/}
-                            </Container>
-                        )
-                    })}
-                </ListGroup>
+                        <Friends
+                            itemId={item.id}
+                            show={showFriendsModal}
+                            onHide={() => setShowFriendsModal(false)}
+                        />
+                    </>
+                )}
             </Container>
         </Container>
     )

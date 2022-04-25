@@ -35,7 +35,7 @@
 
 .nav-items-right {
     display: flex;
-    margin-left: 1000px;
+    margin-left: 1200px;
     justify-content: space-between;
 }
 
@@ -45,7 +45,6 @@
     align-items: center;
     justify-content: center;
 }
-
 
 
 .icon {
