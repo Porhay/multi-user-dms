@@ -61,7 +61,7 @@ const Navigation = observer(() => {
 
     const NavItem = (props) => (
         <li key={props.items.message} className="nav-item">
-            <Dropdown items={props.items} icon={props.icon} />
+            <Dropdown style={'nav-dropdown'} items={props.items} icon={props.icon} />
         </li>
     )
 

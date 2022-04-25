@@ -18,16 +18,30 @@ a{
 
 
 /* Dropdown Menu */
-.dropdown {
+.nav-dropdown {
     position: absolute;
     top: 58px;
     /*width: auto;*/
-    width: 300px;
+    width: auto;
     transform: translateX(-45%);
     background-color: var(--bg);
     border: var(--border);
     border-radius: var(--border-radius);
-    padding: 1rem;
+    padding: 2px;
+    overflow: hidden;
+    transition: height var(--speed) ease;
+}
+
+.item-dropdown {
+    position: absolute;
+    right: 14%;
+    /*width: auto;*/
+    width: 130px;
+    transform: translateY(76%);
+    background-color: var(--bg);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    padding: 2px;
     overflow: hidden;
     transition: height var(--speed) ease;
 }
@@ -46,7 +60,7 @@ a{
 }
 
 .menu-item:hover {
-    background-color: white;
+    background-color: #ececec;
     color: black;
 }
 

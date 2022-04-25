@@ -20,7 +20,7 @@ const Dropdown = (props) => {
             <a onMouseLeave={onMouseLeaveListener()} className="icon-button"
                onClick={() => setOpen(!open)}>{props.icon}</a>
             {open &&
-                <div onMouseLeave={onMouseLeaveListener()} className="dropdown">
+                <div onMouseLeave={onMouseLeaveListener()} className={props.style}>
                     {props.items.map(item => {
                             return (
                                 <a key={item.message} className="menu-item" onClick={item.action}>{item.message}</a>

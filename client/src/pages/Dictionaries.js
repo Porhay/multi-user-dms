@@ -74,16 +74,18 @@ const DictionariesPage = observer(() => {
                 {data.map((item) =>
                     <>
                         <div className="list-item-div">
-                            <div className="list-item-left">
+                            <div className="list-item-left"
+                                 onClick={() => openDictionary(item.id)}
+                            >
                                 <LayersIcon className="list-item-icon"/>
                                 <a
                                     key={item.id}
                                     className="list-item-a"
-                                    onClick={() => openDictionary(item.id)}>
+                                >
                                     {item.name}
                                 </a>
                             </div>
-                            <Dropdown items={dropdownListFunc(item.id)} icon={'Options'}/>
+                            <Dropdown style={'item-dropdown'} items={dropdownListFunc(item.id)} icon={'Options'}/>
                         </div>
 
                         <Friends
