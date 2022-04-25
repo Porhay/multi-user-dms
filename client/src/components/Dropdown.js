@@ -4,7 +4,7 @@ import '../styles/Dropdown.css';
 
 const Dropdown = (props) => (
     <div onMouseLeave={props.onMouseLeave} className="dropdown">
-        {props.items.map(item => <a className="menu-item" onClick={item.action}>{item.name}</a>)}
+        {props.items.map(item => <a key={item.message} className="menu-item" onClick={item.action}>{item.message}</a>)}
     </div>
 )
 export default Dropdown;

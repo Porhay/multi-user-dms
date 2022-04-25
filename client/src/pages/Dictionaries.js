@@ -85,13 +85,7 @@ const DictionariesPage = observer(() => {
                                             title="Friends"
                                         >
                                             <Dropdown.Item
-                                                onClick={
-                                                    () => {
-                                                        setShowFriendsModal(true)
-                                                        console.log(item.id)
-                                                    }
-
-                                                }
+                                                onClick={() => setShowFriendsModal(true)}
                                                 eventKey="1"
                                             >
                                                 <Friends

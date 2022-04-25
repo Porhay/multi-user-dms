@@ -13,7 +13,6 @@ const Friends = observer(({itemId, show, onHide}) => {
     const [friends, setFriends] = useState([])
     useEffect(() => {
         getFriends(userId).then(response => {
-            console.log(response.data)
             setFriends(response.data)
         })
     }, [])
@@ -64,7 +63,8 @@ const Friends = observer(({itemId, show, onHide}) => {
                                     className="d-flex flex-row align-items-center justify-content-between"
                                     key={friendId}
                                     action
-                                    onClick={() => sendNotificationMessage('halo')}
+                                    onClick={() => shareCurrentDictionary(friendId)}
+                                    // onClick={() => sendNotificationMessage('halo')}
                                 >
                                     {name}
                                 </ListGroup.Item>

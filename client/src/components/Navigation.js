@@ -25,15 +25,24 @@ const Navigation = observer(() => {
     }, [])
 
     const subscribe = async () => {
-        const message = await subscribeNotifications()
-        setNotifications(prev => [{message: message, action: () => console.log(message)}, ...prev])
+        try {
+            const message = await subscribeNotifications()
+            if(!message) {
+                return
+            }
+            setNotifications(prev => [{message, action: () => console.log(message)}, ...prev])
+        } catch (e) {
+            console.log(e)
+        }
+
+
     }
 
     const accountList = [
-        {name: 'Account', action: () => navigate(ROUTES.ACCOUNT)},
-        {name: 'Settings', action: () => navigate(ROUTES.SETTINGS)},
-        {name: 'Randomizer', action: () => navigate(ROUTES.RANDOMIZER)},
-        {name: 'Log out', action: () => logOut()},
+        {message: 'Account', action: () => navigate(ROUTES.ACCOUNT)},
+        {message: 'Settings', action: () => navigate(ROUTES.SETTINGS)},
+        {message: 'Randomizer', action: () => navigate(ROUTES.RANDOMIZER)},
+        {message: 'Log out', action: () => logOut()},
     ]
 
     const logOut = () => {
@@ -68,7 +77,7 @@ const Navigation = observer(() => {
         }
 
         return (
-            <li key={props.name || props.message}
+            <li key={props.message}
                 onMouseLeave={onMouseLeaveListener()}
                 className="nav-item"
             >
