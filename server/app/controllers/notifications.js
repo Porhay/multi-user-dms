@@ -1,11 +1,14 @@
 const events = require('events')
+const uuid = require('uuid')
+
 
 const emitter = new events.EventEmitter()
 
 exports.newNotification = (req, res) => {
-    const message = req.body
-    emitter.emit('newMessage', message)
-    res.status(200)
+    let data = req.body
+    data.id = uuid.v4()
+    emitter.emit('newMessage', data)
+    return res.json(data)
 }
 
 exports.getNotifications = (req, res) => {
@@ -14,7 +17,7 @@ exports.getNotifications = (req, res) => {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
     })
-    emitter.on('newMessage', (message) => {
-        res.write(`data: ${JSON.stringify(message)} \n\n`)
+    emitter.on('newMessage', (data) => {
+        res.write(`data: ${JSON.stringify(data)} \n\n`)
     })
 }

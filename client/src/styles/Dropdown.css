@@ -21,13 +21,11 @@ a{
 .nav-dropdown {
     position: absolute;
     top: 58px;
-    /*width: auto;*/
     width: auto;
     transform: translateX(-45%);
     background-color: var(--bg);
     border: var(--border);
     border-radius: var(--border-radius);
-    padding: 2px;
     overflow: hidden;
     transition: height var(--speed) ease;
 }
@@ -41,7 +39,6 @@ a{
     background-color: var(--bg);
     border: var(--border);
     border-radius: var(--border-radius);
-    padding: 2px;
     overflow: hidden;
     transition: height var(--speed) ease;
 }
@@ -51,7 +48,7 @@ a{
 }
 
 .menu-item {
-    height: 30px;
+    height: auto;
     display: flex;
     align-items: center;
     border-radius: var(--border-radius);

@@ -24,14 +24,8 @@ const Friends = observer(({itemId, show, onHide}) => {
     }
 
 
-    const shareCurrentDictionary = async (recipientId) => {
-        await shareDictionary(userId, itemId, recipientId)
-        onHide()
-    }
-
-
-    const sendNotificationMessage = async (message) => {
-        await sendNotification(message)
+    const sendNotificationMessage = async (message, dictionaryId, recipientId) => {
+        await sendNotification(message, dictionaryId, recipientId)
         onHide()
     }
 
@@ -63,8 +57,7 @@ const Friends = observer(({itemId, show, onHide}) => {
                                     className="d-flex flex-row align-items-center justify-content-between"
                                     key={friendId}
                                     action
-                                    onClick={() => shareCurrentDictionary(friendId)}
-                                    // onClick={() => sendNotificationMessage('halo')}
+                                    onClick={() => sendNotificationMessage(`${name} share dictionary for you`, itemId, friendId)}
                                 >
                                     {name}
                                 </ListGroup.Item>

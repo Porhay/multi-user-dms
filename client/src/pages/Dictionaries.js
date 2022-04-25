@@ -21,7 +21,8 @@ const DictionariesPage = observer(() => {
 
     const navigate = useNavigate()
 
-    const [data, setData] = useState([{id: 1, name: 'Halo?'}, {id: 2, name: 'No Halo!'}])
+    const [data, setData] = useState([])
+    // const [data, setData] = useState([{id: 1, name: 'Halo?'}, {id: 2, name: 'No Halo!'}])
     const [name, setName] = useState('')
     const [showFriendsModal, setShowFriendsModal] = useState(false);
     const dropdownListFunc = (id) => [

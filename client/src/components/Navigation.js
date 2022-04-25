@@ -6,31 +6,45 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import AccessibleForwardIcon from '@mui/icons-material/AccessibleForward';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
-import {subscribeNotifications} from '../http'
+// import {subscribeNotifications} from '../http'
 
 import {Context} from "../index";
 import {ROUTES} from "../constants";
 import Dropdown from './Dropdown'
 
 import '../styles/Navigation.css';
+import {shareDictionary} from "../http";
 
 
 const Navigation = observer(() => {
     const {user} = useContext(Context)
     const navigate = useNavigate()
+    const userId = user.user.id
 
-    const [notifications, setNotifications] = useState([{message: 'It\'s empty for now'}])
+
+    const [notifications, setNotifications] = useState([{message: 'It\'s empty for now', id: 1}])
     useEffect(() => {
         // TODO if no connection to the server subscribe func occurs error every 2 sec
-        // subscribe().catch(e => console.log(e))
+        subscribe().catch(e => console.log(e))
     }, [])
 
     const subscribe = async () => {
-        const message = await subscribeNotifications()
-        if (!message) {
-            return
+        const eventSource = new EventSource(`http://localhost:8000/notifications/`)
+        eventSource.onmessage = function (event) {
+            const data = JSON.parse(event.data) // {dictionaryId, recipientId, message, id}
+
+            const newPost = {
+                ...data,
+                action: () => shareCurrentDictionary({userId, ...data})
+            }
+            setNotifications(prev => [newPost, ...prev])
         }
-        setNotifications(prev => [{message, action: () => console.log(message)}, ...prev])
+    }
+
+    const shareCurrentDictionary = async (data) => {
+        const {userId, dictionaryId, recipientId, id} = data
+        await shareDictionary(userId, dictionaryId, recipientId)
+        setNotifications([...notifications.filter(item => item.id !== id)])
     }
 
     const accountList = [
