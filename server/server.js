@@ -5,7 +5,7 @@ const {sequelize} = require('./app/db')
 
 // constants
 const PORT = process.env.PORT || 8000
-const HOST = 'localhost'
+const HOST = 'localhost' || process.env.REMOUTE_HOST
 
 const start = async () => {
     try {

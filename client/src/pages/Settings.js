@@ -1,9 +1,9 @@
 import React, {useContext, useState} from "react"
 import {Button, Container, Form} from "react-bootstrap";
+import {observer} from "mobx-react-lite";
 
 import {updateProfile} from "../http";
 import {Context} from "../index";
-import {observer} from "mobx-react-lite";
 
 
 const SettingsPage = observer(() => {

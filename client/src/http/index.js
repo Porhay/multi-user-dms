@@ -84,6 +84,15 @@ const updateProfile = async (userId, fields) => {
     return await authHost.post(`/users/${userId}/update-profile/`, {fields})
 }
 
+
+const addFriend = async (userId, friendId) => {
+    return await authHost.post(`/users/${userId}/friends/`, {friendId})
+}
+
+const getFriend = async (userId, friendName) => {
+    return await authHost.get(`/users/${userId}/friends/${friendName}`, { params: { friend: friendName } })
+}
+
 const getFriends = async (userId) => {
     return await authHost.get(`/users/${userId}/friends/`)
 }
@@ -122,6 +131,9 @@ export {
     check,
 
     updateProfile,
+
+    addFriend,
+    getFriend,
     getFriends,
 
     subscribeNotifications,
