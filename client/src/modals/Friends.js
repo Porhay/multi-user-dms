@@ -5,7 +5,7 @@ import {getFriends, sendNotification, shareDictionary} from "../http";
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 
-const Friends = observer(({itemId, show, onHide}) => {
+const Friends = observer(({item, show, onHide}) => {
     const {user} = useContext(Context)
     const userId = user.user.id
 
@@ -23,7 +23,7 @@ const Friends = observer(({itemId, show, onHide}) => {
         console.log(search)
     }
 
-
+    // TODO add new component for notifications with template of message(left icon, right buttons accept/cancel)
     const sendNotificationMessage = async (message, dictionaryId, recipientId) => {
         await sendNotification(message, dictionaryId, recipientId)
         onHide()
@@ -57,7 +57,7 @@ const Friends = observer(({itemId, show, onHide}) => {
                                     className="d-flex flex-row align-items-center justify-content-between"
                                     key={friendId}
                                     action
-                                    onClick={() => sendNotificationMessage(`${name} share dictionary for you`, itemId, friendId)}
+                                    onClick={() => sendNotificationMessage(`${name} share dictionary "${item.name}" for you!`, item.id, friendId)}
                                 >
                                     {name}
                                 </ListGroup.Item>

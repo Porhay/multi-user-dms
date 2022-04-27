@@ -90,7 +90,7 @@ const DictionariesPage = observer(() => {
                         </div>
 
                         <Friends
-                            itemId={item.id}
+                            item={item}
                             show={showFriendsModal}
                             onHide={() => setShowFriendsModal(false)}
                         />
