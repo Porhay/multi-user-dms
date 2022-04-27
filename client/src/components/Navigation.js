@@ -22,7 +22,7 @@ const Navigation = observer(() => {
     const userId = user.user.id
 
 
-    const [notifications, setNotifications] = useState([{message: 'It\'s empty for now', id: 1}])
+    const [notifications, setNotifications] = useState([])
     useEffect(() => {
         // TODO if no connection to the server subscribe func occurs error every 2 sec
         subscribe().catch(e => console.log(e))

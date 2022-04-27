@@ -23,6 +23,8 @@ const Friends = observer(({item, show, onHide}) => {
         console.log(search)
     }
 
+    // TODO fix sender message name
+    // TODO fix: always takes last dictionary in the list and notification accept creates wrong list
     // TODO add new component for notifications with template of message(left icon, right buttons accept/cancel)
     const sendNotificationMessage = async (message, dictionaryId, recipientId) => {
         await sendNotification(message, dictionaryId, recipientId)

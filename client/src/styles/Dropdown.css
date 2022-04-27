@@ -61,3 +61,8 @@ a{
     color: black;
 }
 
+.nav-items-empty-div {
+    color: var(--text-color);
+    margin: 4px 0px;
+}
+

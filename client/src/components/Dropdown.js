@@ -21,11 +21,9 @@ const Dropdown = (props) => {
                onClick={() => setOpen(!open)}>{props.icon}</a>
             {open &&
                 <div onMouseLeave={onMouseLeaveListener()} className={props.style}>
-                    {props.items.map(item => {
-                            return (
-                                <a key={item.message} className="menu-item" onClick={item.action}>{item.message}</a>
-                            )}
-                    )}
+                    {props.items.length !== 0 ? props.items.map(item => {
+                        return <a key={item.message} className="menu-item" onClick={item.action}>{item.message}</a>
+                    }) : <div className="nav-items-empty-div">&nbsp;&nbsp;It's empty for now&nbsp;&nbsp;</div>}
                 </div>}
         </>
     )
