@@ -82,18 +82,22 @@ const Navigation = observer(() => {
     return (
         <Navbar>
             <Logo/>
-            {user.isAuth ?
-                <div className="nav-items-right">
-                    <NavItem items={notifications} icon={<NotificationsNoneIcon className="icon"/>}/>
-                    <NavItem items={accountList} icon={<AccountCircleOutlinedIcon className="icon"/>}/>
+            <div className="nav-items-right">
+                    {user.isAuth ?
+
+                        <div className="nav-one-item-right">
+                            <NavItem items={notifications} icon={<NotificationsNoneIcon className="icon"/>}/>
+                            <NavItem items={accountList} icon={<AccountCircleOutlinedIcon className="icon"/>}/>
+                        </div>
+                        :
+                        <div>
+                            <a className="menu-item" onClick={() => navigate(ROUTES.LOGIN)}>
+                                Authorisation
+                            </a>
+                        </div>
+
+                    }
                 </div>
-                :
-                <div className="nav-items-right">
-                    <a className="menu-item" onClick={() => navigate(ROUTES.LOGIN)}>
-                        Authorisation
-                    </a>
-                </div>
-            }
         </Navbar>
     )
 })
