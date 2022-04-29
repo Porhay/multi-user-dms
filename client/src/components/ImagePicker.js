@@ -14,6 +14,8 @@ const ImagePicker = observer((props) => {
     const [drag, setDrag] = useState(false)
     const [file, setFile] = useState(null)
 
+    const [open, setOpen] = useState(false);
+
 
     const dragStartHandler = (e) => {
         e.preventDefault()
@@ -42,37 +44,43 @@ const ImagePicker = observer((props) => {
 
 
     return (
-        <div className="settings-container">
-            {drag ? <div
-                    className="drop-area"
-                    onDragStart={e => dragStartHandler(e)}
-                    onDragLeave={e => dragLeaveHandler(e)}
-                    onDragOver={e => dragStartHandler(e)}
-                    onDrop={e => onDropHandler(e)}
-                >Drop file to upload</div> :
-                <div
-                    onDragStart={e => dragStartHandler(e)}
-                    onDragLeave={e => dragLeaveHandler(e)}
-                    onDragOver={e => dragStartHandler(e)}
-                >
-                    <div className="select-image-div">
-                        <label htmlFor="file" className="download-image-label">
-                            <span>Select image</span>
-                        </label>
-                        <input
-                            type="file"
-                            accept=".png,.jpeg,.jpg"
-                            onChange={e => setFile(e.target.files[0])}
-                            id="file"
-                            style={{ display: "none" }}
-                        ></input>
-                    </div>
-                    <div className="drag-file-text-div">
-                        or drag file to upload
-                    </div>
+        <>
+            <a className="change-image-button" onClick={() => setOpen(!open)}>Change image</a>
+            {open &&
+                <div className="image-picker-container">
+                    <a className="close-button" onClick={() => setOpen(false)}>+</a>
+                    {drag ? <div
+                            className="drop-area"
+                            onDragStart={e => dragStartHandler(e)}
+                            onDragLeave={e => dragLeaveHandler(e)}
+                            onDragOver={e => dragStartHandler(e)}
+                            onDrop={e => onDropHandler(e)}
+                        >Drop file to upload</div> :
+                        <div
+                            onDragStart={e => dragStartHandler(e)}
+                            onDragLeave={e => dragLeaveHandler(e)}
+                            onDragOver={e => dragStartHandler(e)}
+                        >
+                            <div className="select-image-div">
+                                <label htmlFor="file" className="download-image-label">
+                                    <span>Select image</span>
+                                </label>
+                                <input
+                                    type="file"
+                                    accept=".png,.jpeg,.jpg"
+                                    onChange={e => setFile(e.target.files[0])}
+                                    id="file"
+                                    style={{display: "none"}}
+                                ></input>
+                            </div>
+                            <div className="drag-file-text-div">
+                                or drag file to upload
+                            </div>
+                        </div>
+                    }
                 </div>
             }
-        </div>
+        </>
     )
 })
 

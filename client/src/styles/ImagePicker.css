@@ -1,14 +1,22 @@
 .image-picker-container {
-    width: 100vw;
-    height: 90vh;
+    width: 50vw;
+    height: 50vh;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 40px;
+    background-color: white;
+
+    margin-top: 5%;
+    position: absolute;
+    border-bottom: 1px solid #dadce1 ;
+    -webkit-box-shadow: 2px 3px 7px -4px rgba(0,0,0,0.52);
+    box-shadow: 2px 3px 7px -4px rgba(0,0,0,0.42);
 }
+
 .drop-area {
-    width: 80vw;
-    height: 70vh;
+    width: 40vw;
+    height: 35vh;
     border: 5px dashed black;
     display: flex;
     align-items: center;
@@ -30,4 +38,37 @@
     font-size: 14px;
     color: #9b999d;
     cursor: default;
+}
+
+.change-image-button {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    color: black;
+    padding: 1px 1px 1px 1px;
+    border-radius: 6px;
+}
+
+.change-image-button:hover {
+    color: #333232;
+}
+
+.close-button {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    right: 0;
+    top: 0;
+    transform: rotate(45deg);
+    font-size: 78px;
+    font-weight: 10;
+    cursor: pointer;
+    color: black;
+}
+
+.close-button:hover {
+    color: #333232;
 }

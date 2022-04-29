@@ -12,7 +12,7 @@ const SettingsPage = observer(() => {
     const {user} = useContext(Context)
     const userId = user.user.id
 
-    const [imagePicker, setImagePicker] = useState(false)
+    const [imagePicker, setImagePicker] = useState(true)
 
 
     const [name, setName] = useState('')
@@ -25,31 +25,32 @@ const SettingsPage = observer(() => {
 
     return (
         // <div className="settings-container">
-        <div>
-            {imagePicker ? <ImagePicker /> :
-                <Container className="d-flex flex-column w-50 mt-5 mb-2">
-                    <Form.Label className="bold">Name</Form.Label>
-                    <Form
-                        className="d-flex flex-column w-100 mb-2"
-                    >
-                        <Form.Control
-                            size="md"
-                            value={name}
-                            onChange={e => setName(e.target.value)}
-                            placeholder={""}
-                        />
-                    </Form>
-                    <Button
+            <Container className="d-flex flex-column w-50 mt-5 mb-2">
+                Profile picture
+                <ImagePicker />
+
+                <Form.Label className="bold">Name</Form.Label>
+                <Form
+                    className="d-flex flex-column w-100 mb-2"
+                >
+                    <Form.Control
                         size="md"
-                        variant="outline-success"
-                        onClick={() => updateUserProfile(name)}
-                        className="w-25"
-                    >
-                        Update profile
-                    </Button>
-                </Container>
-            }
-        </div>
+                        value={name}
+                        onChange={e => setName(e.target.value)}
+                        placeholder={""}
+                    />
+                </Form>
+                <Button
+                    size="md"
+                    variant="outline-success"
+                    onClick={() => updateUserProfile(name)}
+                    className="w-25"
+                >
+                    Update profile
+                </Button>
+            </Container>
+
+        // </div>
     )
 })
 
