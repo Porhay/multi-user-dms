@@ -3,6 +3,9 @@
 const express = require('express')
 const cors = require('cors')
 const jwt = require('./lib/jwt')
+const multer = require('multer')
+const path = require('path')
+const uuid = require('uuid')
 
 const status = require('./controllers/status')
 const users =  require('./controllers/users')
@@ -81,10 +84,25 @@ app.post('/notifications/', notifications.newNotification)
 app.get('/notifications/', notifications.getNotifications)
 
 
+// TODO take outside
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "dev-deploy/persistent/image-data")
+    },
+    filename: (req, file, cb) => {
+        cb(null, req.body.name)
+    },
+});
+
+const upload = multer({ storage });
+app.post("/users/:userId/upload-profile-image/", upload.single("file"), users.uploadProfileImage)
+
+
 // TODO add migrations directory for db
 // TODO primary key for email in users table
 // TODO saving jwt in db
 // TODO separated log file to tail -f
+// TODO set up the linter
 
 
 module.exports = app

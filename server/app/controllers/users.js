@@ -2,7 +2,8 @@ const dal = require('../dal')
 const jwt = require('../lib/jwt')
 const errors = require('../lib/errors')
 const hash = require('../lib/hash')
-const helpers = require("../lib/helpers");
+const helpers = require('../lib/helpers')
+const path = require('path')
 
 
 exports.create = async (req, res) => {
@@ -106,5 +107,27 @@ exports.getFriends = async (req, res) => {
     }
 
     res.json(friends)
+}
+
+
+
+
+exports.uploadProfileImage = async (req, res) => {
+    // // const userId = req.params.userId
+    // console.log(JSON.stringify(req.file[0]))
+    //
+    // //== type: profile_image / cover_image ...
+    // // dal.users.saveImage(userId, type, req.file)
+    //
+    // // imagePath => /image-data/userUUID/
+    //
+    // const response = `<img src="${req.file[0].path}"/>`
+    // return res.send(response)
+
+    try {
+        res.json({message: "OK"})
+    } catch (err) {
+        console.log(err)
+    }
 }
 

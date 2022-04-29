@@ -85,11 +85,11 @@ const updateProfile = async (userId, fields) => {
 }
 
 
-const addFriend = async (userId, friendId) => {
+const addFriendByName = async (userId, friendId) => {
     return await authHost.post(`/users/${userId}/friends/`, {friendId})
 }
 
-const getFriend = async (userId, friendName) => {
+const getFriendByName = async (userId, friendName) => {
     return await authHost.get(`/users/${userId}/friends/${friendName}`, { params: { friend: friendName } })
 }
 
@@ -112,6 +112,11 @@ const sendNotification = async (message, dictionaryId, recipientId) => {
     })
 }
 
+const sendProfileImage = async (userId, formData) => {
+    return await authHost.post(`/users/${userId}/upload-profile-image/`, formData)
+}
+
+
 export {
     host,
 
@@ -132,10 +137,12 @@ export {
 
     updateProfile,
 
-    addFriend,
-    getFriend,
+    addFriendByName,
+    getFriendByName,
     getFriends,
 
     subscribeNotifications,
     sendNotification,
+
+    sendProfileImage,
 }

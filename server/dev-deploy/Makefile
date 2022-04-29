@@ -1,6 +1,7 @@
 
 init:
-	mkdir -p persistent/postgresql
+	mkdir -p persistent/imported-data
+	mkdir -p persistent/image-data
 
 
 run:

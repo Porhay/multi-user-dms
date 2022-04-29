@@ -1,0 +1,33 @@
+.image-picker-container {
+    width: 100vw;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+}
+.drop-area {
+    width: 80vw;
+    height: 70vh;
+    border: 5px dashed black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.select-image-div {
+    padding-left: 10px;
+}
+
+.download-image-label:hover {
+    text-align: center;
+    color: #269d10;
+}
+
+.drag-file-text-div {
+    text-align: center;
+    font-size: 14px;
+    color: #9b999d;
+    cursor: default;
+}

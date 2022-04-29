@@ -3,7 +3,7 @@ const path = require('path')
 const regexes = require('./regexes')
 
 
-const filePath = path.resolve('../../dev-deploy/persistent/exported/', 'smart-book.txt')
+const filePath = path.resolve('../../dev-deploy/persistent/imported-data/', 'smart-book.txt')
 
 const separator = (data, separator = 'tab') => {
     const newLineSeparated = data.split(regexes.newLineSeparation)
