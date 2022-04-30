@@ -1,10 +1,14 @@
 import React, {useContext, useState} from "react"
-import {observer} from "mobx-react-lite";
+import {observer} from "mobx-react-lite"
 
+import {Context} from "../index"
 import {updateProfile} from '../http'
-import {Context} from "../index";
+
 import ImagePicker from '../components/ImagePicker'
-import '../styles/Settings.css';
+import {Form, FormInput, FormTitle} from "../lib/Forms"
+import {TextButton} from "../lib/Buttons"
+
+import '../styles/Settings.css'
 
 
 const SettingsPage = observer(() => {
@@ -21,22 +25,18 @@ const SettingsPage = observer(() => {
 
     return (
         <div className="settings-container">
-                Profile picture
-                <ImagePicker />
+            <text>Profile picture</text>
+            <ImagePicker />
 
-                <h6>Name</h6>
+            <Form>
+                <FormTitle text="Name"/>
+                <FormInput
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                />
+            </Form>
 
-                <form>
-                    <input
-                        type='text'
-                        className="form-control"
-                        placeholder='Write your name here'
-                        onChange={e => setName(e.target.value)}
-                    />
-                </form>
-                <a className="submit-button" onClick={() => updateUserProfile(name)}>Update profile</a>
-
-
+            <TextButton onClick={() => updateUserProfile(name)} text="Update profile" />
         </div>
     )
 })

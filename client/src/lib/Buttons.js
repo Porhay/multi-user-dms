@@ -37,9 +37,9 @@ const IconButton = (props) => {
 }
 
 
-const SubmitButton = (props) => {
+const TextButton = (props) => {
     return (
-        <a className="icon-button" onClick={props.onClick}>
+        <a className="text-button" onClick={props.onClick}>
             <text style={textStyle}>{props.text}</text>
         </a>
     )
@@ -50,4 +50,4 @@ const SubmitButton = (props) => {
 const iconStyle = {fontSize: 19, paddingBottom: 2}
 const textStyle = {marginLeft: 2}
 
-export {IconTextButton, IconButton, SubmitButton}
+export {IconTextButton, IconButton, TextButton}
