@@ -39,9 +39,11 @@ const IconButton = (props) => {
 
 const TextButton = (props) => {
     return (
-        <a className="text-button" onClick={props.onClick}>
-            <text style={textStyle}>{props.text}</text>
-        </a>
+        <div style={props.style}>
+            <a className="text-button" onClick={props.onClick}>
+                <text style={textStyle}>{props.text}</text>
+            </a>
+        </div>
     )
 }
 

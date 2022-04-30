@@ -18,10 +18,11 @@
     border: 1px solid rgba(0, 0, 0, 0.3);
     cursor: pointer;
     color: black;
-    padding: 1px 10px 3px 6px;
+    padding: 1px 12px 3px 6px;
     border-radius: 6px;
     font-weight: normal;
     font-size: 17px;
+    width: max-content;
 }
 .icon-text-button:hover {
     color: #000000;

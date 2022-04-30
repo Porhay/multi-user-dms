@@ -1,14 +1,26 @@
-.form-title {
+.form {
+    display: flex;
+    flex-direction: column;
+}
 
+.form-title {
+    margin: 0 0 1px 0;
 }
 
 .form-input {
+    height: 30px;
     border: 1px solid rgba(0, 0, 0, 0.3);
-    background-color: rgba(246, 248, 250);
+    background-color: white;
+    /*background-color: rgba(246, 248, 250);*/
     padding: 5px 14px 5px 10px;
     border-radius: 6px;
-    font-weight: normal;
+    font-weight: lighter;
     font-size: 18px;
     outline: none;
+}
+
+.form-explanation {
+    color: #586069;
+    font-size: 12px;
 }
 
