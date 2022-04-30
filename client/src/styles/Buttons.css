@@ -1,0 +1,53 @@
+/*defaults*/
+.default-text {
+    margin-left: 1px;
+    margin-right: 1px;
+    cursor: pointer;
+    color: black;
+}
+.default-text:hover {
+    color: #333232;
+}
+
+
+
+
+
+/*IconTextButton*/
+.icon-text-button {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    color: black;
+    padding: 1px 10px 3px 6px;
+    border-radius: 6px;
+    font-weight: normal;
+    font-size: 17px;
+}
+.icon-text-button:hover {
+    color: #000000;
+}
+
+
+
+/*IconButton*/
+
+
+
+
+
+
+/*SubmitButton*/
+.submit-button {
+    height: auto;
+    width: auto;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 16;
+    cursor: pointer;
+    color: black;
+}
+.submit-button:hover {
+    color: rgba(10, 65, 0, 0.81);
+}

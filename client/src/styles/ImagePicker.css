@@ -1,4 +1,14 @@
+/*.image-picker-container-fade {*/
+/*    width: 100vw;*/
+/*    height: 90vh;*/
+/*    opacity: 0.1;*/
+/*    background-color: #e91e63;*/
+/*    position: absolute;*/
+/*}*/
+
 .image-picker-container {
+
+    opacity: 1;
     width: 50vw;
     height: 50vh;
     display: flex;
@@ -44,12 +54,13 @@
     border: 1px solid rgba(0, 0, 0, 0.3);
     cursor: pointer;
     color: black;
-    padding: 1px 1px 1px 1px;
+    padding: 1px 10px 3px 6px;
     border-radius: 6px;
+    font-weight: normal;
+    font-size: 17px;
 }
-
 .change-image-button:hover {
-    color: #333232;
+    color: #000000;
 }
 
 .close-button {

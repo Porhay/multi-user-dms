@@ -4,6 +4,9 @@ import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import {sendProfileImage} from '../http'
 
+import {IconTextButton} from '../lib/Buttons'
+// import Form from '../lib/Forms'
+
 import '../styles/ImagePicker.css';
 
 
@@ -45,39 +48,41 @@ const ImagePicker = observer((props) => {
 
     return (
         <>
-            <a className="change-image-button" onClick={() => setOpen(!open)}>Change image</a>
+            <IconTextButton icon="EditOutlinedIcon" text="Edit" onClick={() => setOpen(!open)}/>
             {open &&
-                <div className="image-picker-container">
-                    <a className="close-button" onClick={() => setOpen(false)}>+</a>
-                    {drag ? <div
-                            className="drop-area"
-                            onDragStart={e => dragStartHandler(e)}
-                            onDragLeave={e => dragLeaveHandler(e)}
-                            onDragOver={e => dragStartHandler(e)}
-                            onDrop={e => onDropHandler(e)}
-                        >Drop file to upload</div> :
-                        <div
-                            onDragStart={e => dragStartHandler(e)}
-                            onDragLeave={e => dragLeaveHandler(e)}
-                            onDragOver={e => dragStartHandler(e)}
-                        >
-                            <div className="select-image-div">
-                                <label htmlFor="file" className="download-image-label">
-                                    <span>Select image</span>
-                                </label>
-                                <input
-                                    type="file"
-                                    accept=".png,.jpeg,.jpg"
-                                    onChange={e => setFile(e.target.files[0])}
-                                    id="file"
-                                    style={{display: "none"}}
-                                ></input>
+                <div className="image-picker-container-fade">
+                    <div className="image-picker-container">
+                        <a className="close-button" onClick={() => setOpen(false)}>+</a>
+                        {drag ? <div
+                                className="drop-area"
+                                onDragStart={e => dragStartHandler(e)}
+                                onDragLeave={e => dragLeaveHandler(e)}
+                                onDragOver={e => dragStartHandler(e)}
+                                onDrop={e => onDropHandler(e)}
+                            >Drop file to upload</div> :
+                            <div
+                                onDragStart={e => dragStartHandler(e)}
+                                onDragLeave={e => dragLeaveHandler(e)}
+                                onDragOver={e => dragStartHandler(e)}
+                            >
+                                <div className="select-image-div">
+                                    <label htmlFor="file" className="download-image-label">
+                                        <span>Select image</span>
+                                    </label>
+                                    <input
+                                        type="file"
+                                        accept=".png,.jpeg,.jpg"
+                                        onChange={e => setFile(e.target.files[0])}
+                                        id="file"
+                                        style={{display: "none"}}
+                                    ></input>
+                                </div>
+                                <div className="drag-file-text-div">
+                                    or drag file to upload
+                                </div>
                             </div>
-                            <div className="drag-file-text-div">
-                                or drag file to upload
-                            </div>
-                        </div>
-                    }
+                        }
+                    </div>
                 </div>
             }
         </>

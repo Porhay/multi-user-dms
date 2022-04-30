@@ -86,7 +86,7 @@ const DictionariesPage = observer(() => {
                                     {item.name}
                                 </a>
                             </div>
-                            <Dropdown style={'item-dropdown'} items={dropdownListFunc(item.id)} icon={'Options'}/>
+                            <Dropdown style='item-dropdown' items={dropdownListFunc(item.id)} icon='Options' />
                         </div>
 
                         <Friends
