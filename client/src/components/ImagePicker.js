@@ -38,6 +38,8 @@ const ImagePicker = observer((props) => {
             formData.append("file", file)
             try {
                 await sendProfileImage(userId, formData)
+                // 1. set user profile photo in store
+
             } catch (err) {
                 console.log(err)
             }

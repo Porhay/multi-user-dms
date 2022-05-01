@@ -15,17 +15,20 @@ const SettingsPage = observer(() => {
     const {user} = useContext(Context)
     const userId = user.user.id
 
+
     const [name, setName] = useState('')
     const updateUserProfile = async (name) => {
         const fields = {name}
         await updateProfile(userId, fields)
         setName('')
     }
+    console.log(user.user.profileImage)
 
 
     return (
         <div className="settings-container">
             <div className="settings-position-container">
+                <img src="../../public/images/profile-image-default.jpg"  alt="profile image"/>
                 <h2>Public profile</h2>
                 <hr style={{color: "black", backgroundColor: "black", height: 2}} />
 

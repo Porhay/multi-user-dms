@@ -113,19 +113,12 @@ exports.getFriends = async (req, res) => {
 
 
 exports.uploadProfileImage = async (req, res) => {
-    // // const userId = req.params.userId
-    // console.log(JSON.stringify(req.file[0]))
-    //
-    // //== type: profile_image / cover_image ...
-    // // dal.users.saveImage(userId, type, req.file)
-    //
-    // // imagePath => /image-data/userUUID/
-    //
-    // const response = `<img src="${req.file[0].path}"/>`
-    // return res.send(response)
+    const userId = req.params.userId
 
     try {
-        res.json({message: "OK"})
+        const user = await dal.users.updateUserFields(userId, {image: req.file.filename})
+        console.log(`db.users.image updated, filename: ${req.file.filename}`)
+        res.json({image: user.image})
     } catch (err) {
         console.log(err)
     }

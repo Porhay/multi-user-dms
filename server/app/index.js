@@ -90,11 +90,13 @@ const storage = multer.diskStorage({
         cb(null, "dev-deploy/persistent/image-data")
     },
     filename: (req, file, cb) => {
-        cb(null, req.body.name)
+        const caption = `${uuid.v4()}.${file.mimetype.split('/')[1]}`
+        cb(null, caption)
     },
-});
+})
 
-const upload = multer({ storage });
+const upload = multer({ storage })
+
 app.post("/users/:userId/upload-profile-image/", upload.single("file"), users.uploadProfileImage)
 
 

@@ -46,11 +46,14 @@ exports.getByName = async (name) => {
 }
 
 exports.updateUserFields = async (userId, fields) => {
-    const {name} = fields
-    await db.user.update(
-        {name},
-        {where: {id: userId}}
-    )
+    const {name, image} = fields
+
+    const context = {}
+    if (name) context.name = name
+    if (image) context.imagee = image
+
+    await db.user.update({name, image}, {where: {id: userId}})
+    return await exports.getById(userId)
 }
 
 exports.getById = async (id) => {
