@@ -10,6 +10,27 @@
 }
 
 .settings-position-container {
+    position: relative;
     width: 50vw;
     height: 60vh;
+}
+
+
+
+.settings-profile-image-container {
+    position: absolute;
+    right: 0;
+    top: -25px;
+}
+.settings-profile-image {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 60px;
+    width: 120px;
+    height: 120px;
+}
+
+.settings-profile-image-btn {
+    position: absolute;
+    left: -8px;
+    bottom: 6px;
 }
