@@ -17,8 +17,6 @@ const SettingsPage = observer(() => {
     const {user} = useContext(Context)
     const userId = user.user.id
 
-
-    const avatar = user.user.userData.image ? `${baseURL + user.user.userData.image}` : avatarDefault
     const [showModal, setShowModal] = useState(false)
 
 
@@ -29,6 +27,12 @@ const SettingsPage = observer(() => {
         setName('')
     }
 
+    let avatar
+    try {
+        avatar = user.user.userData.image ? `${baseURL + user.user.userData.image}` : avatarDefault
+    } catch (e) {
+        avatar = avatarDefault
+    }
 
     return (
         <div className="settings-container">

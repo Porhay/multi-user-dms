@@ -127,7 +127,7 @@ exports.uploadProfileImage = async (req, res) => {
     try {
         const user = await dal.users.updateUserFields(userId, {image: req.file.filename})
         console.log(`db.users.image updated, filename: ${req.file.filename}`)
-        res.json({image: `server/dev-deploy/persistent/image-data/${user.image}`})
+        res.json({image: user.image})
     } catch (err) {
         console.log(err)
     }
