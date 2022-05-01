@@ -1,23 +1,29 @@
-/*.image-picker-container-fade {*/
-/*    width: 100vw;*/
-/*    height: 90vh;*/
-/*    opacity: 0.1;*/
-/*    background-color: #e91e63;*/
-/*    position: absolute;*/
-/*}*/
+.image-picker-container-fade {
+    width: 100vw;
+    height: 90vh;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 7%;
+
+
+    /*z-index: 99;*/
+    /*background: rgba(3, 3, 3, 0.1)*/
+}
 
 .image-picker-container {
-
     opacity: 1;
-    width: 50vw;
-    height: 50vh;
+    z-index: 100;
+    width: 52vw;
+    height: 55vh;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 40px;
     background-color: white;
 
-    /*margin-top: 5%;*/
+
     position: absolute;
     border-bottom: 1px solid #dadce1 ;
     -webkit-box-shadow: 2px 3px 7px -4px rgba(0,0,0,0.52);
@@ -39,8 +45,8 @@
 }
 
 .download-image-label:hover {
-    text-align: center;
     color: #269d10;
+    cursor: pointer;
 }
 
 .drag-file-text-div {

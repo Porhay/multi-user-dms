@@ -4,9 +4,7 @@ import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import {sendProfileImage} from '../http'
 
-import {IconTextButton} from '../lib/Buttons'
 // import Form from '../lib/Forms'
-
 import '../styles/ImagePicker.css';
 
 
@@ -17,8 +15,6 @@ const ImagePicker = observer((props) => {
     const [drag, setDrag] = useState(false)
     const [file, setFile] = useState(null)
 
-    const [open, setOpen] = useState(false);
-
 
     const dragStartHandler = (e) => {
         e.preventDefault()
@@ -28,9 +24,9 @@ const ImagePicker = observer((props) => {
         e.preventDefault()
         setDrag(false)
     }
-    const onDropHandler = async (e) => {
+    const onDropHandler = async (e, drop=false) => {
         e.preventDefault()
-        setFile(e.dataTransfer.files[0])
+        drop ? setFile(e.target.files[0]) : setFile(e.target.files[0])
         if (file) {
             const formData = new FormData()
             const fileName = `${Date.now()}${file.name}`
@@ -45,22 +41,22 @@ const ImagePicker = observer((props) => {
             }
         }
         setDrag(false)
+        props.onHide()
     }
 
 
     return (
         <>
-            <IconTextButton icon="EditOutlinedIcon" text="Edit" onClick={() => setOpen(!open)}/>
-            {open &&
+            {props.show &&
                 <div className="image-picker-container-fade">
                     <div className="image-picker-container">
-                        <a className="close-button" onClick={() => setOpen(false)}>+</a>
+                        <a className="close-button" onClick={props.onHide}>+</a>
                         {drag ? <div
                                 className="drop-area"
                                 onDragStart={e => dragStartHandler(e)}
                                 onDragLeave={e => dragLeaveHandler(e)}
                                 onDragOver={e => dragStartHandler(e)}
-                                onDrop={e => onDropHandler(e)}
+                                onDrop={e => onDropHandler(e, true)}
                             >Drop file to upload</div> :
                             <div
                                 onDragStart={e => dragStartHandler(e)}
@@ -74,7 +70,7 @@ const ImagePicker = observer((props) => {
                                     <input
                                         type="file"
                                         accept=".png,.jpeg,.jpg"
-                                        onChange={e => setFile(e.target.files[0])}
+                                        onChange={e => onDropHandler(e)}
                                         id="file"
                                         style={{display: "none"}}
                                     ></input>

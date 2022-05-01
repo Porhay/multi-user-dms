@@ -6,7 +6,7 @@ import {updateProfile} from '../http'
 
 import ImagePicker from '../components/ImagePicker'
 import {Form, FormInput, FormTitle, FormInputExplanation} from "../lib/Forms"
-import {TextButton} from "../lib/Buttons"
+import {IconTextButton, TextButton} from "../lib/Buttons"
 
 import '../styles/Settings.css'
 import avatarDefault from '../assets/images/profile-image-default.jpg'
@@ -19,6 +19,8 @@ const SettingsPage = observer(() => {
 
     // const avatar = user.user.profileImage ? `${API_URL + currentUser.avatar}` : avatarDefault
     const avatar = user.user.profileImage ? avatarDefault : avatarDefault
+    const [showModal, setShowModal] = useState(false)
+
 
     const [name, setName] = useState('')
     const updateUserProfile = async (name) => {
@@ -26,21 +28,20 @@ const SettingsPage = observer(() => {
         await updateProfile(userId, fields)
         setName('')
     }
-    console.log(user.user.profileImage)
 
 
     return (
         <div className="settings-container">
+            <ImagePicker show={showModal} onHide={() => setShowModal(false)} />
             <div className="settings-position-container">
                 <h2>Public profile</h2>
                 <hr style={{color: "black", backgroundColor: "black", height: 1, width:'75%'}} />
 
-
-
                 <div className="settings-profile-image-container">
                     <img src={avatar} className="settings-profile-image" alt="profile image"/>
-                    <div className="settings-profile-image-btn"><ImagePicker /></div>
-
+                    <div className="settings-profile-image-btn">
+                        <IconTextButton icon="EditOutlinedIcon" text="Edit" onClick={() => setShowModal(!showModal)}/>
+                    </div>
                 </div>
 
                 <Form style={{marginTop: 12, width: '75%'}}>
