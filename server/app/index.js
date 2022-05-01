@@ -18,10 +18,9 @@ const notifications = require('./controllers/notifications')
 
 const app = express()
 
-app.use(cors())
+app.use(express.static(path.resolve(__dirname, '../dev-deploy/persistent/image-data/')))
 app.use(express.json())
-app.use(express.static('static'))
-// app.use('/users/', auth )
+app.use(cors())
 
 
 const authCheck = (req, res, next) => {
@@ -36,9 +35,9 @@ const authCheck = (req, res, next) => {
         }
 
         // throw 'error: jwt malformed' if not valid jwt
-        const verified = jwt.verifyAccessToken(token)
+        const verifiedData = jwt.verifyAccessToken(token)
 
-        req.user = verified
+        req.user = verifiedData
         next()
     } catch (e) {
         return res.status(401).json({message: "Unauthorized"})
@@ -55,10 +54,11 @@ app.get('/users/check/', authCheck, users.check)
 
 app.get('/users/', authCheck, users.getUsers)
 app.delete('/users/:userId/', authCheck, users.deleteOne)
+app.get('/users/:userId/', users.getUser)
+
 app.get('/users/:userId/friends/', authCheck, users.getFriends)
 
 app.post('/users/:userId/update-profile/', authCheck, users.updateProfile)
-
 
 
 app.post('/verification-code/', email.sendEmail)
@@ -99,6 +99,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage })
 
 app.post("/users/:userId/upload-profile-image/", upload.single("file"), users.uploadProfileImage)
+
 
 
 // TODO add migrations directory for db

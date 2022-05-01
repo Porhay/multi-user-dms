@@ -2,9 +2,10 @@ import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 
 const PORT = 8000
+const baseURL = `http://localhost:${PORT}/`
 const host = axios.create({
     // TODO Take local network ip from server side and replace with baseURL
-    baseURL: `http://localhost:${PORT}` || `http://192.168.0.102:${PORT}`,  // 'http://localhost:8000' ||
+    baseURL: baseURL || `http://192.168.0.102:${PORT}`,
     timeout: 1000,
     headers: {'X-Custom-Header': 'foobar'}
 })
@@ -75,9 +76,9 @@ const login = async (email, password) => {
 }
 
 const check = async () => {
-    const {data} = await authHost.get('/users/check/' )
-    localStorage.setItem('token', data.token)
-    return jwt_decode(data.token)
+    const response = await authHost.get('/users/check/' )
+    localStorage.setItem('token', response.data.token)
+    return {...jwt_decode(response.data.token), userData: response.data.user}
 }
 
 const updateProfile = async (userId, fields) => {
@@ -116,10 +117,13 @@ const sendProfileImage = async (userId, formData) => {
     return await authHost.post(`/users/${userId}/upload-profile-image/`, formData)
 }
 
+const getUser = async (userId) => {
+    return await authHost.get(`/users/${userId}/`)
+}
+
 
 export {
-    host,
-
+    baseURL,
     createDictionary,
     getDictionaries,
     deleteDictionary,
@@ -145,4 +149,5 @@ export {
     sendNotification,
 
     sendProfileImage,
+    getUser,
 }

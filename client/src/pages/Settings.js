@@ -2,7 +2,7 @@ import React, {useContext, useState} from "react"
 import {observer} from "mobx-react-lite"
 
 import {Context} from "../index"
-import {updateProfile} from '../http'
+import {baseURL, updateProfile} from '../http'
 
 import ImagePicker from '../components/ImagePicker'
 import {Form, FormInput, FormTitle, FormInputExplanation} from "../lib/Forms"
@@ -17,8 +17,8 @@ const SettingsPage = observer(() => {
     const {user} = useContext(Context)
     const userId = user.user.id
 
-    // const avatar = user.user.profileImage ? `${API_URL + currentUser.avatar}` : avatarDefault
-    const avatar = user.user.profileImage ? avatarDefault : avatarDefault
+
+    const avatar = user.user.userData.image ? `${baseURL + user.user.userData.image}` : avatarDefault
     const [showModal, setShowModal] = useState(false)
 
 

@@ -7,7 +7,6 @@
     justify-content: center;
     padding-bottom: 7%;
 
-
     /*z-index: 99;*/
     /*background: rgba(3, 3, 3, 0.1)*/
 }
@@ -23,9 +22,8 @@
     font-size: 40px;
     background-color: white;
 
-
     position: absolute;
-    border-bottom: 1px solid #dadce1 ;
+    border: 1px solid #e9ebf1;
     -webkit-box-shadow: 2px 3px 7px -4px rgba(0,0,0,0.52);
     box-shadow: 2px 3px 7px -4px rgba(0,0,0,0.42);
 }

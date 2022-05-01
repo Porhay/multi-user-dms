@@ -70,13 +70,22 @@ exports.login = async (req, res) => {
 
 exports.check = async (req, res) => {
     const token = jwt.generateAccessToken(req.user.id, req.user.role)
-    return res.json({token})
+    const user = await dal.users.getById(req.user.id)
+    user.password = null
+    return res.json({token, user})
 }
 
 
 exports.getUsers = async (req, res) => {
     const users = await dal.users.getAll()
     res.json(users)
+}
+
+exports.getUser = async (req, res) => {
+    const userId = req.params.userId
+    const user = await dal.users.getById(userId)
+    user.password = null
+    res.json(user)
 }
 
 exports.deleteOne = async (req, res) => {
