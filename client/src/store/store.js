@@ -19,6 +19,9 @@ class UserStore {
     setUser(user) {
         this._user = user
     }
+    updateUserData(toUpdate) {
+        this._user = { ...this._user, userData: { ...toUpdate } }
+    }
     get user() {
         return this._user
     }

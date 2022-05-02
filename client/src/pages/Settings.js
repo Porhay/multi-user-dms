@@ -6,6 +6,8 @@ import {baseURL, sendProfileImage, updateProfile} from '../http'
 
 import {Form, FormInput, FormTitle, FormInputExplanation} from "../lib/Forms"
 import {IconTextButton, TextButton} from "../lib/Buttons"
+import {readURL} from "../helpers"
+
 
 import '../styles/Settings.css'
 import avatarDefault from '../assets/images/profile-image-default.jpg'
@@ -13,23 +15,26 @@ import avatarDefault from '../assets/images/profile-image-default.jpg'
 
 
 const SettingsPage = observer(() => {
-    const {user} = useContext(Context)
-    const userId = user.user.id
+    const context = useContext(Context)
+    const user = context.user.user
 
 
     const [toUpdate, setToUpdate] = useState({})
+    const [preview, setPreview] = useState('')
     const updateUserProfile = async () => {
         try {
             if (toUpdate.name && toUpdate.name !== '') {
-                await updateProfile(userId, {name:toUpdate.name})
+                await updateProfile(user.id, {name:toUpdate.name})
                 setToUpdate({...toUpdate,  name:''})
             }
             if (toUpdate.image) {
                 const formData = new FormData()
                 formData.append("name", toUpdate.image.name)
                 formData.append("file", toUpdate.image)
-                await sendProfileImage(userId, formData)
-                // 1. set user profile photo in store
+                const response = await sendProfileImage(user.id, formData)
+
+                // update global store
+                context.user.updateUserData({image: response.data.image})
 
             } else {
                 console.log('no file to upload')
@@ -40,13 +45,6 @@ const SettingsPage = observer(() => {
     }
 
 
-    let avatar
-    try {
-        avatar = user.user.userData.image ? `${baseURL + user.user.userData.image}` : avatarDefault
-    } catch (e) {
-        avatar = avatarDefault
-    }
-
     return (
         <div className="settings-container">
             <div className="settings-position-container">
@@ -54,12 +52,18 @@ const SettingsPage = observer(() => {
                 <hr style={{color: "black", backgroundColor: "black", height: 1, width:'75%'}} />
 
                 <div className="settings-profile-image-container">
-                    <img src={avatar} className="settings-profile-image" alt="profile image"/>
+                    <img src={preview || `${baseURL + user.userData.image}` || avatarDefault} className="settings-profile-image" alt="profile image"/>
                     <label htmlFor="select-image">
                         <div className="settings-profile-image-btn">
                             <IconTextButton icon="EditOutlinedIcon" text="Edit"/>
                             <input type="file" accept="image/*" id="select-image" style={{display: "none"}}
-                                onChange={e => setToUpdate({...toUpdate,  image: e.target.files[0]})}/>
+                                onChange={event => {
+                                    const newImage = event.target.files[0]
+                                    setToUpdate({...toUpdate, image: newImage })
+                                    readURL(newImage).then((imageUrl) =>{
+                                        setPreview(imageUrl)
+                                    })
+                                }}/>
                         </div>
                     </label>
                 </div>
