@@ -1,0 +1,16 @@
+.account-container {
+    width: 100vw;
+    height: 90vh;
+    font-size: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.account-position-container {
+    position: relative;
+    width: 50vw;
+    height: 60vh;
+}

@@ -11,7 +11,7 @@ import Dropdown from '../components/Dropdown'
 import Friends from "../modals/Friends";
 
 import '../styles/Dictionaries.css';
-import '../styles/ItemList.css';
+import '../styles/Lists.css';
 
 import LayersIcon from '@mui/icons-material/Layers';
 

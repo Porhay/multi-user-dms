@@ -1,60 +1,66 @@
 import React, {useContext, useState} from "react"
-import {Button, Container, Form, ListGroup} from "react-bootstrap";
-import {observer} from "mobx-react-lite";
+import {observer} from "mobx-react-lite"
 
-import {addFriendByName, getFriendByName} from "../http";
-import {Context} from "../index";
+import {Context} from "../index"
+import {addFriendByName, getFriendByName} from "../http"
+import {TextButton} from "../lib/Buttons"
+import {Form, FormInput, FormInputExplanation, FormTitle} from "../lib/Forms"
+import '../styles/Account.css'
+import LayersIcon from "@mui/icons-material/Layers";
+import '../styles/Lists.css';
 
 
 const AccountPage = observer(() => {
-    const {user} = useContext(Context)
-    const userId = user.user.id
+    const context = useContext(Context)
+    const user = context.user.user
 
-    const [foundFriends, setFoundFriends] = useState([{id: 1, name: 'Vlad'}])
+    const [foundFriends, setFoundFriends] = useState([{id: 1, name: 'Diachick'}, {id: 2, name: 'Vlad'}])
     const [search, setSearch] = useState('')
 
     const searchForFriendByName = async (name) => {
-        const result = await getFriendByName(userId, name)
+        const result = await getFriendByName(user.id, name)
         setFoundFriends(result.data)
         setSearch('')
     }
 
     const addNewFriend = async (name) => {
-        await addFriendByName(userId, name)
+        await addFriendByName(user.id, name)
     }
 
 
     return (
-        <Container className="d-flex flex-column w-50 mt-5">
-            <Form.Label className="bold">Search for friends</Form.Label>
-            <Container className="d-flex flex-row mb-2">
-                <Form className="w-100">
-                    <Form.Control
-                        value={search}
-                        onChange={e => setSearch(e.target.value)}
-                        placeholder={""}
-                    />
-                </Form>
-                <Button onClick={() => searchForFriendByName(search)}>Search</Button>
-            </Container>
-            <ListGroup>
-                {foundFriends.map(({id: friendId, name}) => {
-                    return (
-                        <ListGroup.Item
-                            className="d-flex flex-row align-items-center justify-content-between"
-                            key={friendId}
-                            action
-                            onClick={() => addNewFriend(userId, name)}
-                        >
-                            {name}
-                        </ListGroup.Item>
-                    )
-                })}
-            </ListGroup>
+        <div className="account-container">
+            <div className="account-position-container">
+                <h2>Account page</h2>
+                <hr style={{color: "black", backgroundColor: "black", height: 1, width:'100%'}} />
 
-        </Container>
+                <div style={{display:'flex'}}>
+                    <Form style={{marginTop: 6, width: '100%'}}>
+                        <FormTitle text="Search for friends"/>
+                        <FormInput
+                            value={search}
+                            onChange={e => setSearch(e.target.value)}
+                        />
+                        <FormInputExplanation text="Search for friends to share your dictionaries with them later" />
+                    </Form>
+                    <TextButton style={{marginTop: 25}} onClick={() => searchForFriendByName(search)} text="Search" />
+                </div>
+
+                <div style={{marginTop: 12, width:'100%'}}>
+                    {foundFriends.map((item) => (
+                        <div onClick={() => addNewFriend(item.name)} className="list-item-div" >
+                            <div className="list-item-left">
+                                <LayersIcon className="list-item-icon"/>
+                                <a key={item.id} className="list-item-a">
+                                    {item.name}
+                                </a>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
     )
 })
 
 export default AccountPage;
-

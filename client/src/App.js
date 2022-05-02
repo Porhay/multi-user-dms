@@ -3,7 +3,7 @@ import {BrowserRouter} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import {Spinner} from "react-bootstrap";
 
-import {check, getUser} from "./http";
+import {check} from "./http";
 import {Context} from "./index";
 
 import AppRouter from "./components/AppRouter";
@@ -18,7 +18,6 @@ const App = observer(() => {
 
     useEffect(() => {
         check().then(data => {
-            console.log(data)
             user.setUser(data)
             user.setIsAuth(true)
         }).finally(() => setLoading(false))
