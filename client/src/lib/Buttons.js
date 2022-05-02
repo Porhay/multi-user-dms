@@ -14,7 +14,7 @@ const Icon = (props) => {
         case 'NotificationsNoneIcon': return <NotificationsNoneIcon style={iconStyle} />
         case 'AccessibleForwardIcon': return <AccessibleForwardIcon style={iconStyle} />
         case 'AccountCircleOutlinedIcon': return <AccountCircleOutlinedIcon style={iconStyle} />
-        default: return <text className="default-text">{props.icon}</text> // text
+        default: return <span className="default-text">{props.icon}</span> // text
     }
 }
 
@@ -22,7 +22,7 @@ const IconTextButton = (props) => {
     return (
         <a className="icon-text-button" onClick={props.onClick}>
             <Icon icon={props.icon}/>
-            <text style={textStyle}>{props.text}</text>
+            <span style={textStyle}>{props.text}</span>
         </a>
     )
 }
@@ -41,7 +41,7 @@ const TextButton = (props) => {
     return (
         <div style={props.style}>
             <a className="text-button" onClick={props.onClick}>
-                <text style={textStyle}>{props.text}</text>
+                <span style={textStyle}>{props.text}</span>
             </a>
         </div>
     )

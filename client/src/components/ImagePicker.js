@@ -24,9 +24,9 @@ const ImagePicker = observer((props) => {
         e.preventDefault()
         setDrag(false)
     }
-    const onDropHandler = async (e, drop=false) => {
+    const onDropHandler = async (e) => {
         e.preventDefault()
-        drop ? setFile(e.target.files[0]) : setFile(e.target.files[0])
+        setFile(e.target.files[0])
         if (file) {
             const formData = new FormData()
             const fileName = `${Date.now()}${file.name}`
@@ -34,8 +34,6 @@ const ImagePicker = observer((props) => {
             formData.append("file", file)
             try {
                 await sendProfileImage(userId, formData)
-                // 1. set user profile photo in store
-
             } catch (err) {
                 console.log(err)
             }
@@ -56,7 +54,7 @@ const ImagePicker = observer((props) => {
                                 onDragStart={e => dragStartHandler(e)}
                                 onDragLeave={e => dragLeaveHandler(e)}
                                 onDragOver={e => dragStartHandler(e)}
-                                onDrop={e => onDropHandler(e, true)}
+                                onDrop={e => onDropHandler(e)}
                             >Drop file to upload</div> :
                             <div
                                 onDragStart={e => dragStartHandler(e)}

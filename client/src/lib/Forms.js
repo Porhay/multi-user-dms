@@ -31,7 +31,7 @@ const FormTitle = (props) => {
 }
 const FormInputExplanation = (props) => {
     return (
-        <text className="form-explanation">{props.text}</text>
+        <span className="form-explanation">{props.text}</span>
     )
 }
 
