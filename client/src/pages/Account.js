@@ -5,8 +5,8 @@ import {Context} from "../index"
 import {addFriendByName, getFriendByName} from "../http"
 import {TextButton} from "../lib/Buttons"
 import {Form, FormInput, FormInputExplanation, FormTitle} from "../lib/Forms"
-import '../styles/Account.css'
 import LayersIcon from "@mui/icons-material/Layers";
+import '../styles/Account.css'
 import '../styles/Lists.css';
 
 
@@ -58,6 +58,7 @@ const AccountPage = observer(() => {
                         </div>
                     ))}
                 </div>
+
             </div>
         </div>
     )

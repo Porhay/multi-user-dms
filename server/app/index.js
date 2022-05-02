@@ -107,6 +107,6 @@ app.post("/users/:userId/upload-profile-image/", upload.single("file"), users.up
 // TODO saving jwt in db
 // TODO separated log file to tail -f
 // TODO set up the linter
-
+// TODO dictionary info(time created, time shared, length...)
 
 module.exports = app

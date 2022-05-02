@@ -15,6 +15,7 @@ const Dropdown = (props) => {
         return () => document.addEventListener("click", onClickOutsideListener)
     }
 
+    // TODO move outside and replace with avatar image for account & IconButton for notifications
     return (
         <>
             <a onMouseLeave={onMouseLeaveListener()} className="icon-button"

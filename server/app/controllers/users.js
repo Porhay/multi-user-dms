@@ -3,7 +3,6 @@ const jwt = require('../lib/jwt')
 const errors = require('../lib/errors')
 const hash = require('../lib/hash')
 const helpers = require('../lib/helpers')
-const path = require('path')
 
 
 exports.create = async (req, res) => {
@@ -22,21 +21,12 @@ exports.create = async (req, res) => {
         return console.log(new Error('User with the same email is already exists!'))
     }
 
-    const setUniqueRandomName = async () => {
-        const newName = helpers.createRandomUserName()
-        const nameExisted = await dal.users.getByName(newName)
-        if(!nameExisted){
-            return newName
-        }
-        return setUniqueRandomName()
-    }
-    const name = await setUniqueRandomName()
-
+    const name = await helpers.createUniqueRandomName()
     const user = await dal.users.create(email, password, name)
 
     // default user's dictionary with entries
     const dictionary = await dal.dictionaries.create(user.id, 'Get Started')
-    const entries = await dal.entries.create(dictionary.id, 'some word', 'some translation')
+    await dal.entries.create(dictionary.id, 'some word', 'some translation')
 
     return res.json({id: user.id})
 }
@@ -44,8 +34,8 @@ exports.create = async (req, res) => {
 
 exports.login = async (req, res) => {
     const {email, password} = req.body
-    const browser = req.headers['user-agent']
-    const ip = req.ip
+    // const browser = req.headers['user-agent']
+    // const ip = req.ip
 
     if (email == null) {
         return console.log(new errors.BadRequest('email isn\'t provided'))
@@ -119,11 +109,9 @@ exports.getFriends = async (req, res) => {
 }
 
 
-
-
 exports.uploadProfileImage = async (req, res) => {
     const userId = req.params.userId
-
+    // TODO merge with updateProfile
     try {
         const user = await dal.users.updateUserFields(userId, {image: req.file.filename})
         console.log(`db.users.image updated, filename: ${req.file.filename}`)
