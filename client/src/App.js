@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {BrowserRouter} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import {Spinner} from "react-bootstrap";
+import 'react-toastify/dist/ReactToastify.css'
 
 import {check} from "./http";
 import {Context} from "./index";

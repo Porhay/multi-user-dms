@@ -1,7 +1,6 @@
 import React, {useContext, useState} from "react"
 import {observer} from "mobx-react-lite"
 import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 
 import {Context} from "../index"
 import {baseURL, sendProfileImage, updateProfile} from '../http'
