@@ -54,15 +54,19 @@
 
 .icon {
     color: var(--text-color);
-    margin-top: 2px;
 }
 
-.icon-button {
-
+.icon:hover {
+    filter: brightness(1.1);
 }
 
-.icon-button:hover {
-    filter: brightness(1.2);
+.navigation-profile-image {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 60px;
+    width: 30px;
 }
 
+.navigation-profile-image:hover {
+
+}
 

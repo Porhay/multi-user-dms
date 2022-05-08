@@ -1,5 +1,7 @@
 import React, {useContext, useState} from "react"
 import {observer} from "mobx-react-lite"
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import {Context} from "../index"
 import {baseURL, sendProfileImage, updateProfile} from '../http'
@@ -35,10 +37,14 @@ const SettingsPage = observer(() => {
 
                 // update global store
                 context.user.updateUserData({image: response.data.image})
+            } else {console.log('no file to upload')}
 
-            } else {
-                console.log('no file to upload')
-            }
+            // notification
+            toast.success('Profile updated', {
+                position: "top-right", autoClose: 2000,
+                hideProgressBar: false, closeOnClick: true,
+                pauseOnHover: true, draggable: true
+            })
         } catch (err) {
             console.log(err)
         }
@@ -47,12 +53,17 @@ const SettingsPage = observer(() => {
 
     return (
         <div className="settings-container">
+            <ToastContainer
+                style={{marginTop:30}} position="top-right" autoClose={5000}
+                closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover
+            />
             <div className="settings-position-container">
                 <h2>Public profile</h2>
                 <hr style={{color: "black", backgroundColor: "black", height: 1, width:'75%'}} />
 
                 <div className="settings-profile-image-container">
-                    <img src={preview || `${baseURL + user.userData.image}` || avatarDefault} className="settings-profile-image" alt="profile image"/>
+                    <img src={preview || `${baseURL + user.userData.image}` || avatarDefault}
+                         className="settings-profile-image" alt="profile image"/>
                     <label htmlFor="select-image">
                         <div className="settings-profile-image-btn">
                             <IconTextButton icon="EditOutlinedIcon" text="Edit"/>

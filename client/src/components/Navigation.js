@@ -4,15 +4,15 @@ import {observer} from "mobx-react-lite";
 
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import AccessibleForwardIcon from '@mui/icons-material/AccessibleForward';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
 //import {subscribeNotifications} from '../http'
-import {shareDictionary} from "../http";
+import {baseURL, shareDictionary} from "../http";
 
 import {Context} from "../index";
 import {ROUTES} from "../constants";
 import Dropdown from './Dropdown'
 
+import avatarDefault from "../assets/images/profile-image-default.jpg";
 import '../styles/Navigation.css';
 
 
@@ -69,35 +69,36 @@ const Navigation = observer(() => {
         </nav>
     )
 
-    const Logo = () => (
-        <a href="/" className="a-logo" onClick={() => navigate(ROUTES.DICTIONARIES)}><AccessibleForwardIcon/>DMS</a>
-    )
-
     const NavItem = (props) => (
         <li key={props.items.message} className="nav-item">
-            <Dropdown style='nav-dropdown' items={props.items} icon={props.icon} />
+            <Dropdown style='nav-dropdown' items={props.items} icon={props.icon}/>
         </li>
+    )
+
+    const ProfileImage = () => (
+        <img src={`${baseURL + user.userData.image}` || avatarDefault}
+             className="navigation-profile-image" alt="profile image"/>
     )
 
     return (
         <Navbar>
-            <Logo/>
+            <a href="/" className="a-logo" onClick={() => navigate(ROUTES.DICTIONARIES)}>
+                <AccessibleForwardIcon/>DMS
+            </a>
             <div className="nav-items-right">
-                    {context.user.isAuth ?
-
-                        <div className="nav-one-item-right">
-                            <NavItem items={notifications} icon={<NotificationsNoneIcon className="icon"/>}/>
-                            <NavItem items={accountList} icon={<AccountCircleOutlinedIcon className="icon"/>}/>
-                        </div>
-                        :
-                        <div>
-                            <a className="menu-item" onClick={() => navigate(ROUTES.LOGIN)}>
-                                Authorisation
-                            </a>
-                        </div>
-
-                    }
-                </div>
+                {context.user.isAuth ?
+                    <div className="nav-one-item-right">
+                        <NavItem items={notifications} icon={<NotificationsNoneIcon className="icon"/>}/>
+                        <NavItem items={accountList} icon={<ProfileImage/>}/>
+                    </div>
+                    :
+                    <div>
+                        <a className="menu-item" onClick={() => navigate(ROUTES.LOGIN)}>
+                            Authorisation
+                        </a>
+                    </div>
+                }
+            </div>
         </Navbar>
     )
 })
