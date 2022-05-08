@@ -107,9 +107,9 @@ const subscribeNotifications = async () => {
     }
 }
 
-const sendNotification = async (message, dictionaryId, recipientId) => {
+const sendNotification = async (message, dictionaryId, recipientId, senderImageUrl) => {
     return await authHost.post('/notifications/', {
-        message, dictionaryId, recipientId
+        message, dictionaryId, recipientId, senderImageUrl
     })
 }
 

@@ -1,18 +1,18 @@
 import React, {useContext, useEffect, useState} from 'react';
 import Modal from "react-bootstrap/Modal";
 import {Button, Form, ListGroup} from "react-bootstrap";
-import {getFriends, sendNotification, shareDictionary} from "../http";
+import {baseURL, getFriends, sendNotification, shareDictionary} from "../http";
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 
 const Friends = observer(({item, show, onHide}) => {
-    const {user} = useContext(Context)
-    const userId = user.user.id
+    const context = useContext(Context)
+    const user = context.user.user
 
 
     const [friends, setFriends] = useState([])
     useEffect(() => {
-        getFriends(userId).then(response => {
+        getFriends(user.id).then(response => {
             setFriends(response.data)
         })
     }, [])
@@ -27,7 +27,8 @@ const Friends = observer(({item, show, onHide}) => {
     // TODO fix: always takes last dictionary in the list and notification accept creates wrong list
     // TODO add new component for notifications with template of message(left icon, right buttons accept/cancel)
     const sendNotificationMessage = async (message, dictionaryId, recipientId) => {
-        await sendNotification(message, dictionaryId, recipientId)
+        const senderImageUrl = `${baseURL + user.userData.image}`
+        await sendNotification(message, dictionaryId, recipientId, senderImageUrl)
         onHide()
     }
 

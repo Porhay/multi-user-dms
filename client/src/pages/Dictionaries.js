@@ -7,7 +7,7 @@ import {createDictionary, getDictionaries, deleteDictionary} from '../http'
 import {ROUTES} from "../constants";
 import {Context} from "../index";
 
-import Dropdown from '../components/Dropdown'
+import {Dropdown} from '../components/Dropdown'
 import Friends from "../modals/Friends";
 
 import '../styles/Dictionaries.css';
@@ -86,8 +86,10 @@ const DictionariesPage = observer(() => {
                                     {item.name}
                                 </a>
                             </div>
-                            <Dropdown className='item-dropdown' icon='Options'
-                                      items={dropdownListFunc(item.id)}/>
+                            <Dropdown
+                                className='item-dropdown' icon='Options'
+                                items={dropdownListFunc(item.id)}
+                            />
                         </div>
 
                         <Friends

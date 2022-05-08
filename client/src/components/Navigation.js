@@ -10,7 +10,7 @@ import {baseURL, shareDictionary} from "../http";
 
 import {Context} from "../index";
 import {ROUTES} from "../constants";
-import Dropdown from './Dropdown'
+import {Dropdown} from './Dropdown'
 
 import avatarDefault from "../assets/images/profile-image-default.jpg";
 import '../styles/Navigation.css';
@@ -31,11 +31,12 @@ const Navigation = observer(() => {
     const subscribe = async () => {
         const eventSource = new EventSource(`http://localhost:8000/notifications/`)
         eventSource.onmessage = function (event) {
-            const data = JSON.parse(event.data) // {dictionaryId, recipientId, message, id}
-
+            const data = JSON.parse(event.data) // {dictionaryId, recipientId, message, id, senderImageUrl}
+            console.log(data.senderImageUrl)
             const newPost = {
                 ...data,
-                action: () => shareCurrentDictionary(data)
+                action: () => shareCurrentDictionary(data),
+                cancel: () => setNotifications([...notifications.filter(item => item.id !== data.id)])
             }
             setNotifications(prev => [newPost, ...prev])
         }
@@ -69,12 +70,6 @@ const Navigation = observer(() => {
         </nav>
     )
 
-    const NavItem = (props) => (
-        <li key={props.items.message} className="nav-item">
-            <Dropdown className={props.className} items={props.items} icon={props.icon}/>
-        </li>
-    )
-
     const ProfileImage = () => (
         <img src={`${baseURL + user.userData.image}` || avatarDefault}
              className="navigation-profile-image" alt="profile image"/>
@@ -88,9 +83,21 @@ const Navigation = observer(() => {
             <div className="nav-items-right">
                 {context.user.isAuth ?
                     <div className="nav-one-item-right">
-                        <NavItem items={notifications} className='nav-notification-dropdown'
-                                 icon={<NotificationsNoneIcon className="icon"/>} />
-                        <NavItem items={accountList} icon={<ProfileImage/>} className='nav-image-dropdown' />
+                        <li key={notifications.message} className="nav-item">
+                            <Dropdown
+                                items={notifications}
+                                icon={<NotificationsNoneIcon className="icon"/>}
+                                className='nav-notification-dropdown'
+                                option='notification'
+                            />
+                        </li>
+                        <li key={notifications.message} className="nav-item">
+                            <Dropdown
+                                items={accountList}
+                                icon={<ProfileImage/>}
+                                className='nav-image-dropdown'
+                            />
+                        </li>
                     </div>
                     :
                     <div>
