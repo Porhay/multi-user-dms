@@ -17,6 +17,7 @@ const user = sequelize.define('user', {
     id: {type: DataTypes.UUID, primaryKey: true, allowNull: false},
     email: {type: DataTypes.STRING, allowNull: false},
     emailVerified: {type: DataTypes.BOOLEAN, defaultValue: false},
+    username: {type: DataTypes.STRING, allowNull: false, unique: true},
     password: {type: DataTypes.STRING, allowNull: false},
     role: {type: DataTypes.STRING, defaultValue: constants.USER_ROLES.USER},
     friends: {type: DataTypes.JSON, defaultValue: []},

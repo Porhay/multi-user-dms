@@ -37,6 +37,27 @@ exports.getByEmail = async (email) => {
     return result
 }
 
+exports.getByUsername = async (username) => {
+    const result = await db.user.findOne({ where: { username: username.toLowerCase() } })
+    if (!result) {
+        return null
+    }
+    return result
+}
+
+exports.getEmailOrUsername = async (emailOrUsername) => {
+    const result = await db.user.findAll({
+        where: {
+            email: emailOrUsername.toLowerCase(),
+            username: emailOrUsername.toLowerCase(),
+        }
+    })
+    if (!result[0]) {
+        return null
+    }
+    return result[0]
+}
+
 exports.getByName = async (name) => {
     const result = await db.user.findOne({ where: { name } })
     if (!result) {
