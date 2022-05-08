@@ -55,7 +55,7 @@ exports.login = async (req, res) => {
     }
 
     const token = jwt.generateAccessToken(user.id, user.role)
-    res.json({token})
+    return res.json({token, user})
 }
 
 exports.check = async (req, res) => {

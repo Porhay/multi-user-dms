@@ -70,9 +70,9 @@ const registration = async (email, password) => {
 }
 
 const login = async (email, password) => {
-    const {data} = await host.post('/users/login/', {email, password})
-    localStorage.setItem('token', data.token)
-    return jwt_decode(data.token)
+    const response = await host.post('/users/login/', {email, password})
+    localStorage.setItem('token', response.data.token)
+    return {...jwt_decode(response.data.token), userData: response.data.user}
 }
 
 const check = async () => {

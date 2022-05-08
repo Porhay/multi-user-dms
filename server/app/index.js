@@ -36,8 +36,9 @@ const authCheck = (req, res, next) => {
 
         // throw 'error: jwt malformed' if not valid jwt
         const verifiedData = jwt.verifyAccessToken(token)
-
-        req.user = verifiedData
+        if(verifiedData) {
+            req.user = verifiedData
+        }
         next()
     } catch (e) {
         return res.status(401).json({message: "Unauthorized"})
@@ -108,5 +109,6 @@ app.post("/users/:userId/upload-profile-image/", upload.single("file"), users.up
 // TODO separated log file to tail -f
 // TODO set up the linter
 // TODO dictionary info(time created, time shared, length...)
+// TODO standard list
 
 module.exports = app
