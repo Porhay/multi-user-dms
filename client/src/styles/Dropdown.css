@@ -18,7 +18,7 @@ a{
 
 
 /* Dropdown Menu */
-.nav-dropdown {
+.nav-image-dropdown {
     position: absolute;
     top: 58px;
     width: auto;
@@ -30,12 +30,23 @@ a{
     transition: height var(--speed) ease;
 }
 
+.nav-notification-dropdown {
+    position: absolute;
+    top: 58px;
+    width: 260px;
+    transform: translateX(-45%);
+    background-color: var(--bg);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: height var(--speed) ease;
+}
+
 .item-dropdown {
     position: absolute;
     right: 14%;
-    /*width: auto;*/
     width: 130px;
-    transform: translateY(76%);
+    transform: translateY(74%);
     background-color: var(--bg);
     border: var(--border);
     border-radius: var(--border-radius);
@@ -63,6 +74,6 @@ a{
 
 .nav-items-empty-div {
     color: var(--text-color);
-    margin: 4px 0px;
+    margin: 4px 0;
 }
 

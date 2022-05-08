@@ -71,7 +71,7 @@ const Navigation = observer(() => {
 
     const NavItem = (props) => (
         <li key={props.items.message} className="nav-item">
-            <Dropdown style='nav-dropdown' items={props.items} icon={props.icon}/>
+            <Dropdown className={props.className} items={props.items} icon={props.icon}/>
         </li>
     )
 
@@ -88,8 +88,9 @@ const Navigation = observer(() => {
             <div className="nav-items-right">
                 {context.user.isAuth ?
                     <div className="nav-one-item-right">
-                        <NavItem items={notifications} icon={<NotificationsNoneIcon className="icon"/>}/>
-                        <NavItem items={accountList} icon={<ProfileImage/>}/>
+                        <NavItem items={notifications} className='nav-notification-dropdown'
+                                 icon={<NotificationsNoneIcon className="icon"/>} />
+                        <NavItem items={accountList} icon={<ProfileImage/>} className='nav-image-dropdown' />
                     </div>
                     :
                     <div>
