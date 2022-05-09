@@ -92,12 +92,12 @@ const updateProfile = async (userId, fields) => {
 }
 
 
-const addByUsername = async (userId, username) => {
+const addToFriendsByUsername = async (userId, username) => {
     return await authHost.post(`/users/${userId}/friends/`, {username: username})
 }
 
-const getByUsername = async (userId, username) => {
-    return await authHost.get(`/users/${userId}/friends/${username}`, {params: { username } })
+const getByIdOrUsername = async (data) => {
+    return await authHost.get(`/users/${data}`)
 }
 
 const getFriends = async (userId) => {
@@ -123,10 +123,6 @@ const sendProfileImage = async (userId, formData) => {
     return await authHost.post(`/users/${userId}/upload-profile-image/`, formData)
 }
 
-const getUser = async (userId) => {
-    return await authHost.get(`/users/${userId}/`)
-}
-
 
 export {
     baseURL,
@@ -147,13 +143,12 @@ export {
 
     updateProfile,
 
-    addByUsername,
-    getByUsername,
+    addToFriendsByUsername,
+    getByIdOrUsername,
     getFriends,
 
     subscribeNotifications,
     sendNotification,
 
     sendProfileImage,
-    getUser,
 }

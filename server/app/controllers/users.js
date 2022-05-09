@@ -73,9 +73,16 @@ exports.getUsers = async (req, res) => {
 }
 
 exports.getUser = async (req, res) => {
-    const userId = req.params.userId
-    const user = await dal.users.getById(userId)
-    user.password = null
+    const userId = req.params.userId // or username
+
+    let user = await dal.users.getByUsername(userId)
+    if (!user) {
+        user = await dal.users.getById(userId)
+    }
+
+    if (user) {
+        user.password = null
+    }
     res.json(user)
 }
 
