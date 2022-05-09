@@ -22,20 +22,25 @@ import '../styles/Lists.css';
 
 
 const DictionariesPage = observer(() => {
+    const navigate = useNavigate()
     const context = useContext(Context)
     const user = context.user.user
 
-    const navigate = useNavigate()
+    // Global state
+    const [state, setState] = useState({
+        nameOfNew: '',
+        nameToEdit: '',
+        showModal: false,
+    })
 
+    // All dictionaries data
     const [data, setData] = useState([])
-    const [name, setName] = useState('') // TODO merge with update like one object
-    const [showFriendsModal, setShowFriendsModal] = useState(false)
+
     const dropdownListFunc = (id) => [
         {message: 'Edit', action: () => setEdit(id)},
-        {message: 'Share', action: () => setShowFriendsModal(true)},
+        {message: 'Share', action: () => setState({...state, showModal:true})},
         {message: 'Delete', action: () => deleteCurrentDictionary(id)},
     ]
-
 
     useEffect(() => {
         updateData()
@@ -54,9 +59,9 @@ const DictionariesPage = observer(() => {
     }
 
     const newDictionary = async () => {
-        const newDictionary = await createOrUpdateDictionary({userId: user.id, name})
+        const newDictionary = await createOrUpdateDictionary({userId: user.id, name:state.nameOfNew})
         setData(prevState => [newDictionary.data, ...prevState])
-        setName('')
+        setState({...state, nameOfNew:''})
     }
 
     const openDictionary = async (dictionaryId) => {
@@ -83,14 +88,19 @@ const DictionariesPage = observer(() => {
 
         // close
         setEdit(dictionaryId, false)
-        setName('')
+        setState({...state,  nameToEdit:''})
     }
 
     const setEdit = (currentId, toOpen = true) => {
         let withEditTrueForCurrent = []
         for (const entity of data) {
             if (entity.id === currentId) {
-                toOpen ? entity.edit = true : entity.edit = false
+                if(toOpen) {
+                    setState({...state, nameToEdit: entity.name})
+                    entity.edit = true
+                } else {
+                    entity.edit = false
+                }
             }
             withEditTrueForCurrent.push(entity)
         }
@@ -107,8 +117,8 @@ const DictionariesPage = observer(() => {
                     <Form style={{marginTop: 6, width: '100%'}}>
                         <FormTitle text="Name your future masterpiece"/>
                         <FormInput
-                            value={name}
-                            onChange={e => setName(e.target.value)}
+                            value={state.nameOfNew}
+                            onChange={e => setState({...state,  nameOfNew: e.target.value})}
                         />
                         <FormInputExplanation
                             text="That name can be edited in future, you always can delete your dictionary"/>
@@ -126,12 +136,12 @@ const DictionariesPage = observer(() => {
                                             <LayersIcon className="list-item-icon"/>
                                             <Form>
                                                 <FormInput
-                                                    value={name}
-                                                    onChange={e => setName(e.target.value)}
+                                                    value={state.nameToEdit}
+                                                    onChange={e => setState({...state,  nameToEdit: e.target.value})}
                                                 />
                                             </Form>
                                             <TextButton
-                                                onClick={() => updateCurrentDictionary(item.id, name)}
+                                                onClick={() => updateCurrentDictionary(item.id, state.nameToEdit)}
                                                 text="Update"
                                             />
                                             <TextButton
@@ -159,8 +169,8 @@ const DictionariesPage = observer(() => {
 
                             <Friends
                                 item={item}
-                                show={showFriendsModal}
-                                onHide={() => setShowFriendsModal(false)}
+                                show={state.showModal}
+                                onHide={() => setState({...state, showModal:false})}
                             />
                         </>
                     )}
