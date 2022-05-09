@@ -23,9 +23,15 @@ const authInterceptor = config => {
 authHost.interceptors.request.use(authInterceptor)
 
 
-const createDictionary = async (data) => {
-    const {userId, name} = data
-    return await host.post(`/users/${userId}/dictionaries/`, {name})
+const createOrUpdateDictionary = async (data) => {
+    const userId = data.userId
+    const body = {
+        name: data.name
+    }
+    if (data.dictionaryId) {
+        body.dictionaryId = data.dictionaryId
+    }
+    return await host.post(`/users/${userId}/dictionaries/`, body)
 }
 
 const getDictionaries = async (userId) => {
@@ -86,12 +92,12 @@ const updateProfile = async (userId, fields) => {
 }
 
 
-const addFriendByName = async (userId, friendId) => {
+const addByUsername = async (userId, friendId) => {
     return await authHost.post(`/users/${userId}/friends/`, {friendId})
 }
 
-const getFriendByName = async (userId, friendName) => {
-    return await authHost.get(`/users/${userId}/friends/${friendName}`, { params: { friend: friendName } })
+const getByUsername = async (userId, username) => {
+    return await authHost.get(`/users/${userId}/friends/${username}`, {params: { username } })
 }
 
 const getFriends = async (userId) => {
@@ -124,7 +130,7 @@ const getUser = async (userId) => {
 
 export {
     baseURL,
-    createDictionary,
+    createOrUpdateDictionary,
     getDictionaries,
     deleteDictionary,
     shareDictionary,
@@ -141,8 +147,8 @@ export {
 
     updateProfile,
 
-    addFriendByName,
-    getFriendByName,
+    addByUsername,
+    getByUsername,
     getFriends,
 
     subscribeNotifications,

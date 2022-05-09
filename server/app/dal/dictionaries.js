@@ -13,6 +13,12 @@ exports.create = async (userId, name) => {
     return dictionary
 }
 
+exports.update = async (userId, dictionaryId, name) => {
+    const context = {}
+    if (name) context.name = name
+    await db.dictionaries.update(context, {where: {id: dictionaryId}})
+}
+
 exports.getByUserId = async (userId) => {
     const result = await db.dictionaries.findAll({ where: { userId } })
     if (!result) {

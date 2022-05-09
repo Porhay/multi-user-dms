@@ -45,7 +45,7 @@ exports.getByUsername = async (username) => {
     return result
 }
 
-exports.getEmailOrUsername = async (emailOrUsername) => {
+exports.getByEmailOrUsername = async (emailOrUsername) => {
     const result = await db.user.findAll({
         where: {
             email: emailOrUsername.toLowerCase(),
@@ -71,9 +71,9 @@ exports.updateUserFields = async (userId, fields) => {
 
     const context = {}
     if (name) context.name = name
-    if (image) context.imagee = image
+    if (image) context.image = image
 
-    await db.user.update({name, image}, {where: {id: userId}})
+    await db.user.update(context, {where: {id: userId}})
     return await exports.getById(userId)
 }
 

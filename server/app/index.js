@@ -78,7 +78,7 @@ app.post('/users/:userId/share-dictionary/', dictionaries.shareDictionary)
 
 
 
-app.post('/users/:userId/dictionaries/', dictionaries.createDictionary)
+app.post('/users/:userId/dictionaries/', dictionaries.createOrUpdateDictionary)
 app.get('/users/:userId/dictionaries/', dictionaries.getDictionaries)
 app.delete('/users/:userId/dictionaries/:dictionaryId/', dictionaries.deleteDictionary)
 

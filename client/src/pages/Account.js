@@ -2,7 +2,7 @@ import React, {useContext, useState} from "react"
 import {observer} from "mobx-react-lite"
 
 import {Context} from "../index"
-import {addFriendByName, getFriendByName} from "../http"
+import {addByUsername, getByUsername} from "../http"
 import {TextButton} from "../lib/Buttons"
 import {Form, FormInput, FormInputExplanation, FormTitle} from "../lib/Forms"
 import LayersIcon from "@mui/icons-material/Layers";
@@ -14,17 +14,17 @@ const AccountPage = observer(() => {
     const context = useContext(Context)
     const user = context.user.user
 
-    const [foundFriends, setFoundFriends] = useState([{id: 1, name: 'Diachick'}, {id: 2, name: 'Vlad'}])
+    const [foundFriends, setFoundFriends] = useState([{id: 1, username: 'Diachick'}, {id: 2, username: 'Vlad'}])
     const [search, setSearch] = useState('')
 
-    const searchForFriendByName = async (name) => {
-        const result = await getFriendByName(user.id, name)
+    const searchForFriendByName = async (username) => {
+        const result = await getByUsername(user.id, username)
         setFoundFriends(result.data)
         setSearch('')
     }
 
-    const addNewFriend = async (name) => {
-        await addFriendByName(user.id, name)
+    const addNewFriend = async (username) => {
+        await addByUsername(user.id, username)
     }
 
 
@@ -48,11 +48,11 @@ const AccountPage = observer(() => {
 
                 <div style={{marginTop: 12, width:'100%'}}>
                     {foundFriends.map((item) => (
-                        <div onClick={() => addNewFriend(item.name)} className="list-item-div" >
+                        <div onClick={() => addNewFriend(item.username)} className="list-item-div" >
                             <div className="list-item-left">
                                 <LayersIcon className="list-item-icon"/>
                                 <a key={item.id} className="list-item-a">
-                                    {item.name}
+                                    {item.username}
                                 </a>
                             </div>
                         </div>

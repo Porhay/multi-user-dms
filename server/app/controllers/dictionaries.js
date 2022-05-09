@@ -1,13 +1,18 @@
 const dal = require('../dal')
 
 
-exports.createDictionary = async (req, res) => {
+exports.createOrUpdateDictionary = async (req, res) => {
     const userId = req.params.userId
+    const dictionaryId = req.body.dictionaryId || null
     const name = req.body.name
     if(!name) {
         return console.log(new Error('name is required!'))
     }
 
+    if (dictionaryId) {
+        await dal.dictionaries.update(userId, dictionaryId, name)
+        return res.json({dictionaryId, name})
+    }
     const dictionary = await dal.dictionaries.create(userId, name)
     res.json(dictionary)
 }

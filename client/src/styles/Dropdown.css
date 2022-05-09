@@ -28,7 +28,7 @@ a{
     border-radius: var(--border-radius);
     overflow: hidden;
     transition: height var(--speed) ease;
-    padding: 0 30px 0 0;
+    /*padding: 0 30px 0 0;*/
 }
 
 .nav-notification-dropdown {
@@ -48,7 +48,7 @@ a{
     position: absolute;
     right: 14%;
     width: 130px;
-    transform: translateY(74%);
+    transform: translateY(64%);
     background-color: var(--bg);
     border: var(--border);
     border-radius: var(--border-radius);

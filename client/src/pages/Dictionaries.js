@@ -3,7 +3,12 @@ import {Button, Container, Form} from 'react-bootstrap'
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 
-import {createDictionary, getDictionaries, deleteDictionary} from '../http'
+import {
+    createOrUpdateDictionary,
+    getDictionaries,
+    deleteDictionary
+} from '../http'
+
 import {ROUTES} from "../constants";
 import {Context} from "../index";
 
@@ -22,10 +27,10 @@ const DictionariesPage = observer(() => {
     const navigate = useNavigate()
 
     const [data, setData] = useState([])
-    // const [data, setData] = useState([{id: 1, name: 'Halo?'}, {id: 2, name: 'No Halo!'}])
     const [name, setName] = useState('')
     const [showFriendsModal, setShowFriendsModal] = useState(false);
-    const dropdownListFunc = (id) => [
+    const dropdownListFunc = (id, name) => [
+        {message: 'Edit', action: () => editCurrentDictionary(id, name)},
         {message: 'Share', action: () => setShowFriendsModal(true)},
         {message: 'Delete', action: () => deleteCurrentDictionary(id)},
     ]
@@ -42,7 +47,7 @@ const DictionariesPage = observer(() => {
     }
 
     const newDictionary = async () => {
-        const newDictionary = await createDictionary({userId, name})
+        const newDictionary = await createOrUpdateDictionary({userId, name})
         setData(prevState => [newDictionary.data, ...prevState])
         setName('')
     }
@@ -54,6 +59,11 @@ const DictionariesPage = observer(() => {
     const deleteCurrentDictionary = async (dictionaryId) => {
         setData([...data.filter(item => item.id !== dictionaryId)])
         await deleteDictionary(userId, dictionaryId)
+    }
+
+    const editCurrentDictionary = async (dictionaryId, name) => {
+        // setState
+        await createOrUpdateDictionary(userId, dictionaryId, name)
     }
 
     return (
@@ -88,7 +98,7 @@ const DictionariesPage = observer(() => {
                             </div>
                             <Dropdown
                                 className='item-dropdown' icon='Options'
-                                items={dropdownListFunc(item.id)}
+                                items={dropdownListFunc(item.id, item.name)}
                             />
                         </div>
 
