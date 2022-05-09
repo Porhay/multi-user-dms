@@ -9,3 +9,24 @@
     color: #333232;
 }
 
+.dictionary-container {
+    width: 100vw;
+    height: auto;
+    font-size: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /*justify-content: center;*/
+    margin: 3% 0 2% 0;
+}
+
+.dictionary-position-container {
+    position: relative;
+    width: 70vw;
+    /*height: 60vh;*/
+}
+
+.dictionary-list-div {
+    margin-top: 10px;
+}

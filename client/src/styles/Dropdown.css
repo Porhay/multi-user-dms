@@ -46,9 +46,9 @@ a{
 
 .item-dropdown {
     position: absolute;
-    right: 14%;
+    right: 0;
     width: 130px;
-    transform: translateY(64%);
+    transform: translateY(69%);
     background-color: var(--bg);
     border: var(--border);
     border-radius: var(--border-radius);
@@ -63,9 +63,11 @@ a{
 .menu-item {
     height: auto;
     display: flex;
+    font-weight: 280;
+    font-size: 18px;
     align-items: center;
     border-radius: var(--border-radius);
-    padding: 0.4rem;
+    padding: 0 0.3rem;
     cursor: pointer;
 }
 

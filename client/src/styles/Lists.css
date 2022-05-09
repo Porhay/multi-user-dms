@@ -27,24 +27,26 @@ list {
     color: #474a4d;
 }
 
-.list-item-left {
-
-}
 
 .list-item-icon {
-    margin-bottom: 4px;
+
     margin-right: 6px;
 }
 
 .list-item-a {
     color: var(--color);
-    font-size: 22px;
 }
 
 .list-item-a:hover {
     color: var(--color);
 }
 
+
+.list-edit-form-general-div {
+
+}
 .list-edit-form-div {
     display: flex;
+    font-size: 20px;
+    align-items: center;
 }

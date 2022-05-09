@@ -1,7 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {Button, Container, Form} from 'react-bootstrap'
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
+
+import {ROUTES} from "../constants";
+import {Context} from "../index";
+
+import {Dropdown} from '../components/Dropdown'
+import Friends from "../modals/Friends";
+import {Form, FormInput, FormInputExplanation, FormTitle} from "../lib/Forms";
+import {TextButton} from "../lib/Buttons";
 
 import {
     createOrUpdateDictionary,
@@ -9,18 +16,10 @@ import {
     deleteDictionary
 } from '../http'
 
-import {ROUTES} from "../constants";
-import {Context} from "../index";
-
-import {Dropdown} from '../components/Dropdown'
-import Friends from "../modals/Friends";
-
+import LayersIcon from '@mui/icons-material/Layers';
 import '../styles/Dictionaries.css';
 import '../styles/Lists.css';
 
-import LayersIcon from '@mui/icons-material/Layers';
-import {FormInput} from "../lib/Forms";
-import {TextButton} from "../lib/Buttons"; // TODO remove bootstrap to use 'Form'
 
 const DictionariesPage = observer(() => {
     const context = useContext(Context)
@@ -69,12 +68,29 @@ const DictionariesPage = observer(() => {
         await deleteDictionary(user.id, dictionaryId)
     }
 
-    const setEdit = async (currentId, toOpen=true) => {
-        // set {edit: true} for current
+    const updateCurrentDictionary = async (dictionaryId, name) => {
+        await createOrUpdateDictionary({
+            userId: user.id,
+            dictionaryId,
+            name: name
+        })
+
+        for (const entity of data) {
+            if (entity.id === dictionaryId) {
+                entity.name = name
+            }
+        }
+
+        // close
+        setEdit(dictionaryId, false)
+        setName('')
+    }
+
+    const setEdit = (currentId, toOpen = true) => {
         let withEditTrueForCurrent = []
         for (const entity of data) {
             if (entity.id === currentId) {
-                toOpen? entity.edit = true : entity.edit = false
+                toOpen ? entity.edit = true : entity.edit = false
             }
             withEditTrueForCurrent.push(entity)
         }
@@ -82,76 +98,76 @@ const DictionariesPage = observer(() => {
     }
 
     return (
-        <Container className="d-flex flex-column w-75">
-            <Container className="d-flex flex mt-5 mb-1">
-                <Form
-                    className="w-100"
-                >
-                    <Form.Control
-                        size="md"
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                        placeholder={"Type dictionary name here..."}
-                    />
-                </Form>
-                <Button size="md" variant="outline-success" onClick={newDictionary}>New</Button>
-            </Container>
-            <Container>
-                {data.map((item) =>
-                    <>
-                        <div className="list-item-div">
-                            <div className="list-item-left">
-                                    <div>
-                                        {item.edit?
-                                            <div key={item.id} className="list-edit-form-div">
-                                                <LayersIcon className="list-item-icon"/>
-                                                <Form style={{width: '50%'}}>
-                                                    <FormInput
-                                                        value={name}
-                                                        onChange={e => setName(e.target.value)}
-                                                    />
-                                                </Form>
-                                                <TextButton
-                                                    onClick={async () => {
-                                                        await createOrUpdateDictionary({
-                                                            userId: user.id,
-                                                            dictionaryId: item.id,
-                                                            name: name
-                                                        })}
-                                                    }
-                                                    style={{marginLeft: 6}} text="Update"
+        <div className="dictionary-container">
+            <div className="dictionary-position-container">
+                <h2>Dictionary page</h2>
+                <hr style={{color: "black", backgroundColor: "black", height: 1, width: '100%'}}/>
+
+                <div style={{display: 'flex'}}>
+                    <Form style={{marginTop: 6, width: '100%'}}>
+                        <FormTitle text="Name your future masterpiece"/>
+                        <FormInput
+                            value={name}
+                            onChange={e => setName(e.target.value)}
+                        />
+                        <FormInputExplanation
+                            text="That name can be edited in future, you always can delete your dictionary"/>
+                    </Form>
+                    <TextButton style={{marginTop: 25}} onClick={() => newDictionary()} text="New"/>
+                </div>
+
+                <div className="dictionary-list-div">
+                    {data.map((item) =>
+                        <>
+                            <div className="list-item-div">
+                                <div className="list-edit-form-general-div">
+                                    {item.edit ?
+                                        <div key={item.id} className="list-edit-form-div">
+                                            <LayersIcon className="list-item-icon"/>
+                                            <Form>
+                                                <FormInput
+                                                    value={name}
+                                                    onChange={e => setName(e.target.value)}
                                                 />
-                                                <TextButton
-                                                    variant='cancel'
-                                                    onClick={() => setEdit(item.id, false)}
-                                                    style={{marginLeft: 6}} text="Cancel"
-                                                />
-                                            </div>
-                                                :
+                                            </Form>
+                                            <TextButton
+                                                onClick={() => updateCurrentDictionary(item.id, name)}
+                                                text="Update"
+                                            />
+                                            <TextButton
+                                                variant='cancel'
+                                                onClick={() => setEdit(item.id, false)}
+                                                text="Cancel"
+                                            />
+                                        </div>
+                                        :
+                                        <div className="list-edit-form-div">
+                                            <LayersIcon className="list-item-icon"/>
                                             <a key={item.id} className="list-item-a">
-                                                <LayersIcon className="list-item-icon"/>
                                                 <span onClick={() => openDictionary(item.id)}>
                                                     {item.name}
                                                 </span>
                                             </a>
-                                        }
-                                    </div>
+                                        </div>
+                                    }
+                                </div>
+                                <Dropdown
+                                    className='item-dropdown' icon='Options'
+                                    items={dropdownListFunc(item.id, item.name)}
+                                />
                             </div>
-                            <Dropdown
-                                className='item-dropdown' icon='Options'
-                                items={dropdownListFunc(item.id, item.name)}
-                            />
-                        </div>
 
-                        <Friends
-                            item={item}
-                            show={showFriendsModal}
-                            onHide={() => setShowFriendsModal(false)}
-                        />
-                    </>
-                )}
-            </Container>
-        </Container>
+                            <Friends
+                                item={item}
+                                show={showFriendsModal}
+                                onHide={() => setShowFriendsModal(false)}
+                            />
+                        </>
+                    )}
+                </div>
+
+            </div>
+        </div>
     )
 })
 
