@@ -57,6 +57,8 @@ app.get('/users/', authCheck, users.getUsers)
 app.delete('/users/:userId/', authCheck, users.deleteOne)
 app.get('/users/:userId/', users.getUser)
 
+
+app.post('/users/:userId/friends/', users.addFriends)
 app.get('/users/:userId/friends/', authCheck, users.getFriends)
 
 app.post('/users/:userId/update-profile/', authCheck, users.updateProfile)

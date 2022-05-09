@@ -93,3 +93,15 @@ exports.deleteById = async (userId) => {
 exports.getAll = async () => {
     return await db.user.findAll()
 }
+
+exports.addToFriendsList = async (userId, friendId) => {
+    const user = await exports.getById(userId)
+    const context = [
+        ...user.friends,
+        friendId
+    ]
+    await db.user.update({friends: context}, {where: {id: userId}})
+    return context
+}
+
+

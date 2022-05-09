@@ -103,6 +103,14 @@ exports.updateProfile = async (req, res) => {
     res.json({message: "OK"})
 }
 
+exports.addFriends = async (req, res) => {
+    const userId = req.params.userId
+    const friendId = req.body.friendId
+
+    const response = await dal.users.addToFriendsList(userId, friendId)
+    res.json(response)
+}
+
 exports.getFriends = async (req, res) => {
     const userId = req.params.userId
     const user = await dal.users.getById(userId)

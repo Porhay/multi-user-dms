@@ -30,8 +30,8 @@ const AccountPage = observer(() => {
         })
     }
 
-    const addNewFriend = async (username) => {
-        await addToFriendsByUsername(user.id, username)
+    const addNewFriend = async (friendId) => {
+        await addToFriendsByUsername(user.id, friendId)
     }
 
     return (
@@ -59,7 +59,7 @@ const AccountPage = observer(() => {
                 <div style={{marginTop: 12, width:'100%'}}>
                     {state.friends.map((item) => (
                         <div
-                            onClick={() => addNewFriend(item.username)}
+                            onClick={() => addNewFriend(item.id)}
                             className="list-item-div"
                         >
                             <div className="list-item-left">
