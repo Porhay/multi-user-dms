@@ -38,9 +38,15 @@ const IconButton = (props) => {
 
 
 const TextButton = (props) => {
+    let buttonStyle = 'text-button'
+    if (props.variant === 'cancel') {
+        buttonStyle = 'text-button-cancel'
+    }
+
+
     return (
         <div style={props.style}>
-            <a className="text-button" onClick={props.onClick}>
+            <a className={buttonStyle} onClick={props.onClick}>
                 <span style={textStyle}>{props.text}</span>
             </a>
         </div>

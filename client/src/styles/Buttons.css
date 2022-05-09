@@ -53,3 +53,18 @@
     background-color: #22940c;
     color: #F9F9F9;
 }
+
+.text-button-cancel {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    color: #F9F9F9;
+    background-color: #910c0c;
+    padding: 5px 14px 5px 10px;
+    border-radius: 6px;
+    font-weight: normal;
+    font-size: 16px;
+}
+.text-button-cancel:hover {
+    background-color: #910C0CFF;
+    color: #F9F9F9;
+}

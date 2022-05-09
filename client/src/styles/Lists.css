@@ -44,3 +44,7 @@ list {
 .list-item-a:hover {
     color: var(--color);
 }
+
+.list-edit-form-div {
+    display: flex;
+}
