@@ -49,7 +49,7 @@ const SettingsPage = observer(() => {
         }
     }
 
-
+    // TODO `${baseURL + user.userData.image}` throw err when image is null
     return (
         <div className="settings-container">
             <ToastContainer

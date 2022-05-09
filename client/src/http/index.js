@@ -92,8 +92,8 @@ const updateProfile = async (userId, fields) => {
 }
 
 
-const addByUsername = async (userId, friendId) => {
-    return await authHost.post(`/users/${userId}/friends/`, {friendId})
+const addByUsername = async (userId, username) => {
+    return await authHost.post(`/users/${userId}/friends/`, {username: username})
 }
 
 const getByUsername = async (userId, username) => {

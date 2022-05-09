@@ -5,7 +5,7 @@ const constants = require('../lib/constants')
 const hash = require('../lib/hash')
 
 
-exports.create = async (email, password, name, emailVerified = false) => {
+exports.create = async (email, password, name, username, emailVerified = false) => {
     const id = uuid.v4()
 
     let hashedPassword
@@ -17,6 +17,7 @@ exports.create = async (email, password, name, emailVerified = false) => {
         id,
         email: email.toLowerCase(),
         emailVerified,
+        username,
         password: hashedPassword,
         role: constants.USER_ROLES.USER,
         name

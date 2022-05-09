@@ -22,7 +22,8 @@ exports.create = async (req, res) => {
     }
 
     const name = await helpers.createUniqueRandomName()
-    const user = await dal.users.create(email, password, name)
+    const username = await helpers.createUniqueRandomName()
+    const user = await dal.users.create(email, password, name, username)
 
     // default user's dictionary with entries
     const dictionary = await dal.dictionaries.create(user.id, 'Get Started')

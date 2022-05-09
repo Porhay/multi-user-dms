@@ -21,8 +21,8 @@ import '../styles/Lists.css';
 import LayersIcon from '@mui/icons-material/Layers';
 
 const DictionariesPage = observer(() => {
-    const {user} = useContext(Context)
-    const userId = user.user.id
+    const context = useContext(Context)
+    const user = context.user.user
 
     const navigate = useNavigate()
 
@@ -41,13 +41,13 @@ const DictionariesPage = observer(() => {
     }, [])
 
     const updateData = () => {
-        getDictionaries(userId).then((response) => {
+        getDictionaries(user.id).then((response) => {
             setData(response.data.reverse())
         })
     }
 
     const newDictionary = async () => {
-        const newDictionary = await createOrUpdateDictionary({userId, name})
+        const newDictionary = await createOrUpdateDictionary({userId: user.id, name})
         setData(prevState => [newDictionary.data, ...prevState])
         setName('')
     }
@@ -58,12 +58,12 @@ const DictionariesPage = observer(() => {
 
     const deleteCurrentDictionary = async (dictionaryId) => {
         setData([...data.filter(item => item.id !== dictionaryId)])
-        await deleteDictionary(userId, dictionaryId)
+        await deleteDictionary(user.id, dictionaryId)
     }
 
     const editCurrentDictionary = async (dictionaryId, name) => {
         // setState
-        await createOrUpdateDictionary(userId, dictionaryId, name)
+        await createOrUpdateDictionary({userId: user.id, dictionaryId, name})
     }
 
     return (
