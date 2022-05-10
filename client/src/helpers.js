@@ -8,4 +8,8 @@ const readURL = file => {
     })
 }
 
-export {readURL}
+const generateRandomDigit = () => {
+    return Math.floor(Math.random() * 9 * Math.pow(10, 1 - 1)) + Math.pow(10, 1 - 1)
+}
+
+export {readURL, generateRandomDigit}

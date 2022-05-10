@@ -2,13 +2,15 @@ import React, {useContext, useEffect, useState} from 'react'
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 
+import {generateRandomDigit} from "../helpers";
 import {ROUTES} from "../constants";
 import {Context} from "../index";
 
-import {Dropdown} from '../components/Dropdown'
 import Friends from "../modals/Friends";
+import {Dropdown} from '../components/Dropdown'
 import {Form, FormInput, FormInputExplanation, FormTitle} from "../lib/Forms";
 import {TextButton} from "../lib/Buttons";
+import {Icon} from "../lib/Icons";
 
 import {
     createOrUpdateDictionary,
@@ -16,7 +18,6 @@ import {
     deleteDictionary
 } from '../http'
 
-import LayersIcon from '@mui/icons-material/Layers';
 import '../styles/Dictionaries.css';
 import '../styles/Lists.css';
 
@@ -50,10 +51,12 @@ const DictionariesPage = observer(() => {
         getDictionaries(user.id).then((response) => {
             let dictionaries = response.data.reverse()
 
-            // add edit row for every
+            // add edit, icon rows for every
             for (const entity of dictionaries) {
                 entity.edit = false
+                entity.iconIndex = generateRandomDigit()
             }
+            console.log(dictionaries)
             setData(dictionaries)
         })
     }
@@ -133,7 +136,7 @@ const DictionariesPage = observer(() => {
                                 <div className="list-edit-form-general-div">
                                     {item.edit ?
                                         <div key={item.id} className="list-edit-form-div">
-                                            <LayersIcon className="list-item-icon"/>
+                                            <Icon icon={item.iconIndex} style={{marginRight: 6}} />
                                             <Form>
                                                 <FormInput
                                                     value={state.nameToEdit}
@@ -152,7 +155,7 @@ const DictionariesPage = observer(() => {
                                         </div>
                                         :
                                         <div className="list-edit-form-div">
-                                            <LayersIcon className="list-item-icon"/>
+                                            <Icon icon={item.iconIndex} style={{marginRight: 6}} />
                                             <a key={item.id} className="list-item-a">
                                                 <span onClick={() => openDictionary(item.id)}>
                                                     {item.name}
