@@ -24,7 +24,7 @@ exports.getEntries = async (req, res) => {
 exports.deleteEntry = async (req, res) => {
     const {entryId} = req.params
     await dal.entries.deleteById(entryId)
-    res.json({message: "halo"})
+    res.json({id: entryId})
 }
 
 exports.getRandomOne = async (req, res) => {

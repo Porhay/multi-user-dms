@@ -47,8 +47,8 @@ const EntriesPage = observer(() => {
 
 
     const deleteCurrentEntry = async (entryId) => {
-        await deleteEntry(user.id, dictionaryId, entryId)
-        updateData(user.id, dictionaryId)
+        const response = await deleteEntry(user.id, dictionaryId, entryId).catch(e => console.log(e))
+        setData([...data.filter(item => item.id !== response.data.id)])
     }
 
     return (

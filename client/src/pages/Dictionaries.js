@@ -69,8 +69,8 @@ const DictionariesPage = observer(() => {
     }
 
     const deleteCurrentDictionary = async (dictionaryId) => {
+        await deleteDictionary(user.id, dictionaryId).catch(e => console.log(e))
         setData([...data.filter(item => item.id !== dictionaryId)])
-        await deleteDictionary(user.id, dictionaryId)
     }
 
     const updateCurrentDictionary = async (dictionaryId, name) => {
