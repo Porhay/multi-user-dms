@@ -12,8 +12,7 @@ exports.createEntry = async (req, res) => {
     }
 
     const entry = await dal.entries.create(dictionaryId, key, value)
-    console.log(entry)
-    res.json({message: 'OK'})
+    res.json(entry)
 }
 
 exports.getEntries = async (req, res) => {
@@ -23,7 +22,7 @@ exports.getEntries = async (req, res) => {
 }
 
 exports.deleteEntry = async (req, res) => {
-    const {userId, dictionaryId, entryId} = req.params
+    const {entryId} = req.params
     await dal.entries.deleteById(entryId)
     res.json({message: "halo"})
 }

@@ -50,12 +50,10 @@ const shareDictionary = async (userId, dictionaryId, recipientId) => {
 
 const createEntry = async (data) => {
     const {userId, dictionaryId, key, value} = data
-    return await host.post(`/users/${userId}/dictionaries/${dictionaryId}/entries/`,
-        {key, value})
+    return await host.post(`/users/${userId}/dictionaries/${dictionaryId}/entries/`, {key, value})
 }
 
 const getEntries = async (userId, dictionaryId) => {
-    console.log(dictionaryId)
     return await host.get(`/users/${userId}/dictionaries/${dictionaryId}/entries/`)
 }
 

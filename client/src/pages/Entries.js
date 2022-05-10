@@ -1,45 +1,54 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {Button, Container, Form, ListGroup} from 'react-bootstrap'
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import {useParams} from 'react-router-dom';
 import {observer} from "mobx-react-lite";
 
+import {Button, Container, Form, ListGroup} from 'react-bootstrap'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import {createEntry, getEntries, deleteEntry} from "../http";
 import {Context} from "../index";
 
 
 const EntriesPage = observer(() => {
-    const {id: dictionaryId} = useParams() // dictionaryId
+    const {id: dictionaryId} = useParams()
+    const context = useContext(Context)
+    const user = context.user.user
 
-    const {user} = useContext(Context)
-    const userId = user.user.id
+    // Global state
+    const [state, setState] = useState({
+        key: '',
+        value: '',
+    })
 
+    // All entries data
     const [data, setData] = useState([])
+
     const updateData = (userId, dictionaryId) => {
         getEntries(userId, dictionaryId).then((response) => {
-            setData(response.data)
+            setData(response.data.reverse())
         })
     }
 
     useEffect(() => {
-        // TODO fix userId
-        updateData(userId, dictionaryId)
+        updateData(user.id, dictionaryId)
     }, [])
 
 
-    const [key, setKey] = useState('')
-    const [value, setValue] = useState('')
-    const newEntry = async () => {
-        await createEntry({userId, dictionaryId, key, value})
-        setKey('')
-        setValue('')
-        updateData(userId, dictionaryId)
+    const createNewEntry = async () => {
+        const data = {
+            userId: user.id,
+            dictionaryId,
+            key: state.key,
+            value: state.value
+        }
+        const newEntry = await createEntry(data)
+        setData(prevState => [newEntry.data, ...prevState])
+        setState({...state, key: '', value: ''})
     }
 
 
     const deleteCurrentEntry = async (entryId) => {
-        await deleteEntry(userId, dictionaryId, entryId)
-        updateData(userId, dictionaryId)
+        await deleteEntry(user.id, dictionaryId, entryId)
+        updateData(user.id, dictionaryId)
     }
 
     return (
@@ -50,18 +59,18 @@ const EntriesPage = observer(() => {
                 >
                     <Form.Control
                         size="md"
-                        value={key}
-                        onChange={e => setKey(e.target.value)}
+                        value={state.key}
+                        onChange={e => setState({...state,  key: e.target.value})}
                         placeholder={"Name"}
                     />
                     <Form.Control
                         size="md"
-                        value={value}
-                        onChange={e => setValue(e.target.value)}
+                        value={state.value}
+                        onChange={ e => setState({...state,  value: e.target.value})}
                         placeholder={"Value"}
                     />
                 </Form>
-                <Button size="md" variant="outline-success" onClick={newEntry}>New</Button>
+                <Button size="md" variant="outline-success" onClick={createNewEntry}>New</Button>
             </Container>
             <Container className="d-flex flex-row">
                 <ListGroup className="w-100">
@@ -83,7 +92,6 @@ const EntriesPage = observer(() => {
                                         style={{color: 'black', opacity: 0.5}}
                                     >
                                         <DeleteOutlineIcon  />
-                                        {/*<text style={{fontSize:'12'}}>Delete</text>*/}
                                     </Container>
 
                                 </Button>

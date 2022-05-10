@@ -10,7 +10,7 @@ exports.create = async (dictionaryId, key, value) => {
         key,
         value,
     }
-    await db.entries.create(entry) // entries
+    await db.entries.create(entry)
     return entry
 }
 
