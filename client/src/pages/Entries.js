@@ -85,7 +85,7 @@ const EntriesPage = observer(() => {
                             <div key={item.id} className="list-item-div">
                                 <div className="entry-list-item-text">
                                     <h6 className="entry-list-item-h6">{item.key}</h6>
-                                    <span style={{color: 'black', opacity: 0.5, fontSize: 14, margin: 0}}>
+                                    <span className="entry-list-item-span">
                                         {item.value}
                                     </span>
                                 </div>

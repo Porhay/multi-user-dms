@@ -1,4 +1,6 @@
 const dal = require('../dal')
+const files = require('../lib/files')
+
 
 
 exports.createOrUpdateDictionary = async (req, res) => {
@@ -55,6 +57,19 @@ exports.shareDictionary = async (req, res) => {
         for(let entry of entries) {
             // TODO make {data} object instead of key and value
             await dal.entries.create(newDictionary.id, entry.key, entry.value)
+        }
+    }
+    res.json({message: "OK"})
+}
+
+exports.importDictionary = async (req, res) => {
+    const userId = req.params.userId
+
+    const newDictionary = await dal.dictionaries.create(userId, req.file.originalname.split('.')[0])
+    const entries = await files.getDataFromImportedFile(req.file.path)
+    if(entries) {
+        for(const entry of entries) {
+            await dal.entries.create(newDictionary.id, entry[0], entry[1])
         }
     }
     res.json({message: "OK"})

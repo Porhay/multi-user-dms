@@ -122,6 +122,11 @@ const sendProfileImage = async (userId, formData) => {
 }
 
 
+const importDictionary = async (userId, formData) => {
+    return await authHost.post(`/users/${userId}/import-dictionary/`, formData)
+}
+
+
 export {
     baseURL,
     createOrUpdateDictionary,
@@ -149,4 +154,5 @@ export {
     sendNotification,
 
     sendProfileImage,
+    importDictionary,
 }

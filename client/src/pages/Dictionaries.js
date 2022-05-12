@@ -15,7 +15,8 @@ import {Icon} from "../lib/Icons";
 import {
     createOrUpdateDictionary,
     getDictionaries,
-    deleteDictionary
+    deleteDictionary,
+    importDictionary,
 } from '../http'
 
 import '../styles/Dictionaries.css';
@@ -56,7 +57,6 @@ const DictionariesPage = observer(() => {
                 entity.edit = false
                 entity.iconIndex = generateRandomDigit()
             }
-            console.log(dictionaries)
             setData(dictionaries)
         })
     }
@@ -110,12 +110,14 @@ const DictionariesPage = observer(() => {
         setData(withEditTrueForCurrent)
     }
 
+    const importNewDictionary = async (userId, formData) => {
+        await importDictionary(userId, formData)
+        // update state
+    }
+
     return (
         <div className="dictionary-container">
             <div className="dictionary-position-container">
-                {/*<h2>Dictionary page</h2>*/}
-                {/*<hr style={{color: "black", backgroundColor: "black", height: 1, width: '100%'}}/>*/}
-
                 <div style={{display: 'flex'}}>
                     <Form style={{marginTop: 6, width: '100%'}}>
                         <FormTitle text="Name your future masterpiece"/>
@@ -124,9 +126,19 @@ const DictionariesPage = observer(() => {
                             value={state.nameOfNew}
                             onChange={e => setState({...state,  nameOfNew: e.target.value})}
                         >
-                            <span style={{marginLeft:10, marginTop:0, cursor: "pointer"}} data-tootik-conf='left'
-                                  data-tootik="Tap to import dictionary">&#x1f914;
-                            </span>
+                            <label htmlFor="select-file">
+                                <span style={{marginLeft:10, marginTop:0, cursor: "pointer"}}
+                                      data-tootik-conf='left'
+                                      data-tootik="Tap to import dictionary">&#x1f914;
+                                </span>
+                                <input type="file" accept=".txt" id="select-file" style={{display: "none"}}
+                                       onChange={async event => {
+                                           const formData = new FormData()
+                                           formData.append("text-file", event.target.files[0])
+                                           await importNewDictionary(user.id, formData)
+                                       }}
+                                />
+                            </label>
                         </FormInput>
                         <FormInputExplanation
                             text="That name can be edited in future, you always can delete your dictionary"/>
