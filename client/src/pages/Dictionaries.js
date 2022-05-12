@@ -113,8 +113,8 @@ const DictionariesPage = observer(() => {
     return (
         <div className="dictionary-container">
             <div className="dictionary-position-container">
-                <h2>Dictionary page</h2>
-                <hr style={{color: "black", backgroundColor: "black", height: 1, width: '100%'}}/>
+                {/*<h2>Dictionary page</h2>*/}
+                {/*<hr style={{color: "black", backgroundColor: "black", height: 1, width: '100%'}}/>*/}
 
                 <div style={{display: 'flex'}}>
                     <Form style={{marginTop: 6, width: '100%'}}>

@@ -2,10 +2,13 @@ import React, {useContext, useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom';
 import {observer} from "mobx-react-lite";
 
-import {Button, Container, Form, ListGroup} from 'react-bootstrap'
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import {createEntry, getEntries, deleteEntry} from "../http";
 import {Context} from "../index";
+import {createEntry, getEntries, deleteEntry} from "../http";
+import {Form, FormInput, FormTitle} from "../lib/Forms";
+import {TextButton} from "../lib/Buttons";
+
+import '../styles/Entries.css';
+import '../styles/Lists.css';
 
 
 const EntriesPage = observer(() => {
@@ -52,55 +55,49 @@ const EntriesPage = observer(() => {
     }
 
     return (
-        <Container className="d-flex flex-column w-75">
-            <Container className="d-flex mt-5 mb-1">
-                <Form
-                    className="d-flex flex-row w-100"
-                >
-                    <Form.Control
-                        size="md"
-                        value={state.key}
-                        onChange={e => setState({...state,  key: e.target.value})}
-                        placeholder={"Name"}
-                    />
-                    <Form.Control
-                        size="md"
-                        value={state.value}
-                        onChange={ e => setState({...state,  value: e.target.value})}
-                        placeholder={"Value"}
-                    />
-                </Form>
-                <Button size="md" variant="outline-success" onClick={createNewEntry}>New</Button>
-            </Container>
-            <Container className="d-flex flex-row">
-                <ListGroup className="w-100">
-                    {data.map((item) => {
-                        return (
-                            <ListGroup.Item key={item.id} className="d-flex flex-row">
-                                <Container>
-                                    <h6 className="mb-0">{item.key}</h6>
-                                    <div className="div">{item.value}</div>
-                                </Container>
-                                <Button
-                                    className="remove"
-                                    size="sm"
-                                    variant="link"
-                                    onClick={() => deleteCurrentEntry(item.id)}
-                                >
-                                    <Container
-                                        className="d-flex flex-row align-items-center justify-content-between"
-                                        style={{color: 'black', opacity: 0.5}}
-                                    >
-                                        <DeleteOutlineIcon  />
-                                    </Container>
+        <div className="entry-container">
+            <div className="entry-position-container">
+                <div style={{display: 'flex'}}>
+                    <Form style={{marginTop: 6, width: '100%'}}>
+                        <div style={{display: 'flex'}}>
+                            <div style={{flexGrow: 1}}>
+                                <FormTitle text="Name"/>
+                                <FormInput
+                                    value={state.key}
+                                    onChange={e => setState({...state,  key: e.target.value})}
+                                />
+                            </div>
+                            <div style={{flexGrow: 1}}>
+                                <FormTitle text="Value"/>
+                                <FormInput
+                                    value={state.value}
+                                    onChange={e => setState({...state,  value: e.target.value})}
+                                />
+                            </div>
+                        </div>
+                    </Form>
+                    <TextButton style={{marginTop: 25}} onClick={() => createNewEntry()} text="New"/>
+                </div>
 
-                                </Button>
-                            </ListGroup.Item>
-                        )
-                    })}
-                </ListGroup>
-            </Container>
-        </Container>
+                <div className="entry-list-div">
+                    {data.map((item) =>
+                        <>
+                            <div key={item.id} className="list-item-div">
+                                <div className="entry-list-item-text">
+                                    <h6 className="entry-list-item-h6">{item.key}</h6>
+                                    <span style={{color: 'black', opacity: 0.5, fontSize: 14, margin: 0}}>
+                                        {item.value}
+                                    </span>
+                                </div>
+                                <div className="entry-list-item-x" onClick={() => deleteCurrentEntry(item.id)}>x</div>
+                            </div>
+
+                        </>
+                    )}
+                </div>
+
+            </div>
+        </div>
     )
 })
 
