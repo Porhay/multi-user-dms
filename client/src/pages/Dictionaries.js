@@ -120,9 +120,14 @@ const DictionariesPage = observer(() => {
                     <Form style={{marginTop: 6, width: '100%'}}>
                         <FormTitle text="Name your future masterpiece"/>
                         <FormInput
+                            variant='space-left'
                             value={state.nameOfNew}
                             onChange={e => setState({...state,  nameOfNew: e.target.value})}
-                        />
+                        >
+                            <span style={{marginLeft:10, marginTop:0, cursor: "pointer"}} data-tootik-conf='left'
+                                  data-tootik="Tap to import dictionary">&#x1f914;
+                            </span>
+                        </FormInput>
                         <FormInputExplanation
                             text="That name can be edited in future, you always can delete your dictionary"/>
                     </Form>
@@ -137,8 +142,10 @@ const DictionariesPage = observer(() => {
                                     {item.edit ?
                                         <div key={item.id} className="list-edit-form-div">
                                             <Icon icon={item.iconIndex} style={{marginRight: 6}} />
+
                                             <Form>
                                                 <FormInput
+                                                    style={{marginLeft: 10}}
                                                     value={state.nameToEdit}
                                                     onChange={e => setState({...state,  nameToEdit: e.target.value})}
                                                 />

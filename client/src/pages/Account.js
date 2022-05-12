@@ -50,7 +50,7 @@ const AccountPage = observer(() => {
                         <FormInputExplanation text="Search for friends to share your dictionaries with them later" />
                     </Form>
                     <TextButton
-                        style={{marginTop: 25}}
+                        style={{marginTop: 25.5}}
                         onClick={() => searchByUsername(state.search)}
                         text="Search"
                     />

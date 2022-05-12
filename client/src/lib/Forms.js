@@ -13,14 +13,27 @@ const Form = (props) => {
 }
 
 const FormInput = (props) => {
+    let formInputStyle = {
+        div: 'form-input-div-standard',
+        input: 'form-input-standard'
+    }
+    if (props.variant === 'space-left') {
+        formInputStyle = {
+            div: 'form-input-div-space-left',
+            input: 'form-input-space-left'
+        }
+    }
     return (
-        <input
-            value={props.value}
-            type='text'
-            className="form-input"
-            placeholder='Write here'
-            onChange={props.onChange}
-        />
+        <div className={formInputStyle.div}>
+            {props.children}
+            <input
+                value={props.value}
+                className={formInputStyle.input}
+                type='text'
+                onChange={props.onChange}
+                placeholder='Write here'
+            />
+        </div>
     )
 }
 
