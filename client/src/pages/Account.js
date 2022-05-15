@@ -8,6 +8,7 @@ import {Form, FormInput, FormInputExplanation, FormTitle} from "../lib/Forms"
 import LayersIcon from "@mui/icons-material/Layers";
 import '../styles/Account.css'
 import '../styles/Lists.css';
+import {toast, ToastContainer} from "react-toastify";
 
 
 const AccountPage = observer(() => {
@@ -34,11 +35,21 @@ const AccountPage = observer(() => {
     }
 
     const addNewFriend = async (friendId) => {
-        await addToFriendsByUsername(user.id, friendId)
+        try {
+            await addToFriendsByUsername(user.id, friendId)
+        } catch (error) {
+            if(error.response.status === 500) {
+                toast.info('You are already had this user in your friend list!', {position: "top-right", autoClose: 2000})
+            }
+        }
     }
 
     return (
         <div className="account-container">
+            <ToastContainer
+                style={{marginTop:30}} position="top-right" autoClose={5000}
+                closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover
+            />
             <div className="account-position-container">
                 <h2>Account page</h2>
                 <hr style={{color: "black", backgroundColor: "black", height: 1, width:'100%'}} />
