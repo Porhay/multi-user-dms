@@ -77,7 +77,9 @@ exports.getUser = async (req, res) => {
 
     let user = await dal.users.getByUsername(userId)
     if (!user) {
-        user = await dal.users.getById(userId)
+        user = await dal.users.getById(userId).catch(() => {
+            return res.json(null)
+        })
     }
 
     if (user) {
@@ -107,6 +109,16 @@ exports.addFriends = async (req, res) => {
     const userId = req.params.userId
     const friendId = req.body.friendId
 
+    const user = await dal.users.getById(userId)
+    for (const userId of user.friends) {
+        if (userId === friendId) {
+            return res.status(500).send('User already has this id in friend list')
+        }
+    }
+
+    // add user to the friend's friend list too
+    await dal.users.addToFriendsList(friendId, userId)
+
     const response = await dal.users.addToFriendsList(userId, friendId)
     res.json(response)
 }
@@ -116,7 +128,7 @@ exports.getFriends = async (req, res) => {
     const user = await dal.users.getById(userId)
 
     let friends = []
-    for (let userId of user.friends) {
+    for (const userId of user.friends) {
         const friend = await dal.users.getById(userId)
         friends.push({id: userId, name: friend.name})
     }

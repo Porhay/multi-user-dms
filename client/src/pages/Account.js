@@ -22,7 +22,10 @@ const AccountPage = observer(() => {
 
     const searchByUsername = async (username) => {
         const result = await getByIdOrUsername(username)
-        console.log(result.data)
+        if (!result.data) {
+            return setState({...state, friends: [], search: ''})
+        }
+
         setState({
             ...state,
             friends: [result.data],
@@ -57,7 +60,8 @@ const AccountPage = observer(() => {
                 </div>
 
                 <div style={{marginTop: 12, width:'100%'}}>
-                    {state.friends.map((item) => (
+                    {
+                        state.friends.length !== 0? state.friends.map((item) => (
                         <div
                             onClick={() => addNewFriend(item.id)}
                             className="list-item-div"
@@ -65,11 +69,13 @@ const AccountPage = observer(() => {
                             <div className="list-item-left">
                                 <LayersIcon className="list-item-icon"/>
                                 <a key={item.id} className="list-item-a">
-                                    {item.name + ' ' + item.username}
+                                    {item && item.name + ' ' + item.username}
                                 </a>
                             </div>
                         </div>
-                    ))}
+                    )) :
+                        'Its nothing here'
+                    }
                 </div>
 
             </div>
