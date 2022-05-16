@@ -11,8 +11,10 @@
 
 .settings-position-container {
     position: relative;
-    width: 50vw;
-    height: 60vh;
+    width: 60vw;
+    height: 70vh;
+    display: flex;
+    /*justify-content: space-between;*/
 }
 
 
@@ -33,4 +35,10 @@
     position: absolute;
     left: -8px;
     bottom: 6px;
+}
+
+
+
+.settings-email-password-div {
+
 }
