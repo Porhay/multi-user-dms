@@ -1,14 +1,15 @@
 import React, {useContext, useState} from "react"
+import {toast, ToastContainer} from "react-toastify"
 import {observer} from "mobx-react-lite"
 
 import {Context} from "../index"
 import {addToFriendsByUsername, getByIdOrUsername} from "../http"
 import {TextButton} from "../lib/Buttons"
 import {Form, FormInput, FormInputExplanation, FormTitle} from "../lib/Forms"
-import LayersIcon from "@mui/icons-material/Layers";
+
+import LayersIcon from "@mui/icons-material/Layers"
 import '../styles/Account.css'
-import '../styles/Lists.css';
-import {toast, ToastContainer} from "react-toastify";
+import '../styles/Lists.css'
 
 
 const AccountPage = observer(() => {
