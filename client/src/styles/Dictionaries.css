@@ -30,3 +30,15 @@
 .dictionary-list-div {
     margin-top: 10px;
 }
+
+.dictionaries-right {
+    display: inline-flex;
+    align-items: center;
+    font-size: 17px;
+}
+
+.list-counter {
+    margin-right: 26px;
+    color: #586069;
+    font-size: 13px;
+}

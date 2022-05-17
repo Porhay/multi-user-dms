@@ -11,7 +11,7 @@ exports.createOrUpdateDictionary = async (req, res) => {
     }
 
     if (dictionaryId) {
-        await dal.dictionaries.update(userId, dictionaryId, name)
+        await dal.dictionaries.update(dictionaryId, {name})
         return res.json({dictionaryId, name})
     }
     const dictionary = await dal.dictionaries.create(userId, name)
@@ -27,7 +27,7 @@ exports.getDictionaries = async (req, res) => {
 exports.deleteDictionary = async (req, res) => {
     const id = req.params.dictionaryId
     await dal.dictionaries.deleteById(id)
-    await dal.entries.deleteByDictionaryId(id)
+    await dal.entries.deleteAllByDictionaryId(id)
     res.json({id})
 }
 
@@ -41,7 +41,7 @@ exports.updateDictionary = async (req, res) => {
     const fields = {
         name,
     }
-    const dictionary = await dal.dictionaries.updateDictionary(dictionaryId, fields)
+    const dictionary = await dal.dictionaries.update(dictionaryId, fields)
     res.json(dictionary)
 }
 

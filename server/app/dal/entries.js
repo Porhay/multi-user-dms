@@ -11,6 +11,10 @@ exports.create = async (dictionaryId, key, value) => {
         value,
     }
     await db.entries.create(entry)
+
+    // dictionary counter update
+    const dictionaryLength = (await db.entries.findAll({where: {dictionaryId}})).length
+    await db.dictionaries.update({count: dictionaryLength}, {where: {id: dictionaryId}})
     return entry
 }
 
@@ -24,11 +28,18 @@ exports.getByDictionaryId = async (dictionaryId) => {
 }
 
 
-exports.deleteByDictionaryId = async (dictionaryId) => {
-    return await db.entries.destroy({ where: {dictionaryId} })
+exports.deleteAllByDictionaryId = async (dictionaryId) => {
+    await db.entries.destroy({ where: {dictionaryId} })
 }
 
 
 exports.deleteById = async (id) => {
-    return await db.entries.destroy({ where: {id} })
+    const entry = await db.entries.findByPk(id)
+    await db.entries.destroy({ where: {id} })
+
+    // dictionary counter update
+    const dictionaryLength = (await db.entries.findAll({where: {dictionaryId: entry.dictionaryId}})).length
+    await db.dictionaries.update({count: dictionaryLength}, {where: {id: entry.dictionaryId}})
+
+    return id
 }

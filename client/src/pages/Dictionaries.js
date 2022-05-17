@@ -40,7 +40,7 @@ const DictionariesPage = observer(() => {
 
     const dropdownListFunc = (id) => [
         {message: 'Edit', action: () => setEdit(id)},
-        {message: 'Share', action: () => setState({...state, showModal:true})},
+        {message: 'Share', action: () => setState({...state, showModal: true})},
         {message: 'Delete', action: () => deleteCurrentDictionary(id)},
     ]
 
@@ -62,9 +62,9 @@ const DictionariesPage = observer(() => {
     }
 
     const newDictionary = async () => {
-        const newDictionary = await createOrUpdateDictionary({userId: user.id, name:state.nameOfNew})
+        const newDictionary = await createOrUpdateDictionary({userId: user.id, name: state.nameOfNew})
         setData(prevState => [newDictionary.data, ...prevState])
-        setState({...state, nameOfNew:''})
+        setState({...state, nameOfNew: ''})
     }
 
     const openDictionary = async (dictionaryId) => {
@@ -91,14 +91,14 @@ const DictionariesPage = observer(() => {
 
         // close
         setEdit(dictionaryId, false)
-        setState({...state,  nameToEdit:''})
+        setState({...state, nameToEdit: ''})
     }
 
     const setEdit = (currentId, toOpen = true) => {
         let withEditTrueForCurrent = []
         for (const entity of data) {
             if (entity.id === currentId) {
-                if(toOpen) {
+                if (toOpen) {
                     setState({...state, nameToEdit: entity.name})
                     entity.edit = true
                 } else {
@@ -124,10 +124,10 @@ const DictionariesPage = observer(() => {
                         <FormInput
                             variant='space-left'
                             value={state.nameOfNew}
-                            onChange={e => setState({...state,  nameOfNew: e.target.value})}
+                            onChange={e => setState({...state, nameOfNew: e.target.value})}
                         >
                             <label htmlFor="select-file">
-                                <span style={{marginLeft:10, marginTop:0, cursor: "pointer"}}
+                                <span style={{marginLeft: 10, marginTop: 0, cursor: "pointer"}}
                                       data-tootik-conf='left'
                                       data-tootik="Tap to import dictionary">&#x1f914;
                                 </span>
@@ -153,13 +153,13 @@ const DictionariesPage = observer(() => {
                                 <div className="list-edit-form-general-div">
                                     {item.edit ?
                                         <div key={item.id} className="list-edit-form-div">
-                                            <Icon icon={item.iconIndex} style={{marginRight: 6}} />
+                                            <Icon icon={item.iconIndex} style={{marginRight: 6}}/>
 
                                             <Form>
                                                 <FormInput
                                                     style={{marginLeft: 10}}
                                                     value={state.nameToEdit}
-                                                    onChange={e => setState({...state,  nameToEdit: e.target.value})}
+                                                    onChange={e => setState({...state, nameToEdit: e.target.value})}
                                                 />
                                             </Form>
                                             <TextButton
@@ -174,7 +174,7 @@ const DictionariesPage = observer(() => {
                                         </div>
                                         :
                                         <div className="list-edit-form-div">
-                                            <Icon icon={item.iconIndex} style={{marginRight: 6}} />
+                                            <Icon icon={item.iconIndex} style={{marginRight: 6}}/>
                                             <a key={item.id} className="list-item-a">
                                                 <span onClick={() => openDictionary(item.id)}>
                                                     {item.name}
@@ -183,16 +183,21 @@ const DictionariesPage = observer(() => {
                                         </div>
                                     }
                                 </div>
-                                <Dropdown
-                                    className='item-dropdown' icon='Options'
-                                    items={dropdownListFunc(item.id, item.name)}
-                                />
+                                <div className="dictionaries-right">
+                                    <span className="list-counter">
+                                        {item.count} items
+                                    </span>
+                                    <Dropdown
+                                        className='item-dropdown' icon='Options'
+                                        items={dropdownListFunc(item.id, item.name)}
+                                    />
+                                </div>
                             </div>
 
                             <Friends
                                 item={item}
                                 show={state.showModal}
-                                onHide={() => setState({...state, showModal:false})}
+                                onHide={() => setState({...state, showModal: false})}
                             />
                         </>
                     )}

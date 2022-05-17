@@ -13,11 +13,6 @@ exports.create = async (userId, name) => {
     return dictionary
 }
 
-exports.update = async (userId, dictionaryId, name) => {
-    const context = {}
-    if (name) context.name = name
-    await db.dictionaries.update(context, {where: {id: dictionaryId}})
-}
 
 exports.getByUserId = async (userId) => {
     const result = await db.dictionaries.findAll({ where: { userId } })
@@ -44,12 +39,8 @@ exports.copyDictionary = async (userToCopy, dictionaryId) => {
     return await exports.create(userToCopy, dictionary.name)
 }
 
-exports.updateDictionary = async (id, fields) => {
-    const {name} = fields
-    return await db.dictionaries.update(
-        {name},
-        {where: {id}}
-    )
+exports.update = async (id, fields) => {
+    return await db.dictionaries.update(fields, {where: {id}})
 }
 
 
