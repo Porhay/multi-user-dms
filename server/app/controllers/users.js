@@ -88,6 +88,15 @@ exports.getUser = async (req, res) => {
     res.json(user)
 }
 
+
+exports.updateUsername = async (req, res) => {
+    const userId = req.params.userId
+    const username = req.body.username
+    await dal.users.updateUsername(userId, username).catch(err => {return console.log(err)})
+    return res.json("OK")
+}
+
+
 exports.deleteOne = async (req, res) => {
     const userId = req.params.userId
     await dal.users.deleteById(userId)

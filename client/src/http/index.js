@@ -94,6 +94,10 @@ const addToFriendsByUsername = async (userId, friendId) => {
     return await authHost.post(`/users/${userId}/friends/`, {friendId: friendId})
 }
 
+const updateUsername = async (userId, username) => {
+    return await authHost.post(`/users/${userId}/username/`, {username: username})
+}
+
 const getByIdOrUsername = async (data) => {
     return await authHost.get(`/users/${data}`)
 }
@@ -155,4 +159,5 @@ export {
 
     sendProfileImage,
     importDictionary,
+    updateUsername,
 }

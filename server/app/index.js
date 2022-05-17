@@ -62,6 +62,7 @@ app.post('/users/:userId/friends/', users.addFriends)
 app.get('/users/:userId/friends/', authCheck, users.getFriends)
 
 app.post('/users/:userId/update-profile/', authCheck, users.updateProfile)
+app.post('/users/:userId/username/', authCheck, users.updateUsername)
 
 
 app.post('/verification-code/', email.sendEmail)

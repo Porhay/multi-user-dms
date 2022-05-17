@@ -42,8 +42,10 @@ const Dropdown = (props) => {
                         {props.items.length !== 0 ? props.items.map(item => {
                             return (
                                 <div className='dropdown-notification-div'>
-                                    <img src={item.senderImageUrl || avatarDefault}
-                                         className="dropdown-notification-sender-image" alt="sender image"/>
+                                    <div className="dropdown-notification-sender-image-div">
+                                        <img src={item.senderImageUrl || avatarDefault}
+                                             className="dropdown-notification-sender-image" alt="sender image"/>
+                                    </div>
                                     <a key={item.message} className="notification-menu-item">{item.message}</a>
                                     <TextButton onClick={item.action} text='✓'/>
                                     <TextButton onClick={item.cancel} text='×'/>

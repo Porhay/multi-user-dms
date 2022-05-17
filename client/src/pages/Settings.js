@@ -2,17 +2,17 @@ import React, {useContext, useState} from "react"
 import {ToastContainer, toast} from 'react-toastify'
 import {observer} from "mobx-react-lite"
 
-import {baseURL, sendProfileImage, updateProfile} from '../http'
+import {baseURL, sendProfileImage, updateProfile, updateUsername} from '../http'
 import {Context} from "../index"
 
 import {Form, FormInput, FormTitle, FormInputExplanation} from "../lib/Forms"
 import {IconTextButton, TextButton} from "../lib/Buttons"
 import {readURL} from "../helpers"
 
+import LayersIcon from "@mui/icons-material/Layers";
 import avatarDefault from '../assets/images/profile-image-default.jpg'
 import '../styles/Settings.css'
 import '../styles/Lists.css'
-import LayersIcon from "@mui/icons-material/Layers";
 
 
 const SettingsPage = observer(() => {
@@ -22,7 +22,8 @@ const SettingsPage = observer(() => {
 
     // Global state
     const [state, setState] = useState({
-        tab: 'profile' // 'account'
+        tab: 'profile', // 'account'
+        username: user.userData.username
     })
 
     const tabsList = [
@@ -31,7 +32,11 @@ const SettingsPage = observer(() => {
     ]
 
 
-    const [toUpdate, setToUpdate] = useState({})
+    const [toUpdate, setToUpdate] = useState({
+        image: null,
+        name: '',
+    })
+
     const [preview, setPreview] = useState('')
     const updateUserProfile = async () => {
         try {
@@ -148,13 +153,17 @@ const SettingsPage = observer(() => {
                                             <Form style={{marginTop: 6, width: '100%'}}>
                                                 <FormTitle text="Username"/>
                                                 <FormInput
-                                                    value={toUpdate.name}
-                                                    onChange={e => setToUpdate({...toUpdate, name: e.target.value})}
+                                                    value={state.username}
+                                                    onChange={e => setState({...state, username: e.target.value})}
                                                 />
                                                 <FormInputExplanation text="Username must be unique! You can always change it anytime."/>
                                                 <div style={{marginTop: 6}}>
                                                     <IconTextButton
-                                                        onClick={() => console.log('Username')}
+                                                        onClick={async () => {
+                                                            await updateUsername(user.id, state.username)
+                                                            toast.success('Username updated',
+                                                                {position: "top-right", autoClose: 2000})
+                                                        }}
                                                         icon="EditOutlinedIcon"
                                                         text="Reset"
                                                     />

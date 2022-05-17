@@ -27,6 +27,7 @@
 .settings-profile-image {
     border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 60px;
+    object-fit: cover;
     width: 120px;
     height: 120px;
 }

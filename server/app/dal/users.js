@@ -46,6 +46,11 @@ exports.getByUsername = async (username) => {
     return result
 }
 
+exports.updateUsername = async (userId, username) => {
+    await db.user.update({username}, {where: {id: userId}})
+}
+
+
 exports.getByEmailOrUsername = async (emailOrUsername) => {
     const result = await db.user.findAll({
         where: {

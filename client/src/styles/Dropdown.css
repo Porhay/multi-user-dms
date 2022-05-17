@@ -103,9 +103,14 @@ a{
 
 }
 
+.dropdown-notification-sender-image-div {
+
+}
+
 .dropdown-notification-sender-image {
     border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 60px;
+    object-fit: cover;
     width: 40px;
     height: 40px;
 }

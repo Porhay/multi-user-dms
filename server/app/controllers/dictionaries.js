@@ -2,7 +2,6 @@ const dal = require('../dal')
 const files = require('../lib/files')
 
 
-
 exports.createOrUpdateDictionary = async (req, res) => {
     const userId = req.params.userId
     const dictionaryId = req.body.dictionaryId || null
