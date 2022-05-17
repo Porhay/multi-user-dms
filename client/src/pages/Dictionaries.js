@@ -33,15 +33,16 @@ const DictionariesPage = observer(() => {
         nameOfNew: '',
         nameToEdit: '',
         showModal: false,
+        currentItem: null
     })
 
     // All dictionaries data
     const [data, setData] = useState([])
 
-    const dropdownListFunc = (id) => [
-        {message: 'Edit', action: () => setEdit(id)},
-        {message: 'Share', action: () => setState({...state, showModal: true})},
-        {message: 'Delete', action: () => deleteCurrentDictionary(id)},
+    const dropdownListFunc = (item) => [
+        {message: 'Edit', action: () => setEdit(item.id)},
+        {message: 'Share', action: () => setState({...state, showModal: true, currentItem: item})},
+        {message: 'Delete', action: () => deleteCurrentDictionary(item.id)},
     ]
 
     useEffect(() => {
@@ -189,13 +190,13 @@ const DictionariesPage = observer(() => {
                                     </span>
                                     <Dropdown
                                         className='item-dropdown' icon='Options'
-                                        items={dropdownListFunc(item.id, item.name)}
+                                        items={dropdownListFunc(item)}
                                     />
                                 </div>
                             </div>
 
                             <Friends
-                                item={item}
+                                item={state.currentItem}
                                 show={state.showModal}
                                 onHide={() => setState({...state, showModal: false})}
                             />

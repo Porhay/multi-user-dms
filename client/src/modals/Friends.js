@@ -1,14 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
 import Modal from "react-bootstrap/Modal";
 import {Button, Form, ListGroup} from "react-bootstrap";
-import {baseURL, getFriends, sendNotification, shareDictionary} from "../http";
+import {baseURL, getFriends, sendNotification} from "../http";
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 
 const Friends = observer(({item, show, onHide}) => {
     const context = useContext(Context)
     const user = context.user.user
-
 
     const [friends, setFriends] = useState([])
     useEffect(() => {
@@ -60,7 +59,11 @@ const Friends = observer(({item, show, onHide}) => {
                                     className="d-flex flex-row align-items-center justify-content-between"
                                     key={friendId}
                                     action
-                                    onClick={() => sendNotificationMessage(`${name} share dictionary "${item.name}" for you!`, item.id, friendId)}
+                                    onClick={async () => {
+                                        const message = `${user.userData.name} share dictionary "${item.name}" for you!`
+                                        await sendNotificationMessage(message, item.id, friendId)
+                                        console.log(item)
+                                    }}
                                 >
                                     {name}
                                 </ListGroup.Item>
@@ -71,7 +74,6 @@ const Friends = observer(({item, show, onHide}) => {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="outline-danger" onClick={onHide}>Close</Button>
-                {/*<Button variant="outline-success" onClick={shareDictionary}>Share</Button>*/}
             </Modal.Footer>
         </Modal>
     )

@@ -35,10 +35,10 @@ const Dropdown = (props) => {
     } else if (props.option === 'notification') {
         return (
             <>
-                <a onMouseLeave={onMouseLeaveListener()} className="icon-button"
+                <a className="icon-button"
                    onClick={() => setOpen(!open)}>{props.icon}</a>
                 {open &&
-                    <div onMouseLeave={onMouseLeaveListener()} className={props.className}>
+                    <div className={props.className}>
                         {props.items.length !== 0 ? props.items.map(item => {
                             return (
                                 <div className='dropdown-notification-div'>
@@ -47,8 +47,14 @@ const Dropdown = (props) => {
                                              className="dropdown-notification-sender-image" alt="sender image"/>
                                     </div>
                                     <a key={item.message} className="notification-menu-item">{item.message}</a>
-                                    <TextButton onClick={item.action} text='✓'/>
-                                    <TextButton onClick={item.cancel} text='×'/>
+                                    <div style={{color:"white", fontSize: 26, marginRight: 10}}>
+                                        <a onClick={item.action} style={{marginRight: 10, color: "green", cursor: "pointer"}}>
+                                            <span>✓</span>
+                                        </a>
+                                        <a onClick={item.cancel} style={{cursor: "pointer", color: "red"}}>
+                                            <span>×</span>
+                                        </a>
+                                    </div>
                                 </div>
                             )
                         }) : <div className="nav-items-empty-div">&nbsp;&nbsp;It's empty for now&nbsp;&nbsp;</div>}

@@ -34,7 +34,7 @@ a{
 .nav-notification-dropdown {
     position: absolute;
     top: 58px;
-    width: 330px;
+    width: 320px;
     transform: translateX(-45%);
     background-color: var(--bg);
     border: var(--border);
@@ -42,6 +42,7 @@ a{
     overflow: hidden;
     transition: height var(--speed) ease;
     padding: 0 5px;
+    z-index: 1000;
 }
 
 .item-dropdown {
