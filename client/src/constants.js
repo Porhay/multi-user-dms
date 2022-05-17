@@ -4,7 +4,6 @@ export const ROUTES = {
     LOGIN: '/login',
     DICTIONARIES: '/',
     ENTRIES: '/entries',
-    RANDOMIZER: '/randomizer',
     ACCOUNT: '/account',
     SETTINGS: '/settings',
 }

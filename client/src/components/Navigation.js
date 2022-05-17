@@ -52,7 +52,6 @@ const Navigation = observer(() => {
         {message: 'Account', action: () => navigate(ROUTES.ACCOUNT)},
         {message: 'Dictionaries', action: () => navigate(ROUTES.DICTIONARIES)},
         {message: 'Settings', action: () => navigate(ROUTES.SETTINGS)},
-        {message: 'Randomizer', action: () => navigate(ROUTES.RANDOMIZER)},
         {message: 'Log out', action: () => logOut()},
     ]
 

@@ -77,7 +77,7 @@ const SettingsPage = observer(() => {
 
             <div className="settings-position-container">
 
-                <div style={{marginRight: '5%', width: '25%'}}>
+                <div style={{marginRight: '5%', width: '20%'}}>
                     <h2 style={{fontWeight: 500}}>Settings</h2>
                     <hr style={{color: "black", backgroundColor: "black", height: 1}}/>
                     {tabsList.map((item) => (
@@ -122,7 +122,7 @@ const SettingsPage = observer(() => {
                                         </label>
                                     </div>
 
-                                    <div style={{width: '75%'}}>
+                                    <div style={{width: '80%'}}>
                                         <h2>Public profile</h2>
                                         <hr style={{color: "black", backgroundColor: "black", height: 1}}/>
                                         <Form style={{marginTop: 12, width: '100%'}}>
