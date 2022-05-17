@@ -32,14 +32,15 @@ const Navigation = observer(() => {
         const eventSource = new EventSource(`http://localhost:8000/notifications/`)
         eventSource.onmessage = function (event) {
             const data = JSON.parse(event.data) // {dictionaryId, recipientId, message, id, senderImageUrl}
-            console.log(data.senderImageUrl)
             const newPost = {
                 ...data,
-                action: () => shareCurrentDictionary(data),
+                action: async () => await shareCurrentDictionary(data),
+                // TODO fix dropdown shutdown on setState. Save notifications in db?
                 cancel: () => setNotifications([...notifications.filter(item => item.id !== data.id)])
             }
             setNotifications(prev => [newPost, ...prev])
         }
+        console.log(notifications)
     }
 
     const shareCurrentDictionary = async (data) => {

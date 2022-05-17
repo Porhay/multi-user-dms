@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {TextButton} from "../lib/Buttons";
 
 import avatarDefault from "../assets/images/profile-image-default.jpg";
 import '../styles/Dropdown.css';
@@ -41,12 +40,12 @@ const Dropdown = (props) => {
                     <div className={props.className}>
                         {props.items.length !== 0 ? props.items.map(item => {
                             return (
-                                <div className='dropdown-notification-div'>
+                                <div key={item.id} className='dropdown-notification-div'>
                                     <div className="dropdown-notification-sender-image-div">
                                         <img src={item.senderImageUrl || avatarDefault}
                                              className="dropdown-notification-sender-image" alt="sender image"/>
                                     </div>
-                                    <a key={item.message} className="notification-menu-item">{item.message}</a>
+                                    <a className="notification-menu-item">{item.message}</a>
                                     <div style={{color:"white", fontSize: 26, marginRight: 10}}>
                                         <a onClick={item.action} style={{marginRight: 10, color: "green", cursor: "pointer"}}>
                                             <span>✓</span>

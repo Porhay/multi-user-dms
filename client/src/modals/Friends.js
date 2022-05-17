@@ -60,9 +60,8 @@ const Friends = observer(({item, show, onHide}) => {
                                     key={friendId}
                                     action
                                     onClick={async () => {
-                                        const message = `${user.userData.name} share dictionary "${item.name}" for you!`
+                                        const message = `${user.userData.name} share dictionary '${item.name}' [${item.count}] for you!`
                                         await sendNotificationMessage(message, item.id, friendId)
-                                        console.log(item)
                                     }}
                                 >
                                     {name}
