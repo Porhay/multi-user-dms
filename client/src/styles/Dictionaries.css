@@ -42,3 +42,16 @@
     color: #586069;
     font-size: 13px;
 }
+
+/* sort button */
+.dictionary-sort-button-div {
+    margin: -8px 2px 0 20px;
+}
+.dictionary-sort-button-span {
+    color: #586069;
+    font-size: 12px;
+    cursor: pointer;
+}
+.dictionary-sort-button-span:hover {
+    color: #269d10;
+}
