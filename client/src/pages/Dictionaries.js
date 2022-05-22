@@ -143,7 +143,7 @@ const DictionariesPage = observer(() => {
                         </FormInput>
                         <div style={{display:"flex"}}>
                             <FormInputExplanation
-                                text="That name can be edited in future, you always can delete your dictionary"/>
+                                text="That name can be edited in future, you can always delete your dictionary"/>
                             <div className="dictionary-sort-button-div">
                                 <a onClick={() => {
                                     const sortedData = data.sort((a, b) => a.name < b.name ? -1 : 1)

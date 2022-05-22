@@ -1,0 +1,30 @@
+.authentication-container {
+    width: 100vw;
+    height: auto;
+    font-size: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10% 0 2% 0;
+}
+
+.authentication-position-container {
+    position: relative;
+    width: 50vw;
+    height: auto;
+
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+
+.authentication-explanation {
+    color: #586069;
+    font-size: 12px;
+    cursor: pointer;
+}
+.authentication-explanation:hover {
+    color: #269d10;
+}

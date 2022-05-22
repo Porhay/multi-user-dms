@@ -1,42 +1,49 @@
 import React, {useContext, useState} from 'react'
 import {NavLink, useLocation, useNavigate} from 'react-router-dom'
-import {Container, Form, Card, Button, Row} from 'react-bootstrap'
 import {toast, ToastContainer} from "react-toastify"
 import {observer} from 'mobx-react-lite'
 
+import {Context} from '../index'
 import {ROUTES} from '../constants'
 import {login, registration} from '../http'
-import {Context} from '../index'
+import {FormInput, Form, FormInputExplanation, FormTitle} from "../lib/Forms";
+import {TextButton} from "../lib/Buttons";
+
+import '../styles/Authentication.css';
 
 
 const AuthenticationPage = observer(() => {
-    const {user} = useContext(Context)
+    const context = useContext(Context)
+    // const user = context.user.user
+
     const isLogin = useLocation().pathname === ROUTES.LOGIN
     const navigate = useNavigate()
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-
+    // Global state
+    const [state, setState] = useState({
+        email: '',
+        password: ''
+    })
 
     const loginOrRegister = async () => {
         try {
             const userData = isLogin ?
-                await toast.promise(login(email, password),
+                await toast.promise(login(state.email, state.password),
                     {
                         pending: 'Waiting for login...',
                         success: 'You are in',
                         error: 'Wrong email or password'
                     })
                 :
-                await toast.promise(registration(email, password),
+                await toast.promise(registration(state.email, state.password),
                     {
                         pending: 'Waiting for registration...',
                         success: 'Registered successfully',
                         error: 'Check for email or password requirements'
                     })
 
-            user.setUser(userData)
-            user.setIsAuth(true)
+            context.user.setUser(userData)
+            context.user.setIsAuth(true)
             navigate(ROUTES.DICTIONARIES)
         } catch (e) {
             alert(e.response.data.message)
@@ -44,52 +51,48 @@ const AuthenticationPage = observer(() => {
     }
 
     return (
-        <Container
-            className="d-flex justify-content-center align-items-center"
-            style={{height: window.innerHeight - 54}}
-        >
+        <div className="authentication-container">
             <ToastContainer
-                style={{marginTop:30}} position="top-right" autoClose={5000}
-                closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover
+                style={{marginTop:30}} position="top-right" autoClose={2000} closeOnClick
             />
-            <Card style={{width: 600}} className="p-5">
-                <h2 className="m-auto">{isLogin ? 'Log in' : "Registration"}</h2>
-                <Form className="d-flex flex-column">
-                    <Form.Control
-                        className="mt-3"
-                        placeholder="Email"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                    />
-                    <Form.Control
-                        className="mt-3"
-                        placeholder="Password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        type="password"
-                    />
-                    <Row className="d-flex justify-content-between mt-3 pl-3 pr-3">
-                        {isLogin ?
-                            <div>
-                                Dont have an account? <NavLink to={ROUTES.REGISTRATION}>Register!</NavLink>
-                            </div>
-                            :
-                            <div>
-                                Have an account? <NavLink to={ROUTES.LOGIN}>Log in!</NavLink>
-                            </div>
-                        }
-                    </Row>
-                </Form>
-                <Button
-                    variant={"outline-success"}
-                    onClick={loginOrRegister}
-                    style={{marginTop: 6}}
-                >
-                    {isLogin ? 'Log in' : 'Registration'}
-                </Button>
-            </Card>
-        </Container>
-    );
-});
+            <div className="authentication-position-container">
+                <div>
+                    <Form >
+                        <div style={{marginTop: 10, marginBottom: 10}}>
+                            <FormTitle text="Email"/>
+                            <FormInput
+                                variant='space-left'
+                                value={state.email}
+                                onChange={e => setState({...state, email: e.target.value})}
+                            >
+                            </FormInput>
+                        </div>
+
+                        <FormTitle text="Password"/>
+                        <FormInput
+                            variant='space-left'
+                            value={state.password}
+                            onChange={e => setState({...state, password: e.target.value})}
+                        >
+                        </FormInput>
+                    </Form>
+                    {isLogin ?
+                        <div>
+                            <FormInputExplanation text="Dont have an account? "/>
+                            <NavLink className='authentication-explanation' to={ROUTES.REGISTRATION}>Register!</NavLink>
+                        </div>
+                        :
+                        <div>
+                            <FormInputExplanation text="Have an account? "/>
+                            <NavLink className='authentication-explanation' to={ROUTES.LOGIN}>Log in!</NavLink>
+                        </div>
+                    }
+                    <TextButton style={{marginTop: 15}} onClick={loginOrRegister}
+                                text={isLogin ? 'Log in' : 'Registration'}/>
+                </div>
+            </div>
+        </div>
+    )
+})
 
 export default AuthenticationPage;
