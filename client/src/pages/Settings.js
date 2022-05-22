@@ -80,22 +80,25 @@ const SettingsPage = observer(() => {
                 <div style={{marginRight: '5%', width: '20%'}}>
                     <h2 style={{fontWeight: 500}}>Settings</h2>
                     <hr style={{color: "black", backgroundColor: "black", height: 1}}/>
-                    {tabsList.map((item) => (
-                        <div
-                            className="list-item-div"
-                            onClick={() => setState({
-                                ...state,
-                                tab: item.tab
-                            })}
-                        >
-                            <div className="list-item-left">
-                                <LayersIcon className="list-item-icon"/>
-                                <a style={{fontWeight: 400}} key={item.tab}  className="list-item-a">
-                                    {item.name}
-                                </a>
+                    {tabsList.map((item) => {
+                        const className = state.tab === item.tab ? 'list-item-div active' : 'list-item-div'
+                        return (
+                            <div
+                                className={className}
+                                onClick={() => setState({
+                                    ...state,
+                                    tab: item.tab
+                                })}
+                            >
+                                <div className="list-item-left">
+                                    <LayersIcon className="list-item-icon"/>
+                                    <a style={{fontWeight: 400}} key={item.tab}  className="list-item-a">
+                                        {item.name}
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        )
+                    })}
                 </div>
 
                 <div>

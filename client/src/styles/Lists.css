@@ -23,6 +23,11 @@ list {
     box-shadow: 2px 3px 7px -4px rgba(0,0,0,0.22);
 }
 
+.active {
+    background-color: #a8adb2;
+    color: #000000;
+}
+
 .list-item-div:hover {
     color: #474a4d;
 }
