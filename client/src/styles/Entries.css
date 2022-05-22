@@ -40,3 +40,16 @@
 .entry-list-item-x {
     margin: 0 6px 0 0;
 }
+
+/* sort button */
+.entry-sort-button-div {
+    margin: -6px 0 0 0;
+}
+.entry-sort-button-span {
+    color: #586069;
+    font-size: 14px;
+    cursor: pointer;
+}
+.entry-sort-button-span:hover {
+    color: #269d10;
+}

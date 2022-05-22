@@ -79,6 +79,15 @@ const EntriesPage = observer(() => {
                     <TextButton style={{marginTop: 25}} onClick={() => createNewEntry()} text="New"/>
                 </div>
 
+                <div className="entry-sort-button-div">
+                    <a onClick={() => {
+                        const sortedData = data.sort((a, b) => a.key < b.key ? -1 : 1)
+                        setData([...sortedData])
+                    }}>
+                        <span className="entry-sort-button-span">→ Sort by name</span>
+                    </a>
+                </div>
+
                 <div className="entry-list-div">
                     {data.map((item) =>
                         <>
