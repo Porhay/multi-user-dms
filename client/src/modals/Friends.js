@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import Modal from "react-bootstrap/Modal";
-import {Button, Form, ListGroup} from "react-bootstrap";
+import {ListGroup} from "react-bootstrap";
 import {baseURL, getFriends, sendNotification} from "../http";
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
@@ -16,11 +16,6 @@ const Friends = observer(({item, show, onHide}) => {
         })
     }, [])
 
-
-    const [search, setSearch] = useState('')
-    const searchFriends = () => {
-        console.log(search)
-    }
 
     const sendNotificationMessage = async (message, dictionaryId, recipientId) => {
         const senderImageUrl = `${baseURL + user.userData.image}`
@@ -40,15 +35,6 @@ const Friends = observer(({item, show, onHide}) => {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form>
-                    <Form.Control
-                        className="mb-1"
-                        value={search}
-                        onChange={e => setSearch(e.target.value)}
-                        placeholder={"Search for friends..."}
-                    />
-                </Form>
-
                 <ListGroup>
                     {friends.map(({id:friendId, name}) => {
                         return (
@@ -68,9 +54,6 @@ const Friends = observer(({item, show, onHide}) => {
                 </ListGroup>
 
             </Modal.Body>
-            <Modal.Footer>
-                <Button variant="outline-danger" onClick={onHide}>Close</Button>
-            </Modal.Footer>
         </Modal>
     )
 })

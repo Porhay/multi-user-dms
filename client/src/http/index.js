@@ -3,15 +3,17 @@ import jwt_decode from 'jwt-decode'
 
 const PORT = 8000
 const baseURL = `http://localhost:${PORT}/`
+// const baseURL = `http://192.168.1.113:${PORT}/`
 const host = axios.create({
     // TODO Take local network ip from server side and replace with baseURL
-    baseURL: baseURL || `http://192.168.0.102:${PORT}`,
+    baseURL: baseURL,
     timeout: 1000,
     headers: {'X-Custom-Header': 'foobar'}
 })
 
 const authHost = axios.create({
-    baseURL: `http://localhost:${PORT}` || `http://192.168.0.100:${PORT}`,
+    // baseURL: `http://192.168.1.113:${PORT}`,
+    baseURL: `http://localhost:${PORT}`,
     timeout: 1000,
     headers: {'X-Custom-Header': 'foobar'}
 })

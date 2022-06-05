@@ -3,9 +3,8 @@ import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import AccessibleForwardIcon from '@mui/icons-material/AccessibleForward';
+import CommentIcon from '@mui/icons-material/Comment';
 
-//import {subscribeNotifications} from '../http'
 import {baseURL, shareDictionary} from "../http";
 
 import {Context} from "../index";
@@ -50,7 +49,7 @@ const Navigation = observer(() => {
     }
 
     const accountList = [
-        {message: 'Account', action: () => navigate(ROUTES.ACCOUNT)},
+        {message: 'Accounts', action: () => navigate(ROUTES.ACCOUNT)},
         {message: 'Dictionaries', action: () => navigate(ROUTES.DICTIONARIES)},
         {message: 'Settings', action: () => navigate(ROUTES.SETTINGS)},
         {message: 'Log out', action: () => logOut()},
@@ -79,7 +78,8 @@ const Navigation = observer(() => {
     return (
         <Navbar>
             <a href="/" className="a-logo" onClick={() => navigate(ROUTES.DICTIONARIES)}>
-                <AccessibleForwardIcon/>DMS
+                {/*<AccessibleForwardIcon/>DMS*/}
+                <CommentIcon fontSize="small"/> DMS
             </a>
             <div className="nav-items-right">
                 {context.user.isAuth ?

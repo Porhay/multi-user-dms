@@ -7,7 +7,6 @@ import {addToFriendsByUsername, getByIdOrUsername} from "../http"
 import {TextButton} from "../lib/Buttons"
 import {Form, FormInput, FormInputExplanation, FormTitle} from "../lib/Forms"
 
-import LayersIcon from "@mui/icons-material/Layers"
 import '../styles/Account.css'
 import '../styles/Lists.css'
 
@@ -52,7 +51,7 @@ const AccountPage = observer(() => {
                 closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover
             />
             <div className="account-position-container">
-                <h2>Account page</h2>
+                <h2>Accounts page</h2>
                 <hr style={{color: "black", backgroundColor: "black", height: 1, width:'100%'}} />
 
                 <div style={{display:'flex'}}>
@@ -79,14 +78,19 @@ const AccountPage = observer(() => {
                             className="list-item-div"
                         >
                             <div className="list-item-left">
-                                <LayersIcon className="list-item-icon"/>
                                 <a key={item.id} className="list-item-a">
-                                    {item && item.name + ' ' + item.username}
+                                    <div className="entry-list-item-text">
+                                        <h6 className="entry-list-item-h6">{item && item.name}</h6>
+                                        <span className="entry-list-item-span">
+                                            {item.username}
+                                        </span>
+                                    </div>
                                 </a>
+
                             </div>
                         </div>
                     )) :
-                        'Its nothing here'
+                            <FormInputExplanation text="Its nothing here" />
                     }
                 </div>
 
