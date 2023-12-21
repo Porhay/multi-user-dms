@@ -63,11 +63,6 @@ const deleteEntry = async (userId, dictionaryId, entryId) => {
     return await host.delete(`/users/${userId}/dictionaries/${dictionaryId}/entries/${entryId}/`)
 }
 
-const getRandomOne = async (dictionaryId) => {
-    return await host.get(`/random/${dictionaryId}`)
-}
-
-
 
 const registration = async (email, password) => {
     const {data} = await host.post('/users/', {email, password})
@@ -146,7 +141,6 @@ export {
 
     registration,
     login,
-    getRandomOne,
 
     check,
 

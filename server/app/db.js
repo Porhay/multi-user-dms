@@ -1,7 +1,10 @@
-const {DataTypes, Sequelize} = require('sequelize')
-const constants = require('./lib/constants')
+'use strict'
 
-const sequelize = new Sequelize(
+import {DataTypes, Sequelize} from 'sequelize'
+import * as constants from './lib/constants.js'
+
+
+export const sequelize = new Sequelize(
     process.env.DB_NAME || 'dms',
     process.env.DB_USER || 'root',
     process.env.DB_PASSWORD || 'root',
@@ -12,8 +15,7 @@ const sequelize = new Sequelize(
     }
 )
 
-
-const user = sequelize.define('user', {
+export const user = sequelize.define('user', {
     id: {type: DataTypes.UUID, primaryKey: true, allowNull: false},
     email: {type: DataTypes.STRING, allowNull: false},
     emailVerified: {type: DataTypes.BOOLEAN, defaultValue: false},
@@ -26,7 +28,7 @@ const user = sequelize.define('user', {
 }, {underscored: true})
 
 
-const verificationCodes = sequelize.define('verificationCodes', {
+export const verificationCodes = sequelize.define('verificationCodes', {
     id: {type: DataTypes.UUID, primaryKey: true, allowNull: false},
     userId: {type: DataTypes.UUID, allowNull: false},
     code: {type: DataTypes.STRING},
@@ -36,7 +38,7 @@ const verificationCodes = sequelize.define('verificationCodes', {
 }, {underscored: true, updatedAt: false, createdAt: false})
 
 
-const dictionaries = sequelize.define('dictionaries', {
+export const dictionaries = sequelize.define('dictionaries', {
     id: {type: DataTypes.UUID, primaryKey: true, allowNull: false},
     userId: {type: DataTypes.UUID, allowNull: false},
     name: {type: DataTypes.TEXT, defaultValue: 'My dictionary'},
@@ -45,19 +47,10 @@ const dictionaries = sequelize.define('dictionaries', {
 }, {underscored: true})
 
 
-const entries = sequelize.define('entries', {
+export const entries = sequelize.define('entries', {
     id: {type: DataTypes.UUID, primaryKey: true, allowNull: false},
     dictionaryId: {type: DataTypes.UUID, allowNull: false},
     key: {type: DataTypes.TEXT},
     value: {type: DataTypes.TEXT},
     image: {type: DataTypes.STRING},
 }, {underscored: true})
-
-
-module.exports = {
-    sequelize,
-    user,
-    verificationCodes,
-    dictionaries,
-    entries
-}

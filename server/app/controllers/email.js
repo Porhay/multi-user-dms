@@ -1,6 +1,8 @@
-const email = require('../lib/email')
+'use strict'
 
-exports.sendEmail = async (req, res) => {
+import * as email from '../lib/email.js'
+
+export const sendEmail = async (req, res) => {
     const userEmail = req.body.email
     const subject  = req.body.subject
     const text = req.body.text

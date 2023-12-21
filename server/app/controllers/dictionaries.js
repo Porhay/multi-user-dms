@@ -1,8 +1,10 @@
-const dal = require('../dal')
-const files = require('../lib/files')
+'use strict'
+
+import * as dal from '../dal/index.js'
+import * as files from '../lib/files.js'
 
 
-exports.createOrUpdateDictionary = async (req, res) => {
+export const createOrUpdateDictionary = async (req, res) => {
     const userId = req.params.userId
     const dictionaryId = req.body.dictionaryId || null
     const name = req.body.name
@@ -18,20 +20,20 @@ exports.createOrUpdateDictionary = async (req, res) => {
     res.json(dictionary)
 }
 
-exports.getDictionaries = async (req, res) => {
+export const getDictionaries = async (req, res) => {
     const userId = req.params.userId
     const dictionaries = await dal.dictionaries.getByUserId(userId)
     res.json(dictionaries)
 }
 
-exports.deleteDictionary = async (req, res) => {
+export const deleteDictionary = async (req, res) => {
     const id = req.params.dictionaryId
     await dal.dictionaries.deleteById(id)
     await dal.entries.deleteAllByDictionaryId(id)
     res.json({id})
 }
 
-exports.updateDictionary = async (req, res) => {
+export const updateDictionary = async (req, res) => {
     // const userId = req.params.userId
     const {dictionaryId, name} = req.body
     if(!dictionaryId || !name) {
@@ -45,7 +47,7 @@ exports.updateDictionary = async (req, res) => {
     res.json(dictionary)
 }
 
-exports.shareDictionary = async (req, res) => {
+export const shareDictionary = async (req, res) => {
     // const userId = req.params.userId
     const {recipientId, dictionaryId} = req.body
 
@@ -61,7 +63,7 @@ exports.shareDictionary = async (req, res) => {
     res.json({message: "OK"})
 }
 
-exports.importDictionary = async (req, res) => {
+export const importDictionary = async (req, res) => {
     const userId = req.params.userId
 
     const newDictionary = await dal.dictionaries.create(userId, req.file.originalname.split('.')[0])

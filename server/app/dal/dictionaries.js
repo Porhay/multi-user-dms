@@ -1,9 +1,11 @@
-const db = require("../db")
-const uuid = require('uuid')
+'use strict'
+
+import * as db from '../db.js'
+import {v4 as uuidV4} from 'uuid'
 
 
-exports.create = async (userId, name) => {
-    const id = uuid.v4()
+export const create = async (userId, name) => {
+    const id = uuidV4()
     const dictionary = {
         id,
         userId,
@@ -14,7 +16,7 @@ exports.create = async (userId, name) => {
 }
 
 
-exports.getByUserId = async (userId) => {
+export const getByUserId = async (userId) => {
     const result = await db.dictionaries.findAll({ where: { userId } })
     if (!result) {
         return null
@@ -22,11 +24,11 @@ exports.getByUserId = async (userId) => {
     return result
 }
 
-exports.deleteById = async (dictionaryId) => {
+export const deleteById = async (dictionaryId) => {
     return await db.dictionaries.destroy({ where: {id: dictionaryId} })
 }
 
-exports.getById = async (id) => {
+export const getById = async (id) => {
     const result = await db.dictionaries.findByPk(id)
     if (!result) {
         return null
@@ -34,12 +36,12 @@ exports.getById = async (id) => {
     return result
 }
 
-exports.copyDictionary = async (userToCopy, dictionaryId) => {
-    const dictionary = await exports.getById(dictionaryId)
-    return await exports.create(userToCopy, dictionary.name)
+export const copyDictionary = async (userToCopy, dictionaryId) => {
+    const dictionary = await getById(dictionaryId)
+    return await create(userToCopy, dictionary.name)
 }
 
-exports.update = async (id, fields) => {
+export const update = async (id, fields) => {
     return await db.dictionaries.update(fields, {where: {id}})
 }
 

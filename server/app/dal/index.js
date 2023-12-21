@@ -1,15 +1,13 @@
 'use strict'
 
-const users = require('./users')
-const verificationCodes = require('./verificationCodes')
-const entries = require('./entries')
-const dictionaries = require('./dictionaries')
+import * as users from './users.js'
+import * as verificationCodes from './verificationCodes.js'
+import * as entries from './entries.js'
+import * as dictionaries from './dictionaries.js'
 
-
-module.exports = {
+export {
     users,
     verificationCodes,
     entries,
     dictionaries,
-
 }

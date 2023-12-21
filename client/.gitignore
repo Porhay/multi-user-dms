@@ -1,5 +1,11 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# idea
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/multi-user-dms.iml
+/.idea/vcs.xml
+
 # dependencies
 /node_modules
 /.pnp

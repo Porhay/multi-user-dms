@@ -1,9 +1,11 @@
-const db = require("../db")
-const uuid = require('uuid')
+'use strict'
+
+import * as db from '../db.js'
+import {v4 as uuidV4} from 'uuid'
 
 
-exports.create = async (dictionaryId, key, value) => {
-    const id = uuid.v4()
+export const create = async (dictionaryId, key, value) => {
+    const id = uuidV4()
     const entry = {
         id,
         dictionaryId,
@@ -19,7 +21,7 @@ exports.create = async (dictionaryId, key, value) => {
 }
 
 
-exports.getByDictionaryId = async (dictionaryId) => {
+export const getByDictionaryId = async (dictionaryId) => {
     const result = await db.entries.findAll({ where: {dictionaryId} })
     if (!result) {
         return null
@@ -28,12 +30,12 @@ exports.getByDictionaryId = async (dictionaryId) => {
 }
 
 
-exports.deleteAllByDictionaryId = async (dictionaryId) => {
+export const deleteAllByDictionaryId = async (dictionaryId) => {
     await db.entries.destroy({ where: {dictionaryId} })
 }
 
 
-exports.deleteById = async (id) => {
+export const deleteById = async (id) => {
     const entry = await db.entries.findByPk(id)
     await db.entries.destroy({ where: {id} })
 

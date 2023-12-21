@@ -1,10 +1,12 @@
-module.exports = {
-    USER_ROLES: {
-        ADMIN: 'ADMIN',
-        USER: 'USER',
-    },
-    DICTIONARY_TYPES: {
-        STANDARD: 'standard',
-        DATE: 'date',
-    },
+'use strict'
+
+export const USER_ROLES = {
+    ADMIN: 'ADMIN',
+    USER: 'USER',
 }
+
+export const DICTIONARY_TYPES = {
+    STANDARD: 'standard',
+    DATE: 'date',
+}
+

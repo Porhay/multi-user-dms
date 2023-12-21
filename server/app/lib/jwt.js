@@ -1,14 +1,15 @@
+'use strict'
 
-const jwt = require('jsonwebtoken')
-const config = require('../config')
+import  jwt from 'jsonwebtoken'
+import * as config from '../config.js'
 
-exports.generateAccessToken = (id, role) => {
+
+export const generateAccessToken = (id, role) => {
     const payload = {id, role}
     return jwt.sign(payload, config.JWT_TOKEN.SECRET, {expiresIn: config.JWT_TOKEN.EXPIRES_IN})
 }
 
-exports.verifyAccessToken = (token) => {
+export const verifyAccessToken = (token) => {
     return jwt.verify(token, config.JWT_TOKEN.SECRET, {})
 }
-
 

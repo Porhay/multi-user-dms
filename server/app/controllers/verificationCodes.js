@@ -1,9 +1,12 @@
-const dal = require('../dal')
-const email = require('../lib/email')
-const config = require('../config')
-const helpers = require('../lib/helpers')
+'use strict'
 
-exports.create = async (req, res) => {
+import * as dal from '../dal/index.js'
+import * as email from '../lib/email.js'
+import * as config from '../config.js'
+import * as helpers from '../lib/helpers.js'
+
+
+export const create = async (req, res) => {
   const user = await dal.users.getById(req.params.userId)
 
   //= create code, save to db, send by email
@@ -14,7 +17,7 @@ exports.create = async (req, res) => {
   return res.json({id})
 }
 
-exports.setAsUsed = async (req, res) => {
+export const setAsUsed = async (req, res) => {
   const {userId, codeId} = req.params
 
   const used = await dal.verificationCodes.setAsUsed(userId, codeId)

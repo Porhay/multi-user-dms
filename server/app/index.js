@@ -1,22 +1,26 @@
 'use strict'
 
-const express = require('express')
-const cors = require('cors')
-const jwt = require('./lib/jwt')
-const multer = require('multer')
-const path = require('path')
-const uuid = require('uuid')
+import path from 'path'
+import cors from 'cors'
+import multer from 'multer'
+import express from 'express'
+import {v4 as uuidV4} from 'uuid'
+import { fileURLToPath } from 'url'
 
-const status = require('./controllers/status')
-const users =  require('./controllers/users')
-const email =  require('./controllers/email')
-const verificationCodes = require('./controllers/verificationCodes')
-const entries = require('./controllers/entries')
-const dictionaries = require('./controllers/dictionaries')
-const notifications = require('./controllers/notifications')
+import * as jwt from './lib/jwt.js'
 
+import * as status from './controllers/status.js'
+import * as users from './controllers/users.js'
+import * as email from './controllers/email.js'
+import * as verificationCodes from './controllers/verificationCodes.js'
+import * as entries from './controllers/entries.js'
+import * as dictionaries from './controllers/dictionaries.js'
+import * as notifications from './controllers/notifications.js'
 
-const app = express()
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+export const app = express()
 
 app.use(express.static(path.resolve(__dirname, '../dev-deploy/persistent/image-data/')))
 app.use(express.json())
@@ -45,7 +49,7 @@ const authCheck = (req, res, next) => {
     }
 }
 
-
+// app.use('/users/:userId/', authCheck) // FIXME
 
 app.get('/status/', status.getStatus)
 
@@ -74,13 +78,9 @@ app.post('/users/:userId/verification-codes/:codeId/', verificationCodes.setAsUs
 app.post('/users/:userId/dictionaries/:dictionaryId/entries/', entries.createEntry)
 app.get('/users/:userId/dictionaries/:dictionaryId/entries/', entries.getEntries)
 app.delete('/users/:userId/dictionaries/:dictionaryId/entries/:entryId/', entries.deleteEntry)
-app.get('/random/:dictionaryId/', entries.getRandomOne)
-// app.get('/users/:userId/dictionaries/:dictionaryId/entries/:entryId', entries.getRandomOne)
+
 
 app.post('/users/:userId/share-dictionary/', dictionaries.shareDictionary)
-
-
-
 app.post('/users/:userId/dictionaries/', dictionaries.createOrUpdateDictionary)
 app.get('/users/:userId/dictionaries/', dictionaries.getDictionaries)
 app.delete('/users/:userId/dictionaries/:dictionaryId/', dictionaries.deleteDictionary)
@@ -88,14 +88,14 @@ app.delete('/users/:userId/dictionaries/:dictionaryId/', dictionaries.deleteDict
 app.post('/notifications/', notifications.newNotification)
 app.get('/notifications/', notifications.getNotifications)
 
-//
-// // TODO take outside and fix for profile image
+
+// TODO take outside and fix for profile image
 // const storage = multer.diskStorage({
 //     destination: (req, file, cb) => {
 //         cb(null, "dev-deploy/persistent/image-data")
 //     },
 //     filename: (req, file, cb) => {
-//         const caption = `${uuid.v4()}.${file.mimetype.split('/')[1]}`
+//         const caption = `${uuidV4()}.${file.mimetype.split('/')[1]}`
 //         cb(null, caption)
 //     },
 // })
@@ -115,10 +115,10 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         if (file.mimetype === 'text/plain') {
-            const caption = `${uuid.v4()}.${file.originalname}`
+            const caption = `${uuidV4()}.${file.originalname}`
             cb(null, caption)
         } else {
-            const caption = `${uuid.v4()}.${file.mimetype.split('/')[1]}`
+            const caption = `${uuidV4()}.${file.mimetype.split('/')[1]}`
             cb(null, caption)
         }
     }
@@ -138,5 +138,3 @@ app.post("/users/:userId/upload-profile-image/", upload.single("file"), users.up
 // TODO set up the linter
 // TODO dictionary info(time created, time shared, length...)
 // TODO standard list
-
-module.exports = app

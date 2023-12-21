@@ -1,11 +1,13 @@
-const fs = require('fs')
-const path = require('path')
-const regexes = require('./regexes')
+'use strict'
+
+import fs from 'fs'
+import path from 'path'
+import * as regexes from './regexes.js'
 
 
 const filePath = path.resolve('../../dev-deploy/persistent/imported-data/', 'smart-book.txt')
 
-const separator = (data, separator = 'tab') => {
+const _separator = (data, separator = 'tab') => {
     const newLineSeparated = data.split(regexes.newLineSeparation)
 
     if(separator === 'tab') {
@@ -27,7 +29,7 @@ const getRandomOne = () => {
             return err
         }
 
-        const separatedByTub = separator(data)
+        const separatedByTub = _separator(data)
         const randomItem = separatedByTub[Math.floor(Math.random() * separatedByTub.length)]
         console.log(randomItem)
     })

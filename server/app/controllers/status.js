@@ -1,4 +1,5 @@
+'use strict'
 
-exports.getStatus = (req, res) => {
+export const getStatus = (req, res) => {
     res.json({message: "OK"})
 }

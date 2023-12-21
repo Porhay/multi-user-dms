@@ -1,10 +1,8 @@
-const dal = require('../dal')
+'use strict'
 
-const _randomOne = (arr) => {
-    return arr[Math.floor(Math.random() * arr.length)]
-}
+import * as dal from '../dal/index.js'
 
-exports.createEntry = async (req, res) => {
+export const createEntry = async (req, res) => {
     const dictionaryId = req.params.dictionaryId
     const {key, value} = req.body
     if(!key || !value) {
@@ -15,21 +13,15 @@ exports.createEntry = async (req, res) => {
     res.json(entry)
 }
 
-exports.getEntries = async (req, res) => {
+export const getEntries = async (req, res) => {
     const dictionaryId = req.params.dictionaryId
     const entries = await dal.entries.getByDictionaryId(dictionaryId)
     res.json(entries)
 }
 
-exports.deleteEntry = async (req, res) => {
+export const deleteEntry = async (req, res) => {
     const {entryId} = req.params
     await dal.entries.deleteById(entryId)
     res.json({id: entryId})
-}
-
-exports.getRandomOne = async (req, res) => {
-    const dictionaryId = req.params.dictionaryId
-    const entries = await dal.entries.getByDictionaryId(dictionaryId)
-    return res.json(_randomOne(entries))
 }
 

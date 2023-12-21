@@ -1,14 +1,16 @@
-const config = require('../config')
-const uuid = require('uuid')
-const db = require("../db")
+'use strict'
 
-exports.create = async (userId, code) => {
+import {v4 as uuidV4} from 'uuid'
+import * as db from "../db.js"
+import * as config from '../config.js'
+
+export const create = async (userId, code) => {
     //== delete previous user's codes
-    await exports.deleteAllUserCodes(userId)
+    await deleteAllUserCodes(userId)
 
     const now = Date.now()
     const row = {
-        id: uuid.v4(),
+        id: uuidV4(),
         userId: userId,
         code: code,
         used: false,
@@ -20,14 +22,14 @@ exports.create = async (userId, code) => {
     return record.id
 }
 
-exports.getCode = async (userId) => {
+export const getCode = async (userId) => {
     //== find one the latest
     return await db.verificationCodes.findOne({
         where: {userId},
         order: [['createdAt', 'DESC']],
     })
 }
-exports.deleteAllUserCodes = async (userId) => {
+export const deleteAllUserCodes = async (userId) => {
     return await db.verificationCodes.destroy({
         where: {
             userId: userId
@@ -35,8 +37,8 @@ exports.deleteAllUserCodes = async (userId) => {
     })
 }
 
-exports.setAsUsed = async (userId, codeId) => {
-    const code = await exports.getCode(userId)
+export const setAsUsed = async (userId, codeId) => {
+    const code = await getCode(userId)
     if(code.expiresAt < Date.now()){
         return null
     }

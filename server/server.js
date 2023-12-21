@@ -1,7 +1,8 @@
+'use strict'
 
-require('dotenv').config()
-const app = require('./app')
-const {sequelize} = require('./app/db')
+import 'dotenv/config'
+import {app} from './app/index.js'
+import {sequelize} from './app/db.js'
 
 // constants
 const PORT = process.env.PORT || 8000

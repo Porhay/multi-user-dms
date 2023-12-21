@@ -1,8 +1,10 @@
-const nodemailer = require('nodemailer')
-const CONFIG = require('../config')
+'use strict'
+
+import nodemailer from 'nodemailer'
+import * as CONFIG from '../config.js'
 
 
-exports.sendEmail = async (email, subject, text, html = null) => {
+export const sendEmail = async (email, subject, text, html = null) => {
     const transporter = nodemailer.createTransport({
         service: CONFIG.SMTP.SERVICE,
         auth: {
@@ -28,8 +30,8 @@ exports.sendEmail = async (email, subject, text, html = null) => {
     })
 }
 
-exports.sendVerificationEmail = async (email, code) => {
+export const sendVerificationEmail = async (email, code) => {
     const subject = 'Your account verification code'
     const text = `To sign in, enter the following code:\nCode: ${code}\nPlease note, this code will expire in 10 minutes!`
-    await exports.sendEmail(email, subject, text)
+    await sendEmail(email, subject, text)
 }

@@ -1,12 +1,13 @@
-const uuid = require('uuid')
+'use strict'
 
-const db = require('../db')
-const constants = require('../lib/constants')
-const hash = require('../lib/hash')
+import {v4 as uuidV4} from 'uuid'
+import * as db from '../db.js'
+import * as constants from '../lib/constants.js'
+import * as hash from '../lib/hash.js'
 
 
-exports.create = async (email, password, name, username, emailVerified = false) => {
-    const id = uuid.v4()
+export const create = async (email, password, name, username, emailVerified = false) => {
+    const id = uuidV4()
 
     let hashedPassword
     if (password) {
@@ -26,11 +27,11 @@ exports.create = async (email, password, name, username, emailVerified = false) 
     return user
 }
 
-exports.signIn = () => {
+export const signIn = () => {
 
 }
 
-exports.getByEmail = async (email) => {
+export const getByEmail = async (email) => {
     const result = await db.user.findOne({ where: { email: email.toLowerCase() } })
     if (!result) {
         return null
@@ -38,7 +39,7 @@ exports.getByEmail = async (email) => {
     return result
 }
 
-exports.getByUsername = async (username) => {
+export const getByUsername = async (username) => {
     const result = await db.user.findOne({ where: { username: username.toLowerCase() } })
     if (!result) {
         return null
@@ -46,12 +47,12 @@ exports.getByUsername = async (username) => {
     return result
 }
 
-exports.updateUsername = async (userId, username) => {
+export const updateUsername = async (userId, username) => {
     await db.user.update({username}, {where: {id: userId}})
 }
 
 
-exports.getByEmailOrUsername = async (emailOrUsername) => {
+export const getByEmailOrUsername = async (emailOrUsername) => {
     const result = await db.user.findAll({
         where: {
             email: emailOrUsername.toLowerCase(),
@@ -64,7 +65,7 @@ exports.getByEmailOrUsername = async (emailOrUsername) => {
     return result[0]
 }
 
-exports.getByName = async (name) => {
+export const getByName = async (name) => {
     const result = await db.user.findOne({ where: { name } })
     if (!result) {
         return null
@@ -72,7 +73,7 @@ exports.getByName = async (name) => {
     return result
 }
 
-exports.updateUserFields = async (userId, fields) => {
+export const updateUserFields = async (userId, fields) => {
     const {name, image} = fields
 
     const context = {}
@@ -80,10 +81,10 @@ exports.updateUserFields = async (userId, fields) => {
     if (image) context.image = image
 
     await db.user.update(context, {where: {id: userId}})
-    return await exports.getById(userId)
+    return await getById(userId)
 }
 
-exports.getById = async (id) => {
+export const getById = async (id) => {
     const result = await db.user.findByPk(id)
     if (!result) {
         return null
@@ -91,16 +92,16 @@ exports.getById = async (id) => {
     return result
 }
 
-exports.deleteById = async (userId) => {
+export const deleteById = async (userId) => {
     return await db.user.destroy({ where: {id: userId} })
 }
 
-exports.getAll = async () => {
+export const getAll = async () => {
     return await db.user.findAll()
 }
 
-exports.addToFriendsList = async (userId, friendId) => {
-    const user = await exports.getById(userId)
+export const addToFriendsList = async (userId, friendId) => {
+    const user = await getById(userId)
     const context = [
         ...user.friends,
         friendId

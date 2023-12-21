@@ -20,14 +20,18 @@ const EntriesPage = observer(() => {
     const [state, setState] = useState({
         key: '',
         value: '',
+        narrowingArr: [],
+        rootData: []
     })
 
-    // All entries data
-    const [data, setData] = useState([])
+    // data = {visible:[], root:[]} // FIXME
+    const [data, setData] = useState([]) // All entries data
 
     const updateData = (userId, dictionaryId) => {
         getEntries(userId, dictionaryId).then((response) => {
-            setData(response.data.reverse())
+            const data = response.data.reverse()
+            setState({...state, rootData: data, narrowingArr: data}) // update random words list on reload
+            setData(data)
         })
     }
 
@@ -45,13 +49,14 @@ const EntriesPage = observer(() => {
         }
         const newEntry = await createEntry(data)
         setData(prevState => [newEntry.data, ...prevState])
-        setState({...state, key: '', value: ''})
+        setState({...state, key: '', value: '', rootData: [...state.rootData, newEntry.data]})
     }
 
 
     const deleteCurrentEntry = async (entryId) => {
         const response = await deleteEntry(user.id, dictionaryId, entryId).catch(e => console.log(e))
         setData([...data.filter(item => item.id !== response.data.id)])
+        setState({...state, rootData: [...data.filter(item => item.id !== response.data.id)]})
     }
 
     return (
@@ -64,14 +69,14 @@ const EntriesPage = observer(() => {
                                 <FormTitle text="Name"/>
                                 <FormInput
                                     value={state.key}
-                                    onChange={e => setState({...state,  key: e.target.value})}
+                                    onChange={e => setState({...state, key: e.target.value})}
                                 />
                             </div>
                             <div style={{flexGrow: 1}}>
                                 <FormTitle text="Value"/>
                                 <FormInput
                                     value={state.value}
-                                    onChange={e => setState({...state,  value: e.target.value})}
+                                    onChange={e => setState({...state, value: e.target.value})}
                                 />
                             </div>
                         </div>
@@ -81,10 +86,24 @@ const EntriesPage = observer(() => {
 
                 <div className="entry-sort-button-div">
                     <a onClick={() => {
-                        const sortedData = data.sort((a, b) => a.key < b.key ? -1 : 1)
+                        const sortedData = state.rootData.sort((a, b) => a.key < b.key ? -1 : 1)
                         setData([...sortedData])
                     }}>
                         <span className="entry-sort-button-span">→ Sort by name</span>
+                    </a>
+
+                    <a onClick={() => {
+                        let {narrowingArr} = state
+                        if (narrowingArr.length === 0) {
+                            narrowingArr = state.rootData
+                            setState({...state, narrowingArr})
+                        }
+
+                        const randomOne = narrowingArr[Math.floor(Math.random() * narrowingArr.length)]
+                        setData([randomOne]) // show one word
+                        setState({...state, narrowingArr: narrowingArr.filter(item => item !== randomOne)}) // decrease narrowingArr
+                    }}>
+                        <span className="entry-sort-button-span">→ Random one</span>
                     </a>
                 </div>
 

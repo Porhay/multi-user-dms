@@ -1,11 +1,13 @@
-const dal = require('../dal')
-const jwt = require('../lib/jwt')
-const errors = require('../lib/errors')
-const hash = require('../lib/hash')
-const helpers = require('../lib/helpers')
+'use strict'
+
+import * as dal from '../dal/index.js'
+import * as jwt from '../lib/jwt.js'
+import * as errors from '../lib/errors.js'
+import * as hash from '../lib/hash.js'
+import * as helpers from '../lib/helpers.js'
 
 
-exports.create = async (req, res) => {
+export const create = async (req, res) => {
     const {email, password} = req.body
 
     if(!email) {
@@ -33,7 +35,7 @@ exports.create = async (req, res) => {
 }
 
 
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
     const {email, password} = req.body
     // const browser = req.headers['user-agent']
     // const ip = req.ip
@@ -59,7 +61,7 @@ exports.login = async (req, res) => {
     return res.json({token, user})
 }
 
-exports.check = async (req, res) => {
+export const check = async (req, res) => {
     const token = jwt.generateAccessToken(req.user.id, req.user.role)
     const user = await dal.users.getById(req.user.id)
     user.password = null
@@ -67,12 +69,12 @@ exports.check = async (req, res) => {
 }
 
 
-exports.getUsers = async (req, res) => {
+export const getUsers = async (req, res) => {
     const users = await dal.users.getAll()
     res.json(users)
 }
 
-exports.getUser = async (req, res) => {
+export const getUser = async (req, res) => {
     const userId = req.params.userId // or username
 
     let user = await dal.users.getByUsername(userId)
@@ -89,7 +91,7 @@ exports.getUser = async (req, res) => {
 }
 
 
-exports.updateUsername = async (req, res) => {
+export const updateUsername = async (req, res) => {
     const userId = req.params.userId
     const username = req.body.username
     await dal.users.updateUsername(userId, username).catch(err => {return console.log(err)})
@@ -97,13 +99,13 @@ exports.updateUsername = async (req, res) => {
 }
 
 
-exports.deleteOne = async (req, res) => {
+export const deleteOne = async (req, res) => {
     const userId = req.params.userId
     await dal.users.deleteById(userId)
     res.json({message: "OK"})
 }
 
-exports.updateProfile = async (req, res) => {
+export const updateProfile = async (req, res) => {
     const userId = req.params.userId
 
     /**
@@ -114,7 +116,7 @@ exports.updateProfile = async (req, res) => {
     res.json({message: "OK"})
 }
 
-exports.addFriends = async (req, res) => {
+export const addFriends = async (req, res) => {
     const userId = req.params.userId
     const friendId = req.body.friendId
 
@@ -132,7 +134,7 @@ exports.addFriends = async (req, res) => {
     res.json(response)
 }
 
-exports.getFriends = async (req, res) => {
+export const getFriends = async (req, res) => {
     const userId = req.params.userId
     const user = await dal.users.getById(userId)
 
@@ -146,7 +148,7 @@ exports.getFriends = async (req, res) => {
 }
 
 
-exports.uploadProfileImage = async (req, res) => {
+export const uploadProfileImage = async (req, res) => {
     const userId = req.params.userId
     // TODO merge with updateProfile
     try {

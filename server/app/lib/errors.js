@@ -1,11 +1,5 @@
+'use strict'
 
-class BadRequest extends Error{}
-exports.BadRequest = BadRequest
-
-class NotFound extends Error {}
-exports.NotFound = NotFound
-
-class Unauthorized extends Error {}
-exports.NotFound = Unauthorized
-
-
+export class BadRequest extends Error{}
+export class NotFound extends Error {}
+export class Unauthorized extends Error {}
