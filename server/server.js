@@ -10,10 +10,11 @@ const HOST = 'localhost' || process.env.REMOUTE_HOST
 
 const start = async () => {
     try {
-        await sequelize.sync()
+        console.log('database:', sequelize.getDatabaseName());
+        sequelize.sync()
         app.listen(PORT, () => { console.log(`Running on http://${HOST}:${PORT}/`) })
     } catch (err) {
-        console.log(err)
+        console.log(err.message)
     }
 }
 

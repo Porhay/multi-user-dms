@@ -5,7 +5,7 @@ import * as constants from './lib/constants.js'
 
 
 export const sequelize = new Sequelize(
-    process.env.DB_NAME || 'dms',
+    process.env.DB_NAME || 'root',
     process.env.DB_USER || 'root',
     process.env.DB_PASSWORD || 'root',
     {
