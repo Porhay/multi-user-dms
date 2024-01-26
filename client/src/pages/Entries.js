@@ -21,7 +21,8 @@ const EntriesPage = observer(() => {
         key: '',
         value: '',
         narrowingArr: [],
-        rootData: []
+        rootData: [],
+        showValue: true,
     })
 
     // data = {visible:[], root:[]} // FIXME
@@ -110,11 +111,13 @@ const EntriesPage = observer(() => {
                 <div className="entry-list-div">
                     {data.map((item) =>
                         <>
-                            <div key={item.id} className="list-item-div">
+                            <div key={item.id} className="list-item-div" onClick={() => {
+                                        setState({...state, showValue: !state.showValue})
+                                    }}>
                                 <div className="entry-list-item-text">
                                     <h6 className="entry-list-item-h6">{item.key}</h6>
-                                    <span className="entry-list-item-span">
-                                        {item.value}
+                                    <span className="entry-list-item-span" >
+                                        {state.showValue ? item.value : '*****'}
                                     </span>
                                 </div>
                                 <div className="entry-list-item-x" onClick={() => deleteCurrentEntry(item.id)}>x</div>
