@@ -37,15 +37,17 @@ cs:
 	@echo "[step 2] Client is running...";
 
 
-# Execute all in background (could be killer needed after first execution)
-_cs:
-	@make cs &
-_ss: 
-	@make ss &
-all: _cs _ss
-
-
 kill:
 	@echo "Killing all...";
 	npx kill-port 3000
 	npx kill-port 8000
+
+
+all:
+    # server side
+	@echo "[1] Starting shelter-gateway"
+	@osascript -e 'tell app "Terminal" to do script "cd $(CURDIR) && make ss"'
+
+    # client side
+	@echo "[2] Starting shelter-accounts"
+	@osascript -e 'tell app "Terminal" to do script "cd $(CURDIR) && make cs"'
