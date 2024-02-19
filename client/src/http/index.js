@@ -2,9 +2,9 @@ import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 
 const PORT = 8000
-const baseURL = process.env.BASE_URL || `http://localhost:${PORT}` // `http://192.168.1.113:${PORT}`
+const baseURL = process.env.REACT_APP_EXTERNAL_SERVER_URL || `http://localhost:${PORT}` // `http://192.168.1.113:${PORT}`
 const host = axios.create({
-    baseURL: baseURL,     // TODO: Take local network ip from server side and replace with baseURL
+    baseURL: baseURL, // TODO: Take local network ip from server side and replace with baseURL
     timeout: 1000,
     headers: {'X-Custom-Header': 'foobar'}
 })
