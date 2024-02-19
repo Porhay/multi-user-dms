@@ -5,13 +5,13 @@ const PORT = 8000
 const baseURL = process.env.REACT_APP_EXTERNAL_SERVER_URL || `http://localhost:${PORT}` // `http://192.168.1.113:${PORT}`
 const host = axios.create({
     baseURL: baseURL, // TODO: Take local network ip from server side and replace with baseURL
-    timeout: 1000,
+    timeout: 1000 * 60 * 5, // 5m
     headers: {'X-Custom-Header': 'foobar'}
 })
 
 const authHost = axios.create({
     baseURL: baseURL,
-    timeout: 1000,
+    timeout: 1000 * 60 * 5, // 5m
     headers: {'X-Custom-Header': 'foobar'}
 })
 
