@@ -4,7 +4,7 @@ import path from 'path'
 import cors from 'cors'
 import multer from 'multer'
 import express from 'express'
-import {v4 as uuidV4} from 'uuid'
+import { v4 as uuidV4 } from 'uuid'
 import { fileURLToPath } from 'url'
 
 import * as jwt from './lib/jwt.js'
@@ -24,8 +24,8 @@ export const app = express()
 
 
 app.use(express.static(
-    process.env.NODE_ENV === 'production' ? 
-        path.resolve(__dirname, '../data') :  path.resolve(__dirname, '../dev-deploy/persistent/image-data/')
+    process.env.NODE_ENV === 'production' ?
+        path.resolve(__dirname, '../data/images') : path.resolve(__dirname, '../dev-deploy/persistent/image-data/')
 ))
 app.use(express.json())
 app.use(cors())
@@ -39,17 +39,17 @@ const authCheck = (req, res, next) => {
     try {
         let token = req.headers.authorization.split(' ')[1]
         if (!token) {
-            return res.status(401).json({message: "Unauthorized"})
+            return res.status(401).json({ message: "Unauthorized" })
         }
 
         // throw 'error: jwt malformed' if not valid jwt
         const verifiedData = jwt.verifyAccessToken(token)
-        if(verifiedData) {
+        if (verifiedData) {
             req.user = verifiedData
         }
         next()
     } catch (e) {
-        return res.status(401).json({message: "Unauthorized"})
+        return res.status(401).json({ message: "Unauthorized" })
     }
 }
 
@@ -109,18 +109,18 @@ const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         if (file.fieldname === 'profile-image') {
             process.env.NODE_ENV === 'production' ?
-            cb(null, 'var/lib/image-data') :
-            cb(null, 'dev-deploy/persistent/image-data')
+                cb(null, path.resolve(__dirname, '../data/images')) :
+                cb(null, 'dev-deploy/persistent/image-data')
         }
         else if (file.fieldname === 'text-file') {
             process.env.NODE_ENV === 'production' ?
-            cb(null, 'var/lib/imported-data') :
-            cb(null, 'dev-deploy/persistent/imported-data')
+                cb(null, path.resolve(__dirname, '../data/imported')) :
+                cb(null, 'dev-deploy/persistent/imported-data')
         }
         else {
             process.env.NODE_ENV === 'production' ?
-            cb(null, 'var/lib/image-data') :
-            cb(null, 'dev-deploy/persistent/image-data')
+                cb(null, path.resolve(__dirname, '../data/images')) :
+                cb(null, 'dev-deploy/persistent/image-data')
         }
     },
     filename: (req, file, cb) => {
