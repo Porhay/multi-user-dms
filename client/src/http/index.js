@@ -2,18 +2,15 @@ import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 
 const PORT = 8000
-const baseURL = `http://localhost:${PORT}/`
-// const baseURL = `http://192.168.1.113:${PORT}/`
+const baseURL = process.env.BASE_URL || `http://localhost:${PORT}` // `http://192.168.1.113:${PORT}`
 const host = axios.create({
-    // TODO Take local network ip from server side and replace with baseURL
-    baseURL: baseURL,
+    baseURL: baseURL,     // TODO: Take local network ip from server side and replace with baseURL
     timeout: 1000,
     headers: {'X-Custom-Header': 'foobar'}
 })
 
 const authHost = axios.create({
-    // baseURL: `http://192.168.1.113:${PORT}`,
-    baseURL: `http://localhost:${PORT}`,
+    baseURL: baseURL,
     timeout: 1000,
     headers: {'X-Custom-Header': 'foobar'}
 })
@@ -106,7 +103,7 @@ const getFriends = async (userId) => {
 
 // TODO refactor like in endpoints higher
 const subscribeNotifications = async () => {
-    const eventSource = new EventSource(`http://localhost:${PORT}/notifications/`)
+    const eventSource = new EventSource(`${baseURL}/notifications/`)
     eventSource.onmessage = function (event) {
         return JSON.parse(event.data)
     }
