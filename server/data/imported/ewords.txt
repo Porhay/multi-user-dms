@@ -1,0 +1,67 @@
+14.pelt	шкіра
+16.taut	натягнутий
+23.wounded	поранений
+26.vulnerable	вразливий
+27.mutilated	понівечений
+28.clue	підказка
+30.insignificant	незначний
+34.hunched	згорблений
+36.hindsight	заднім числом
+38.limped	кульгати
+45.clamping	затискання
+52.thigh	стегно
+53.hiss	шипіти
+56.salvaging	порятунок
+59.grease with	змазати
+60.concealed	приховане
+63.slip	ковзати
+65.exposed	піддаватись(дощу) виставлений
+66.gaze	погляд/дивитись
+68.gritted	скреготати
+69.tensed	напружений
+72.piste	траса/спуск
+74.exhaled	видихнув
+75.snapped	тріснуло
+80.stoop	сутулитися
+83.laces	шнурки
+85.mould	цвіль
+92.to admit	визнати
+97.intended	покинутий
+103.approximation	наближення
+107.haphazard	випадково
+108.exertion	зусилля
+109.pursuits	займатись/переслідувати
+110.slaughter	бійня
+111.stiff	жорстке
+118.slippery	слизький
+120.snares	пастки
+121.ratcheted up	посилити/підвищити
+124.incessant	безперервний
+128.lurching	хитатися
+136.slouched	хилитися/сутулитися
+137.rear	задній
+138.paddock	загін
+139.wheezy	хриплий
+149.sweat	піт
+151.swore	лаятися/клястися
+153.banter	підшучувати
+156.swing	гойдалка
+157.shudder	здригатись
+158.reluctance	небажання
+159.sulk	дутися
+160.erupted	вивергатися
+161.sappy	соковитий
+162.bark	кора
+163.murk	морок
+165.overwhelmed	охопило/переповнило
+166.stain	пляма
+167.taint	псувати/плямувати
+168.peering out	визирати
+169.burst	вибух/лопнути
+172.cramp	судома
+174.stoats	горностай
+179.tie	прив'язати
+183.scamper	бігати
+186.scythe	коса
+192.stool	табуретка
+

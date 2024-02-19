@@ -114,7 +114,7 @@ const storage = multer.diskStorage({
         }
         else if (file.fieldname === 'text-file') {
             process.env.NODE_ENV === 'production' ?
-                cb(null, path.resolve(__dirname, '../data/imported')) :
+                cb(null, 'data/imported') :
                 cb(null, 'dev-deploy/persistent/imported-data')
         }
         else {

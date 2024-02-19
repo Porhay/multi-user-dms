@@ -1,10 +1,12 @@
 'use strict'
 
+import path from 'path'
 import * as dal from '../dal/index.js'
 import * as jwt from '../lib/jwt.js'
 import * as errors from '../lib/errors.js'
 import * as hash from '../lib/hash.js'
 import * as helpers from '../lib/helpers.js'
+import * as files from '../lib/files.js'
 
 
 export const create = async (req, res) => {
@@ -29,7 +31,16 @@ export const create = async (req, res) => {
 
     // default user's dictionary with entries
     const dictionary = await dal.dictionaries.create(user.id, 'Get Started')
-    await dal.entries.create(dictionary.id, 'some word', 'some translation')
+    // await dal.entries.create(dictionary.id, 'some word', 'some translation')
+
+    // TODO: remove when admin user lofic will be ready
+    const filePath = path.resolve('data/imported', 'ewords.txt')
+    const entries = await files.getDataFromImportedFile(filePath)
+    if(entries) {
+        for(const entry of entries) {
+            await dal.entries.create(dictionary.id, entry[0], entry[1])
+        }
+    }
 
     return res.json({id: user.id})
 }
