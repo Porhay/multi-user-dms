@@ -3,6 +3,7 @@ version: '3.8'
 services:
   dms-postgresql:
     image: postgres:latest
+    container_name: postgresql
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
