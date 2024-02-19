@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  dms-postgresql:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./persistent/postgres-data/:/var/lib/postgresql/data
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    env_file:
+      - ./.env
+    depends_on:
+      - dms-postgresql
+    ports:
+      - '8000:8000'
+
+  client:
+      build:
+        context: ./client
+        dockerfile: Dockerfile
+      ports:
+        - '3000:3000'
