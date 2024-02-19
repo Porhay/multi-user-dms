@@ -71,7 +71,7 @@ const Navigation = observer(() => {
     )
 
     const ProfileImage = () => (
-        <img src={`${baseURL + user.userData.image}` || avatarDefault}
+        <img src={`${baseURL}/${user.userData.image}` || `${baseURL}/profile-image-default.jpg` || avatarDefault}
              className="navigation-profile-image" alt="profile image"/>
     )
 

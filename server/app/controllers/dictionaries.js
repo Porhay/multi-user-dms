@@ -66,6 +66,7 @@ export const shareDictionary = async (req, res) => {
 export const importDictionary = async (req, res) => {
     const userId = req.params.userId
 
+    console.log(req.file);
     const newDictionary = await dal.dictionaries.create(userId, req.file.originalname.split('.')[0])
     const entries = await files.getDataFromImportedFile(req.file.path)
     if(entries) {
