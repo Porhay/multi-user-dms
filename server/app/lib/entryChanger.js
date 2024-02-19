@@ -4,7 +4,7 @@ import fs from 'fs'
 import path from 'path'
 import * as regexes from './regexes.js'
 
-
+// TODO: fix or remove all!
 const filePath = path.resolve('../../dev-deploy/persistent/imported-data/', 'smart-book.txt')
 
 const _separator = (data, separator = 'tab') => {

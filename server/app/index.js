@@ -22,7 +22,11 @@ const __dirname = path.dirname(__filename)
 
 export const app = express()
 
-app.use(express.static(path.resolve(__dirname, '../dev-deploy/persistent/image-data/')))
+
+app.use(express.static(
+    process.env.NODE_ENV === 'production' ? 
+        'var/lib/image-data' :  path.resolve(__dirname, '../dev-deploy/persistent/image-data/')
+))
 app.use(express.json())
 app.use(cors())
 
@@ -104,12 +108,18 @@ app.get('/notifications/', notifications.getNotifications)
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         if (file.fieldname === 'profile-image') {
+            process.env.NODE_ENV === 'production' ?
+            cb(null, 'var/lib/image-data') :
             cb(null, 'dev-deploy/persistent/image-data')
         }
         else if (file.fieldname === 'text-file') {
+            process.env.NODE_ENV === 'production' ?
+            cb(null, 'var/lib/imported-data') :
             cb(null, 'dev-deploy/persistent/imported-data')
         }
         else {
+            process.env.NODE_ENV === 'production' ?
+            cb(null, 'var/lib/image-data') :
             cb(null, 'dev-deploy/persistent/image-data')
         }
     },
