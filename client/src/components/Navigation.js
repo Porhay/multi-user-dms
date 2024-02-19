@@ -28,7 +28,7 @@ const Navigation = observer(() => {
     }, [])
 
     const subscribe = async () => {
-        const eventSource = new EventSource(`http://localhost:8000/notifications/`)
+        const eventSource = new EventSource(`${baseURL}/notifications/`)
         eventSource.onmessage = function (event) {
             const data = JSON.parse(event.data) // {dictionaryId, recipientId, message, id, senderImageUrl}
             const newPost = {

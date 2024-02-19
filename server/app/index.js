@@ -25,7 +25,7 @@ export const app = express()
 
 app.use(express.static(
     process.env.NODE_ENV === 'production' ? 
-        'var/lib/image-data' :  path.resolve(__dirname, '../dev-deploy/persistent/image-data/')
+        path.resolve(__dirname, '../data') :  path.resolve(__dirname, '../dev-deploy/persistent/image-data/')
 ))
 app.use(express.json())
 app.use(cors())
