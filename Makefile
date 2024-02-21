@@ -9,8 +9,9 @@ ss:
     fi
 
     # start database
-	mkdir -p server/dev-deploy/persistent/imported-data
-	mkdir -p server/dev-deploy/persistent/image-data
+	mkdir -p server/data/imported
+	mkdir -p server/data/image
+	mkdir -p server/data/postgresql
 
 	docker-compose -f server/dev-deploy/docker-compose.yml down;
 	docker-compose -f server/dev-deploy/docker-compose.yml up -d postgresql;

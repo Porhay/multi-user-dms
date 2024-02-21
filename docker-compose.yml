@@ -10,7 +10,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - ./persistent/postgres-data/:/var/lib/postgresql/data
+      - ./server/data/postgresql/:/var/lib/postgresql/data
 
   server:
     build:
@@ -22,9 +22,6 @@ services:
       - dms-postgresql
     ports:
       - '8000:8000'
-    # volumes:
-    #   - ./server/dev-deploy/persistent/imported-data/:/var/lib/imported-data
-    #   - ./server/dev-deploy/persistent/image-data/:/var/lib/image-data
 
   client:
       build:
