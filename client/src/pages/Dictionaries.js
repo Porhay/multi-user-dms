@@ -1,22 +1,23 @@
-import React, {useContext, useEffect, useState} from 'react'
-import {useNavigate} from "react-router-dom";
-import {observer} from "mobx-react-lite";
+import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate } from "react-router-dom";
+import { observer } from "mobx-react-lite";
 
-import {generateRandomDigit} from "../helpers";
-import {ROUTES} from "../constants";
-import {Context} from "../index";
+import { generateRandomDigit } from "../helpers";
+import { ROUTES } from "../constants";
+import { Context } from "../index";
 
 import Friends from "../modals/Friends";
-import {Dropdown} from '../components/Dropdown'
-import {Form, FormInput, FormInputExplanation, FormTitle} from "../lib/Forms";
-import {TextButton} from "../lib/Buttons";
-import {Icon} from "../lib/Icons";
+import { Dropdown } from '../components/Dropdown'
+import { Form, FormInput, FormInputExplanation, FormTitle } from "../lib/Forms";
+import { TextButton } from "../lib/Buttons";
+import { Icon } from "../lib/Icons";
 
 import {
     createOrUpdateDictionary,
     getDictionaries,
     deleteDictionary,
     importDictionary,
+    getEntries,
 } from '../http'
 
 import '../styles/Dictionaries.css';
@@ -40,9 +41,10 @@ const DictionariesPage = observer(() => {
     const [data, setData] = useState([])
 
     const dropdownListFunc = (item) => [
-        {message: 'Edit', action: () => setEdit(item.id)},
-        {message: 'Share', action: () => setState({...state, showModal: true, currentItem: item})},
-        {message: 'Delete', action: () => deleteCurrentDictionary(item.id)},
+        { message: 'Edit', action: () => setEdit(item.id) },
+        { message: 'Share', action: () => setState({ ...state, showModal: true, currentItem: item }) },
+        { message: 'Export', action: () => handleExportDictionary(user.id, item.id, item.name) },
+        { message: 'Delete', action: () => deleteCurrentDictionary(item.id) },
     ]
 
     useEffect(() => {
@@ -63,9 +65,9 @@ const DictionariesPage = observer(() => {
     }
 
     const newDictionary = async () => {
-        const newDictionary = await createOrUpdateDictionary({userId: user.id, name: state.nameOfNew})
+        const newDictionary = await createOrUpdateDictionary({ userId: user.id, name: state.nameOfNew })
         setData(prevState => [newDictionary.data, ...prevState])
-        setState({...state, nameOfNew: ''})
+        setState({ ...state, nameOfNew: '' })
     }
 
     const openDictionary = async (dictionaryId) => {
@@ -92,7 +94,7 @@ const DictionariesPage = observer(() => {
 
         // close
         setEdit(dictionaryId, false)
-        setState({...state, nameToEdit: ''})
+        setState({ ...state, nameToEdit: '' })
     }
 
     const setEdit = (currentId, toOpen = true) => {
@@ -100,7 +102,7 @@ const DictionariesPage = observer(() => {
         for (const entity of data) {
             if (entity.id === currentId) {
                 if (toOpen) {
-                    setState({...state, nameToEdit: entity.name})
+                    setState({ ...state, nameToEdit: entity.name })
                     entity.edit = true
                 } else {
                     entity.edit = false
@@ -116,34 +118,50 @@ const DictionariesPage = observer(() => {
         // update state
     }
 
+    const handleExportDictionary = async (userId, dictionaryId, dictionaryName) => {
+        const response = await getEntries(userId, dictionaryId)
+        const data = response.data.reverse()
+
+        // set default structure
+        const txtContent = data.map(entry => `${entry.key}\t${entry.value}`).join('\n');
+        
+        // download as txt
+        const blob = new Blob([txtContent], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.download = `${dictionaryName}.txt`;
+        link.href = url;
+        link.click();
+    }
+
     return (
         <div className="dictionary-container">
             <div className="dictionary-position-container">
-                <div style={{display: 'flex'}}>
-                    <Form style={{marginTop: 6, width: '100%'}}>
-                        <FormTitle text="Name your future masterpiece"/>
+                <div style={{ display: 'flex' }}>
+                    <Form style={{ marginTop: 6, width: '100%' }}>
+                        <FormTitle text="Name your future masterpiece" />
                         <FormInput
                             variant='space-left'
                             value={state.nameOfNew}
-                            onChange={e => setState({...state, nameOfNew: e.target.value})}
+                            onChange={e => setState({ ...state, nameOfNew: e.target.value })}
                         >
                             <label htmlFor="select-file">
-                                <span style={{marginLeft: 10, marginTop: 0, cursor: "pointer"}}
-                                      data-tootik-conf='left'
-                                      data-tootik="Tap to import dictionary">&#x1f914;
+                                <span style={{ marginLeft: 10, marginTop: 0, cursor: "pointer" }}
+                                    data-tootik-conf='left'
+                                    data-tootik="Tap to import dictionary">&#x1f914;
                                 </span>
-                                <input type="file" accept=".txt" id="select-file" style={{display: "none"}}
-                                       onChange={async event => {
-                                           const formData = new FormData()
-                                           formData.append("text-file", event.target.files[0])
-                                           await importNewDictionary(user.id, formData)
-                                       }}
+                                <input type="file" accept=".txt" id="select-file" style={{ display: "none" }}
+                                    onChange={async event => {
+                                        const formData = new FormData()
+                                        formData.append("text-file", event.target.files[0])
+                                        await importNewDictionary(user.id, formData)
+                                    }}
                                 />
                             </label>
                         </FormInput>
-                        <div style={{display:"flex"}}>
+                        <div style={{ display: "flex" }}>
                             <FormInputExplanation
-                                text="That name can be edited in future, you can always delete your dictionary"/>
+                                text="That name can be edited in future, you can always delete your dictionary" />
                             <div className="dictionary-sort-button-div">
                                 <a onClick={() => {
                                     const sortedData = data.sort((a, b) => a.name < b.name ? -1 : 1)
@@ -155,7 +173,7 @@ const DictionariesPage = observer(() => {
                         </div>
 
                     </Form>
-                    <TextButton style={{marginTop: 25}} onClick={() => newDictionary()} text="New"/>
+                    <TextButton style={{ marginTop: 25 }} onClick={() => newDictionary()} text="New" />
                 </div>
 
                 <div className="dictionary-list-div">
@@ -165,13 +183,13 @@ const DictionariesPage = observer(() => {
                                 <div className="list-edit-form-general-div">
                                     {item.edit ?
                                         <div key={item.id} className="list-edit-form-div">
-                                            <Icon icon={item.iconIndex} style={{marginRight: 6}}/>
+                                            <Icon icon={item.iconIndex} style={{ marginRight: 6 }} />
 
                                             <Form>
                                                 <FormInput
-                                                    style={{marginLeft: 10}}
+                                                    style={{ marginLeft: 10 }}
                                                     value={state.nameToEdit}
-                                                    onChange={e => setState({...state, nameToEdit: e.target.value})}
+                                                    onChange={e => setState({ ...state, nameToEdit: e.target.value })}
                                                 />
                                             </Form>
                                             <TextButton
@@ -186,7 +204,7 @@ const DictionariesPage = observer(() => {
                                         </div>
                                         :
                                         <div className="list-edit-form-div">
-                                            <Icon icon={item.iconIndex} style={{marginRight: 6}}/>
+                                            <Icon icon={item.iconIndex} style={{ marginRight: 6 }} />
                                             <a key={item.id} className="list-item-a">
                                                 <span onClick={() => openDictionary(item.id)}>
                                                     {item.name}
@@ -209,7 +227,7 @@ const DictionariesPage = observer(() => {
                             <Friends
                                 item={state.currentItem}
                                 show={state.showModal}
-                                onHide={() => setState({...state, showModal: false})}
+                                onHide={() => setState({ ...state, showModal: false })}
                             />
                         </>
                     )}

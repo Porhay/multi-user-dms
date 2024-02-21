@@ -14,7 +14,7 @@ export const createRandomUserName = () => {
 export const createUniqueRandomName = async () => {
     const newName = createRandomUserName()
     const nameExisted = await dal.users.getByName(newName)
-    if(!nameExisted){
+    if (!nameExisted) {
         return newName
     }
     return createUniqueRandomName()

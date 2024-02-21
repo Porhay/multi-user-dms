@@ -3,14 +3,11 @@
 import 'dotenv/config'
 import {app} from './app/index.js'
 import {sequelize} from './app/db.js'
-
-// constants
-const PORT = process.env.PORT || 8000
-const HOST = 'localhost' || process.env.REMOUTE_HOST
+import {PORT, HOST} from './app/config.js'
 
 const start = async () => {
     try {
-        console.log('database:', sequelize.getDatabaseName());
+        console.log('Database name:', sequelize.getDatabaseName());
         sequelize.sync()
         app.listen(PORT, () => { console.log(`Running on http://${HOST}:${PORT}/`) })
     } catch (err) {

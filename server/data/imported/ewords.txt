@@ -64,4 +64,46 @@
 183.scamper	бігати
 186.scythe	коса
 192.stool	табуретка
+202.fright	переляк
+204.reek	тхнути
+206.allotment	ділянка
+207.grain	зерно
+208.jostle	штовхати
+209.smattering of	поверхневе знання
+211.distinct	різні
+217.attire	наряд
+219.famine	голод
+221.sway	впливати/коливати
+222.dedicate	присвятити
+224.coerce	примушувати
+225.vow	обітниця
+229.grasp	зрозуміти
+230.pile	купа
+235.collar	комір
+237.crawl	повзти
+240.whimper	скиглити
+242.panting	тяжко дихати(швидко)
+247.brook	струмок(малий без риби)
+249.substitute	замінити
+250.alight from	зійти з
+253.stalk	стебло
+255.peg	кілочок/вішалка
+257.dismal	похмурий
+262.deprivation	позбавлення
+264.hull	корпус/каркас
+272.retain	зберігати/залишати
+273.acquire	здобути (освіту)
+283.wicked	злий
+289.disgrace	позорити
+290.detention	засудження/затримання
+293.rabid	скажений
+294.grief	горе
+295.to atone	спокутувати
+296.pillar	стовп
+299.robust	надійний
+300.calf	теля
+304.quench(thirst)	вгамувати(спрагу)
+305.fracture	перелом
+306.fraud	шахрайство
+309.injurious	травмуючий
 

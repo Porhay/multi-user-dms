@@ -2,20 +2,20 @@
 
 import { DataTypes, Sequelize } from 'sequelize'
 import * as constants from './lib/constants.js'
+import { DATABASE_URL } from './config.js'
 
 
 export const sequelize = new Sequelize(
-    process.env.DATABASE_URL, // Render.com provides a DATABASE_URL environment variable
-    {
-        dialect: 'postgres',
-        ssl: process.env.DB_ENABLE_SSL, // Enable SSL for secure connections
-        dialectOptions: {
-            ssl: process.env.DB_ENABLE_SSL && {
-                require: true,
-                rejectUnauthorized: false, // Disable SSL certificate validation
-            }
-        },
-    }
+    DATABASE_URL, {
+    dialect: 'postgres',
+    ssl: process.env.DB_ENABLE_SSL, // Enable SSL for secure connections
+    dialectOptions: {
+        ssl: process.env.DB_ENABLE_SSL && {
+            require: true,
+            rejectUnauthorized: false, // Disable SSL certificate validation
+        }
+    },
+}
 );
 
 export const user = sequelize.define('user', {

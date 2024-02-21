@@ -16,6 +16,8 @@ import * as verificationCodes from './controllers/verificationCodes.js'
 import * as entries from './controllers/entries.js'
 import * as dictionaries from './controllers/dictionaries.js'
 import * as notifications from './controllers/notifications.js'
+import * as files from './controllers/files.js'
+
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -29,6 +31,30 @@ app.use(express.static(
 ))
 app.use(express.json())
 app.use(cors())
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        if (file.fieldname === 'profile-image') {
+            cb(null, 'data/images')
+        }
+        else if (file.fieldname === 'text-file') {
+            cb(null, 'data/imported')
+        }
+        else {
+            cb(null, 'data/images')
+        }
+    },
+    filename: (req, file, cb) => {
+        if (file.mimetype === 'text/plain') {
+            const caption = `${uuidV4()}.${file.originalname}`
+            cb(null, caption)
+        } else {
+            const caption = `${uuidV4()}.${file.mimetype.split('/')[1]}`
+            cb(null, caption)
+        }
+    }
+})
+const upload = multer({ storage })
 
 
 const authCheck = (req, res, next) => {
@@ -92,52 +118,9 @@ app.delete('/users/:userId/dictionaries/:dictionaryId/', dictionaries.deleteDict
 app.post('/notifications/', notifications.newNotification)
 app.get('/notifications/', notifications.getNotifications)
 
-
-// TODO take outside and fix for profile image
-// const storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, "dev-deploy/persistent/image-data")
-//     },
-//     filename: (req, file, cb) => {
-//         const caption = `${uuidV4()}.${file.mimetype.split('/')[1]}`
-//         cb(null, caption)
-//     },
-// })
-
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        if (file.fieldname === 'profile-image') {
-            process.env.NODE_ENV === 'production' ?
-                cb(null, path.resolve(__dirname, '../data/images')) :
-                cb(null, 'dev-deploy/persistent/image-data')
-        }
-        else if (file.fieldname === 'text-file') {
-            process.env.NODE_ENV === 'production' ?
-                cb(null, 'data/imported') :
-                cb(null, 'dev-deploy/persistent/imported-data')
-        }
-        else {
-            process.env.NODE_ENV === 'production' ?
-                cb(null, path.resolve(__dirname, '../data/images')) :
-                cb(null, 'dev-deploy/persistent/image-data')
-        }
-    },
-    filename: (req, file, cb) => {
-        if (file.mimetype === 'text/plain') {
-            const caption = `${uuidV4()}.${file.originalname}`
-            cb(null, caption)
-        } else {
-            const caption = `${uuidV4()}.${file.mimetype.split('/')[1]}`
-            cb(null, caption)
-        }
-    }
-})
-const upload = multer({ storage })
-
-
-app.post("/users/:userId/import-dictionary/", upload.single('text-file'), dictionaries.importDictionary)
-app.post("/users/:userId/upload-profile-image/", upload.single("file"), users.uploadProfileImage)
+app.post('/users/:userId/files/', upload.single('file'), files.fileUpload)
+app.post('/users/:userId/import-dictionary/', upload.single('text-file'), dictionaries.importDictionary)
+app.post('/users/:userId/upload-profile-image/', upload.single('file'), users.uploadProfileImage)
 
 
 
