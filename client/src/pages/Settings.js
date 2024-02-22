@@ -44,11 +44,11 @@ const SettingsPage = observer(() => {
                 const formData = new FormData()
                 formData.append("name", toUpdate.image.name)
                 formData.append("file", toUpdate.image)
+                setToUpdate({ ...toUpdate, image: null }) // to prevent parallel image updatings
                 const data = await updateProfileImage(user.id, formData)
 
                 // update global store
-                context.user.updateUserData({ image: data.fileId, downloadUrl: data.downloadUrl })
-                setToUpdate({ ...toUpdate, image: null })
+                context.user.updateUserData({ image: data.fileId, downloadUrl: data.downloadUrl })    
             } else {
                 console.log('no file to upload')
             }
