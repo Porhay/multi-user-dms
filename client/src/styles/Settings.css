@@ -17,13 +17,17 @@
     /*justify-content: space-between;*/
 }
 
-
+.settings-position-block {
+    margin-right: 5%;
+    width: 20%;
+}
 
 .settings-profile-image-container {
     position: absolute;
     right: 0;
     top: -25px;
 }
+
 .settings-profile-image {
     border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 60px;
@@ -38,15 +42,32 @@
     bottom: 6px;
 }
 
-
-
-.settings-email-password-div {
-
-}
-
+.settings-email-password-div {}
 
 @media screen and (max-width: 480px) {
     .settings-position-container {
         width: 96vw;
+    }
+
+    .settings-container {
+        justify-content: start;
+        margin-top: 40px;
+    }
+
+    .settings-position-container {
+        display: block;
+    }
+
+    .settings-position-block {
+        display: block;
+        margin-top: 0;
+    }
+
+    .settings-tab-list {
+        display: flex;
+    }
+
+    .list-item-left {
+        display: contents;
     }
 }

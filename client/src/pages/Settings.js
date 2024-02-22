@@ -82,28 +82,31 @@ const SettingsPage = observer(() => {
 
             <div className="settings-position-container">
 
-                <div style={{ marginRight: '5%', width: '20%' }}>
+                <div className="settings-position-block">
                     <h2 style={{ fontWeight: 500 }}>Settings</h2>
                     <hr style={{ color: "black", backgroundColor: "black", height: 1 }} />
-                    {tabsList.map((item) => {
-                        const className = state.tab === item.tab ? 'list-item-div active' : 'list-item-div'
-                        return (
-                            <div
-                                className={className}
-                                onClick={() => setState({
-                                    ...state,
-                                    tab: item.tab
-                                })}
-                            >
-                                <div className="list-item-left">
-                                    <LayersIcon className="list-item-icon" />
-                                    <a style={{ fontWeight: 400 }} key={item.tab} className="list-item-a">
-                                        {item.name}
-                                    </a>
+
+                    <div className="settings-tab-list">
+                        {tabsList.map((item) => {
+                            const className = state.tab === item.tab ? 'list-item-div active' : 'list-item-div'
+                            return (
+                                <div
+                                    className={className}
+                                    onClick={() => setState({
+                                        ...state,
+                                        tab: item.tab
+                                    })}
+                                >
+                                    <div className="list-item-left">
+                                        <LayersIcon className="list-item-icon" />
+                                        <a style={{ fontWeight: 400 }} key={item.tab} className="list-item-a">
+                                            {item.name}
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        )
-                    })}
+                            )
+                        })}
+                    </div>
                 </div>
 
                 <div>
