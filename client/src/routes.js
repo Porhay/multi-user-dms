@@ -1,5 +1,4 @@
-import {ROUTES} from "./constants";
-
+import { ROUTES } from "./constants";
 import AuthenticationPage from "./pages/Authentication";
 import DictionariesPage from "./pages/Dictionaries";
 import EntriesPage from "./pages/Entries";

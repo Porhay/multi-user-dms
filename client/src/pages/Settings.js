@@ -2,8 +2,9 @@ import React, { useContext, useState } from "react"
 import { ToastContainer, toast } from 'react-toastify'
 import { observer } from "mobx-react-lite"
 
-import { baseURL, sendProfileImage, updateProfile, updateUsername } from '../http'
+import { sendProfileImage, updateProfile, updateUsername } from '../http'
 import { Context } from "../index"
+import { baseURL } from "../config.js"
 
 import { Form, FormInput, FormTitle, FormInputExplanation } from "../lib/Forms"
 import { IconTextButton, TextButton } from "../lib/Buttons"

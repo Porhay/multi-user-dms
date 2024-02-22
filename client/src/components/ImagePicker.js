@@ -1,15 +1,15 @@
-import React, {useContext, useState} from "react"
-import {observer} from "mobx-react-lite";
+import React, { useContext, useState } from "react"
+import { observer } from "mobx-react-lite";
 
-import {Context} from "../index";
-import {sendProfileImage} from '../http'
+import { Context } from "../index";
+import { sendProfileImage } from '../http'
 
 // import Form from '../lib/Forms'
 import '../styles/ImagePicker.css';
 
 
 const ImagePicker = observer((props) => {
-    const {user} = useContext(Context)
+    const { user } = useContext(Context)
     const userId = user.user.id
 
     const [drag, setDrag] = useState(false)
@@ -50,12 +50,12 @@ const ImagePicker = observer((props) => {
                     <div className="image-picker-container">
                         <a className="close-button" onClick={props.onHide}>+</a>
                         {drag ? <div
-                                className="drop-area"
-                                onDragStart={e => dragStartHandler(e)}
-                                onDragLeave={e => dragLeaveHandler(e)}
-                                onDragOver={e => dragStartHandler(e)}
-                                onDrop={e => onDropHandler(e)}
-                            >Drop file to upload</div> :
+                            className="drop-area"
+                            onDragStart={e => dragStartHandler(e)}
+                            onDragLeave={e => dragLeaveHandler(e)}
+                            onDragOver={e => dragStartHandler(e)}
+                            onDrop={e => onDropHandler(e)}
+                        >Drop file to upload</div> :
                             <div
                                 onDragStart={e => dragStartHandler(e)}
                                 onDragLeave={e => dragLeaveHandler(e)}
@@ -70,7 +70,7 @@ const ImagePicker = observer((props) => {
                                         accept=".png,.jpeg,.jpg"
                                         onChange={e => onDropHandler(e)}
                                         id="file"
-                                        style={{display: "none"}}
+                                        style={{ display: "none" }}
                                     ></input>
                                 </div>
                                 <div className="drag-file-text-div">

@@ -14,18 +14,18 @@ import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 
 const Icon = (props) => {
     switch (props.icon) {
-        case 0 || 'LayersIcon': return <LayersIcon  style={props.style} />
-        case 1 || 'TranslateIcon': return <TranslateIcon  style={props.style} />
-        case 2 || 'FastfoodIcon': return <FastfoodIcon  style={props.style} />
-        case 3 || 'SportsEsportsIcon': return <SportsEsportsIcon  style={props.style} />
-        case 4 || 'FavoriteIcon': return <FavoriteIcon  style={props.style} />
-        case 5 || 'BrushIcon': return <BrushIcon  style={props.style} />
-        case 6 || 'LocalAirportIcon': return <LocalAirportIcon  style={props.style} />
-        case 7 || 'LocalGroceryStoreIcon': return <LocalGroceryStoreIcon  style={props.style} />
-        case 8 || 'MusicNoteIcon': return <MusicNoteIcon  style={props.style} />
-        case 9 || 'RocketLaunchIcon': return <RocketLaunchIcon  style={props.style} />
-        default: return <LayersIcon  style={props.style} />
+        case 0 || 'LayersIcon': return <LayersIcon style={props.style} />
+        case 1 || 'TranslateIcon': return <TranslateIcon style={props.style} />
+        case 2 || 'FastfoodIcon': return <FastfoodIcon style={props.style} />
+        case 3 || 'SportsEsportsIcon': return <SportsEsportsIcon style={props.style} />
+        case 4 || 'FavoriteIcon': return <FavoriteIcon style={props.style} />
+        case 5 || 'BrushIcon': return <BrushIcon style={props.style} />
+        case 6 || 'LocalAirportIcon': return <LocalAirportIcon style={props.style} />
+        case 7 || 'LocalGroceryStoreIcon': return <LocalGroceryStoreIcon style={props.style} />
+        case 8 || 'MusicNoteIcon': return <MusicNoteIcon style={props.style} />
+        case 9 || 'RocketLaunchIcon': return <RocketLaunchIcon style={props.style} />
+        default: return <LayersIcon style={props.style} />
     }
 }
 
-export {Icon}
+export { Icon }

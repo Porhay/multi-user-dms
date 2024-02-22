@@ -7,7 +7,6 @@ import AccessibleForwardIcon from '@mui/icons-material/AccessibleForward';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
 
-
 const Icon = (props) => {
     switch (props.icon) {
         case 'EditOutlinedIcon': return <EditOutlinedIcon style={iconStyle} />
@@ -21,7 +20,7 @@ const Icon = (props) => {
 const IconTextButton = (props) => {
     return (
         <a className="icon-text-button" onClick={props.onClick}>
-            <Icon icon={props.icon}/>
+            <Icon icon={props.icon} />
             <span style={textStyle}>{props.text}</span>
         </a>
     )
@@ -31,7 +30,7 @@ const IconTextButton = (props) => {
 const IconButton = (props) => {
     return (
         <a className="icon-button" onClick={props.onClick}>
-            <Icon icon={props.icon}/>
+            <Icon icon={props.icon} />
         </a>
     )
 }
@@ -55,7 +54,7 @@ const TextButton = (props) => {
 
 
 //=== Button Styles
-const iconStyle = {fontSize: 19, paddingBottom: 2}
-const textStyle = {marginLeft: 2}
+const iconStyle = { fontSize: 19, paddingBottom: 2 }
+const textStyle = { marginLeft: 2 }
 
-export {IconTextButton, IconButton, TextButton}
+export { IconTextButton, IconButton, TextButton }

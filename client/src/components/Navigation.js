@@ -5,7 +5,8 @@ import {observer} from "mobx-react-lite";
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import CommentIcon from '@mui/icons-material/Comment';
 
-import {baseURL, shareDictionary} from "../http";
+import {shareDictionary} from "../http";
+import {baseURL} from "../config.js";
 
 import {Context} from "../index";
 import {ROUTES} from "../constants";
