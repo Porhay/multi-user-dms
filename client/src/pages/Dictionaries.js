@@ -18,6 +18,7 @@ import {
     deleteDictionary,
     importDictionary,
     getEntries,
+    getProfileImageUrl,
 } from '../http'
 
 import '../styles/Dictionaries.css';
@@ -52,7 +53,7 @@ const DictionariesPage = observer(() => {
     }, [])
 
     const updateData = () => {
-        getDictionaries(user.id).then((response) => {
+        getDictionaries(user.id).then(response => {
             let dictionaries = response.data.reverse()
 
             // add edit, icon rows for every
@@ -62,6 +63,11 @@ const DictionariesPage = observer(() => {
             }
             setData(dictionaries)
         })
+        // if (user.userData.image) {
+        //     getProfileImageUrl(user.id, user.userData.image).then(response => {
+        //         context.user.updateUserData({ downloadUrl: response.downloadUrl })
+        //     })
+        // }
     }
 
     const newDictionary = async () => {
