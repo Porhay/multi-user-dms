@@ -9,13 +9,13 @@ const baseURL = (process.env.REACT_APP_NODE_ENV === 'production' && process.env.
 const host = axios.create({
     baseURL: baseURL, // TODO: Take local network ip from server side and replace with baseURL
     timeout: 1000 * 60 * 5, // 5m
-    headers: {'X-Custom-Header': 'foobar'}
+    headers: { 'X-Custom-Header': 'foobar' }
 })
 
 const authHost = axios.create({
     baseURL: baseURL,
     timeout: 1000 * 60 * 5, // 5m
-    headers: {'X-Custom-Header': 'foobar'}
+    headers: { 'X-Custom-Header': 'foobar' }
 })
 
 const authInterceptor = config => {
@@ -23,6 +23,19 @@ const authInterceptor = config => {
     return config
 }
 authHost.interceptors.request.use(authInterceptor)
+
+
+const catchError = (apiFunction) => async (...params) => {
+    try {
+        return await apiFunction(...params);
+    } catch (error) {
+        if (error.response && error.response.data) {
+            return error.response.data;
+        } else {
+            throw error;
+        }
+    }
+};
 
 
 const createOrUpdateDictionary = async (data) => {
@@ -45,14 +58,14 @@ const deleteDictionary = async (userId, dictionaryId) => {
 }
 
 const shareDictionary = async (userId, dictionaryId, recipientId) => {
-    return await authHost.post(`/users/${userId}/share-dictionary/`, {dictionaryId, recipientId})
+    return await authHost.post(`/users/${userId}/share-dictionary/`, { dictionaryId, recipientId })
 }
 
 
 
 const createEntry = async (data) => {
-    const {userId, dictionaryId, key, value} = data
-    return await host.post(`/users/${userId}/dictionaries/${dictionaryId}/entries/`, {key, value})
+    const { userId, dictionaryId, key, value } = data
+    return await host.post(`/users/${userId}/dictionaries/${dictionaryId}/entries/`, { key, value })
 }
 
 const getEntries = async (userId, dictionaryId) => {
@@ -64,35 +77,35 @@ const deleteEntry = async (userId, dictionaryId, entryId) => {
 }
 
 
-const registration = async (email, password) => {
-    const {data} = await host.post('/users/', {email, password})
-    localStorage.setItem('token', data.token)
-    return jwt_decode(data.token)
-}
-
-const login = async (email, password) => {
-    const response = await host.post('/users/login/', {email, password})
+const registration = catchError(async (email, password) => {
+    const response = await host.post('/users/', { email, password })
     localStorage.setItem('token', response.data.token)
-    return {...jwt_decode(response.data.token), userData: response.data.user}
-}
+    return { ...jwt_decode(response.data.token), userData: response.data.user };
+})
+
+const login = catchError(async (email, password) => {
+    const response = await host.post('/users/login/', { email, password });
+    localStorage.setItem('token', response.data.token);
+    return { ...jwt_decode(response.data.token), userData: response.data.user };
+});
 
 const check = async () => {
-    const response = await authHost.get('/users/check/' )
+    const response = await authHost.get('/users/check/')
     localStorage.setItem('token', response.data.token)
-    return {...jwt_decode(response.data.token), userData: response.data.user}
+    return { ...jwt_decode(response.data.token), userData: response.data.user }
 }
 
 const updateProfile = async (userId, fields) => {
-    return await authHost.post(`/users/${userId}/update-profile/`, {fields})
+    return await authHost.post(`/users/${userId}/update-profile/`, { fields })
 }
 
 
 const addToFriendsByUsername = async (userId, friendId) => {
-    return await authHost.post(`/users/${userId}/friends/`, {friendId: friendId})
+    return await authHost.post(`/users/${userId}/friends/`, { friendId: friendId })
 }
 
 const updateUsername = async (userId, username) => {
-    return await authHost.post(`/users/${userId}/username/`, {username: username})
+    return await authHost.post(`/users/${userId}/username/`, { username: username })
 }
 
 const getByIdOrUsername = async (data) => {

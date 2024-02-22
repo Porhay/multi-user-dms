@@ -73,3 +73,8 @@
 
 }
 
+@media screen and (max-width: 480px) {
+    .navbar {
+        padding: 0 6px 0 10px;
+    }
+}

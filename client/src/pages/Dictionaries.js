@@ -160,7 +160,7 @@ const DictionariesPage = observer(() => {
                                 />
                             </label>
                         </FormInput>
-                        <div style={{ display: "flex" }}>
+                        <div className='dictionary-sort-block'>
                             <FormInputExplanation
                                 text="That name can be edited in future, you can always delete your dictionary" />
                             <div className="dictionary-sort-button-div">

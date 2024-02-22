@@ -43,6 +43,10 @@
     font-size: 13px;
 }
 
+.dictionary-sort-block {
+    display: flex;
+}
+
 /* sort button */
 .dictionary-sort-button-div {
     margin: -8px 2px 0 20px;
@@ -54,4 +58,19 @@
 }
 .dictionary-sort-button-span:hover {
     color: #269d10;
+}
+
+@media screen and (max-width: 480px) {
+    .dictionary-position-container {
+        width: 96vw;
+    }
+
+    .dictionary-sort-block {
+        width: 90%;
+    }
+
+    .dictionary-sort-button-div {
+        position: absolute;
+        right: 4px;
+    }
 }

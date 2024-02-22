@@ -28,3 +28,10 @@
 .authentication-explanation:hover {
     color: #269d10;
 }
+
+@media screen and (max-width: 480px) {
+    .authentication-position-container {
+        width: 96vw;
+    }
+}
+

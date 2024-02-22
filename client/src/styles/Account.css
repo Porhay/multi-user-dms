@@ -14,3 +14,14 @@
     width: 50vw;
     height: 60vh;
 }
+
+
+@media screen and (max-width: 480px) {
+    .account-container {
+        justify-content: start;
+        margin-top: 10px;
+    }
+    .account-position-container {
+        width: 96vw;
+    }
+}
