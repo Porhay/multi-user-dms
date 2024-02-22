@@ -1,16 +1,16 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {useNavigate} from "react-router-dom";
-import {observer} from "mobx-react-lite";
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { observer } from "mobx-react-lite";
 
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import CommentIcon from '@mui/icons-material/Comment';
 
-import {shareDictionary, getProfileImageUrl} from "../http";
-import {baseURL} from "../config.js";
+import { shareDictionary, getProfileImageUrl } from "../http";
+import { baseURL } from "../config.js";
 
-import {Context} from "../index";
-import {ROUTES} from "../constants";
-import {Dropdown} from './Dropdown'
+import { Context } from "../index";
+import { ROUTES } from "../constants";
+import { Dropdown } from './Dropdown'
 
 import avatarDefault from "../assets/images/profile-image-default.jpg";
 import '../styles/Navigation.css';
@@ -26,6 +26,11 @@ const Navigation = observer(() => {
     useEffect(() => {
         // TODO if no connection to the server subscribe func occurs error every 2 sec
         subscribe().catch(e => console.log(e))
+        if (user.userData.image) {
+            getProfileImageUrl(user.id, user.userData.image).then(response => {
+                context.user.updateUserData({ downloadUrl: response.downloadUrl })
+            })
+        }
     }, [])
 
     const subscribe = async () => {
@@ -44,16 +49,16 @@ const Navigation = observer(() => {
     }
 
     const shareCurrentDictionary = async (data) => {
-        const {dictionaryId, recipientId, id} = data
+        const { dictionaryId, recipientId, id } = data
         await shareDictionary(user.id, dictionaryId, recipientId)
         setNotifications([...notifications.filter(item => item.id !== id)])
     }
 
     const accountList = [
-        {message: 'Accounts', action: () => navigate(ROUTES.ACCOUNT)},
-        {message: 'Dictionaries', action: () => navigate(ROUTES.DICTIONARIES)},
-        {message: 'Settings', action: () => navigate(ROUTES.SETTINGS)},
-        {message: 'Log out', action: () => logOut()},
+        { message: 'Accounts', action: () => navigate(ROUTES.ACCOUNT) },
+        { message: 'Dictionaries', action: () => navigate(ROUTES.DICTIONARIES) },
+        { message: 'Settings', action: () => navigate(ROUTES.SETTINGS) },
+        { message: 'Log out', action: () => logOut() },
     ]
 
     const logOut = () => {
@@ -73,14 +78,14 @@ const Navigation = observer(() => {
 
     const ProfileImage = () => (
         <img src={user.userData.downloadUrl ? user.userData.downloadUrl : avatarDefault}
-             className="navigation-profile-image" alt="profile image"/>
+            className="navigation-profile-image" alt="profile image" />
     )
 
     return (
         <Navbar>
             <a href="/" className="a-logo" onClick={() => navigate(ROUTES.DICTIONARIES)}>
                 {/*<AccessibleForwardIcon/>DMS*/}
-                <CommentIcon fontSize="small"/> DMS
+                <CommentIcon fontSize="small" /> DMS
             </a>
             <div className="nav-items-right">
                 {context.user.isAuth ?
@@ -88,7 +93,7 @@ const Navigation = observer(() => {
                         <li key={notifications.message} className="nav-item">
                             <Dropdown
                                 items={notifications}
-                                icon={<NotificationsNoneIcon className="icon"/>}
+                                icon={<NotificationsNoneIcon className="icon" />}
                                 className='nav-notification-dropdown'
                                 option='notification'
                             />
@@ -96,7 +101,7 @@ const Navigation = observer(() => {
                         <li key={notifications.message} className="nav-item">
                             <Dropdown
                                 items={accountList}
-                                icon={<ProfileImage/>}
+                                icon={<ProfileImage />}
                                 className='nav-image-dropdown'
                             />
                         </li>

@@ -1,15 +1,11 @@
 import React, { useContext, useState } from "react"
 import { ToastContainer, toast } from 'react-toastify'
 import { observer } from "mobx-react-lite"
-
-import { sendProfileImage, updateProfile, updateUsername, updateProfileImage } from '../http'
+import { updateProfile, updateUsername, updateProfileImage } from '../http'
 import { Context } from "../index"
-import { baseURL } from "../config.js"
-
 import { Form, FormInput, FormTitle, FormInputExplanation } from "../lib/Forms"
 import { IconTextButton, TextButton } from "../lib/Buttons"
 import { readURL } from "../helpers"
-
 import LayersIcon from "@mui/icons-material/Layers";
 import avatarDefault from '../assets/images/profile-image-default.jpg'
 import '../styles/Settings.css'
@@ -38,7 +34,6 @@ const SettingsPage = observer(() => {
         name: '',
     })
 
-    const [preview, setPreview] = useState('')
     const updateUserProfile = async () => {
         try {
             if (toUpdate.name && toUpdate.name !== '') {
@@ -116,7 +111,7 @@ const SettingsPage = observer(() => {
                             return (
                                 <>
                                     <div className="settings-profile-image-container">
-                                        <img src={preview || user.userData.downloadUrl ? user.userData.downloadUrl : avatarDefault}
+                                        <img src={user.userData.downloadUrl ? user.userData.downloadUrl : avatarDefault}
                                             className="settings-profile-image" alt="profile image" />
                                         <label htmlFor="select-image">
                                             <div className="settings-profile-image-btn">
@@ -127,8 +122,7 @@ const SettingsPage = observer(() => {
                                                         const newImage = event.target.files[0]
                                                         setToUpdate({ ...toUpdate, image: newImage })
                                                         readURL(newImage).then((imageUrl) => {
-                                                            console.log(imageUrl);
-                                                            setPreview(imageUrl)
+                                                            user.userData.downloadUrl = imageUrl
                                                         })
                                                     }} />
                                             </div>

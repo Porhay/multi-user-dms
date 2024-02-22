@@ -63,11 +63,11 @@ const DictionariesPage = observer(() => {
             }
             setData(dictionaries)
         })
-        if (user.userData.image) {
-            getProfileImageUrl(user.id, user.userData.image).then(response => {
-                context.user.updateUserData({ downloadUrl: response.downloadUrl })
-            })
-        }
+        // if (user.userData.image) {
+        //     getProfileImageUrl(user.id, user.userData.image).then(response => {
+        //         context.user.updateUserData({ downloadUrl: response.downloadUrl })
+        //     })
+        // }
     }
 
     const newDictionary = async () => {

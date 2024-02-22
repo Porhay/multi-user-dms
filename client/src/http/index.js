@@ -113,6 +113,7 @@ export const sendNotification = async (message, dictionaryId, recipientId, sende
     })
 }
 
+// TODO: depricated
 export const sendProfileImage = async (userId, formData) => {
     return await authHost.post(`/users/${userId}/upload-profile-image/`, formData)
 }
