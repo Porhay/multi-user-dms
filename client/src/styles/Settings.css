@@ -43,3 +43,10 @@
 .settings-email-password-div {
 
 }
+
+
+@media screen and (max-width: 480px) {
+    .settings-position-container {
+        width: 96vw;
+    }
+}

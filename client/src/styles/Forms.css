@@ -35,6 +35,12 @@
     font-size: 18px;
     outline: none;
 }
+
+.form-input-div-space-left span {
+    display: block;
+    width: fit-content;
+}
+
 .form-input-space-left {
     width: 95%;
     height: 30px;

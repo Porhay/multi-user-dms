@@ -28,6 +28,7 @@ a{
     border-radius: var(--border-radius);
     overflow: hidden;
     transition: height var(--speed) ease;
+    z-index: 1000;
     /*padding: 0 30px 0 0;*/
 }
 
