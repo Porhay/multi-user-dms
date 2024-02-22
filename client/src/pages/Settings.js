@@ -1,13 +1,13 @@
-import React, {useContext, useState} from "react"
-import {ToastContainer, toast} from 'react-toastify'
-import {observer} from "mobx-react-lite"
+import React, { useContext, useState } from "react"
+import { ToastContainer, toast } from 'react-toastify'
+import { observer } from "mobx-react-lite"
 
-import {baseURL, sendProfileImage, updateProfile, updateUsername} from '../http'
-import {Context} from "../index"
+import { baseURL, sendProfileImage, updateProfile, updateUsername } from '../http'
+import { Context } from "../index"
 
-import {Form, FormInput, FormTitle, FormInputExplanation} from "../lib/Forms"
-import {IconTextButton, TextButton} from "../lib/Buttons"
-import {readURL} from "../helpers"
+import { Form, FormInput, FormTitle, FormInputExplanation } from "../lib/Forms"
+import { IconTextButton, TextButton } from "../lib/Buttons"
+import { readURL } from "../helpers"
 
 import LayersIcon from "@mui/icons-material/Layers";
 import avatarDefault from '../assets/images/profile-image-default.jpg'
@@ -27,8 +27,8 @@ const SettingsPage = observer(() => {
     })
 
     const tabsList = [
-        {tab: 'profile', name: 'Profile', action: () => console.log("Halo Profile!")},
-        {tab: 'account', name: 'Account', action: () => console.log("Halo Account!")},
+        { tab: 'profile', name: 'Profile', action: () => console.log("Halo Profile!") },
+        { tab: 'account', name: 'Account', action: () => console.log("Halo Account!") },
     ]
 
 
@@ -41,8 +41,8 @@ const SettingsPage = observer(() => {
     const updateUserProfile = async () => {
         try {
             if (toUpdate.name && toUpdate.name !== '') {
-                await updateProfile(user.id, {name: toUpdate.name})
-                setToUpdate({...toUpdate, name: ''})
+                await updateProfile(user.id, { name: toUpdate.name })
+                setToUpdate({ ...toUpdate, name: '' })
             }
             if (toUpdate.image) {
                 const formData = new FormData()
@@ -51,7 +51,7 @@ const SettingsPage = observer(() => {
                 const response = await sendProfileImage(user.id, formData)
 
                 // update global store
-                context.user.updateUserData({image: response.data.image})
+                context.user.updateUserData({ image: response.data.image })
             } else {
                 console.log('no file to upload')
             }
@@ -67,19 +67,24 @@ const SettingsPage = observer(() => {
         }
     }
 
+    const handleUpdateUsername = async () => {
+        await updateUsername(user.id, state.username)
+        toast.success('Username updated', { position: "top-right", autoClose: 2000 })
+    }
+
     // TODO `${baseURL + user.userData.image}` throw err when image is null
     return (
         <div className="settings-container">
             <ToastContainer
-                style={{marginTop: 30}} position="top-right" autoClose={5000}
+                style={{ marginTop: 30 }} position="top-right" autoClose={5000}
                 closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover
             />
 
             <div className="settings-position-container">
 
-                <div style={{marginRight: '5%', width: '20%'}}>
-                    <h2 style={{fontWeight: 500}}>Settings</h2>
-                    <hr style={{color: "black", backgroundColor: "black", height: 1}}/>
+                <div style={{ marginRight: '5%', width: '20%' }}>
+                    <h2 style={{ fontWeight: 500 }}>Settings</h2>
+                    <hr style={{ color: "black", backgroundColor: "black", height: 1 }} />
                     {tabsList.map((item) => {
                         const className = state.tab === item.tab ? 'list-item-div active' : 'list-item-div'
                         return (
@@ -91,8 +96,8 @@ const SettingsPage = observer(() => {
                                 })}
                             >
                                 <div className="list-item-left">
-                                    <LayersIcon className="list-item-icon"/>
-                                    <a style={{fontWeight: 400}} key={item.tab}  className="list-item-a">
+                                    <LayersIcon className="list-item-icon" />
+                                    <a style={{ fontWeight: 400 }} key={item.tab} className="list-item-a">
                                         {item.name}
                                     </a>
                                 </div>
@@ -108,38 +113,42 @@ const SettingsPage = observer(() => {
                                 <>
                                     <div className="settings-profile-image-container">
                                         <img src={preview || `${baseURL + user.userData.image}` || avatarDefault}
-                                             className="settings-profile-image" alt="profile image"/>
+                                            className="settings-profile-image" alt="profile image" />
                                         <label htmlFor="select-image">
                                             <div className="settings-profile-image-btn">
-                                                <IconTextButton icon="EditOutlinedIcon" text="Edit"/>
+                                                <IconTextButton icon="EditOutlinedIcon" text="Edit" />
                                                 <input type="file" accept="image/*" id="select-image"
-                                                       style={{display: "none"}}
-                                                       onChange={event => {
-                                                           const newImage = event.target.files[0]
-                                                           setToUpdate({...toUpdate, image: newImage})
-                                                           readURL(newImage).then((imageUrl) => {
-                                                               setPreview(imageUrl)
-                                                           })
-                                                       }}/>
+                                                    style={{ display: "none" }}
+                                                    onChange={event => {
+                                                        const newImage = event.target.files[0]
+                                                        setToUpdate({ ...toUpdate, image: newImage })
+                                                        readURL(newImage).then((imageUrl) => {
+                                                            setPreview(imageUrl)
+                                                        })
+                                                    }} />
                                             </div>
                                         </label>
                                     </div>
 
-                                    <div style={{width: '80%'}}>
+                                    <div style={{ width: '80%' }}>
                                         <h2>Public profile</h2>
-                                        <hr style={{color: "black", backgroundColor: "black", height: 1}}/>
-                                        <Form style={{marginTop: 12, width: '100%'}}>
-                                            <FormTitle text="Name"/>
+                                        <hr style={{ color: "black", backgroundColor: "black", height: 1 }} />
+                                        <Form style={{ marginTop: 12, width: '100%' }}>
+                                            <FormTitle text="Name" />
                                             <FormInput
                                                 value={toUpdate.name}
-                                                onChange={e => setToUpdate({...toUpdate, name: e.target.value})}
+                                                onChange={e => setToUpdate({ ...toUpdate, name: e.target.value })}
+                                                onKeyDown={updateUserProfile}
                                             />
                                             <FormInputExplanation text="Your name may appear around dictionary management system
                                                         in your friend's notifications or share dictionary list."/>
                                         </Form>
 
-                                        <TextButton style={{marginTop: 12}} onClick={() => updateUserProfile()}
-                                                    text="Update profile"/>
+                                        <TextButton
+                                            style={{ marginTop: 12 }}
+                                            onClick={updateUserProfile}
+                                            text="Update profile"
+                                        />
                                     </div>
                                 </>
                             )
@@ -147,26 +156,23 @@ const SettingsPage = observer(() => {
                         if (state.tab === 'account') {
                             return (
                                 <>
-                                    <div style={{width: '100%'}}>
+                                    <div style={{ width: '100%' }}>
                                         <h2>Account settings</h2>
-                                        <hr style={{color: "black", backgroundColor: "black", height: 1}}/>
+                                        <hr style={{ color: "black", backgroundColor: "black", height: 1 }} />
 
 
-                                        <div style={{display: 'flex'}}>
-                                            <Form style={{marginTop: 6, width: '100%'}}>
-                                                <FormTitle text="Username"/>
+                                        <div style={{ display: 'flex' }}>
+                                            <Form style={{ marginTop: 6, width: '100%' }}>
+                                                <FormTitle text="Username" />
                                                 <FormInput
                                                     value={state.username}
-                                                    onChange={e => setState({...state, username: e.target.value})}
+                                                    onChange={e => setState({ ...state, username: e.target.value })}
+                                                    onKeyDown={handleUpdateUsername}
                                                 />
-                                                <FormInputExplanation text="Username must be unique! You can always change it anytime."/>
-                                                <div style={{marginTop: 6}}>
+                                                <FormInputExplanation text="Username must be unique! You can always change it anytime." />
+                                                <div style={{ marginTop: 6 }}>
                                                     <IconTextButton
-                                                        onClick={async () => {
-                                                            await updateUsername(user.id, state.username)
-                                                            toast.success('Username updated',
-                                                                {position: "top-right", autoClose: 2000})
-                                                        }}
+                                                        onClick={handleUpdateUsername}
                                                         icon="EditOutlinedIcon"
                                                         text="Reset"
                                                     />
@@ -176,32 +182,34 @@ const SettingsPage = observer(() => {
                                         </div>
 
 
-
-
-                                        <h5 style={{marginTop: 36}}>Login & Password</h5>
-                                        <hr style={{marginTop: 6, marginBottom: 8, color: "black", backgroundColor: "black", height: 0.5}}/>
+                                        <h5 style={{ marginTop: 36 }}>Login & Password</h5>
+                                        <hr style={{ marginTop: 6, marginBottom: 8, color: "black", backgroundColor: "black", height: 0.5 }} />
 
                                         <div className='settings-email-password-div'>
-                                            <div style={{display: 'flex'}}>
-                                                <Form style={{marginTop: 6, width: '100%'}}>
-                                                    <FormTitle text="User password"/>
+                                            <div style={{ display: 'flex' }}>
+                                                <Form style={{ marginTop: 6, width: '100%' }}>
+                                                    <FormTitle text="User password" />
                                                     <FormInput
                                                         value={toUpdate.name}
-                                                        onChange={e => setToUpdate({...toUpdate, name: e.target.value})}
+                                                        onChange={e => setToUpdate({ ...toUpdate, name: e.target.value })}
+                                                        onKeyDown={() => console.log('Password update is not provided')}
                                                     />
                                                     <FormInputExplanation text="You will receive a message on your email box.
                                                                 Step by the link to change profile password or leave if is it not you."/>
                                                 </Form>
-                                                <TextButton style={{marginTop: 25.5}} onChange={() => console.log('Email')}
-                                                            text="Change"/>
+                                                <TextButton
+                                                    style={{ marginTop: 25.5 }}
+                                                    onClick={() => console.log('Password update is not provided')}
+                                                    text="Change"
+                                                />
                                             </div>
                                         </div>
 
 
-                                        <h5 style={{marginTop: 36}}>Powered by somebody</h5>
-                                        <hr style={{marginTop: 6, marginBottom: 4, color: "black", backgroundColor: "black", height: 0.5}}/>
+                                        <h5 style={{ marginTop: 36 }}>Powered by somebody</h5>
+                                        <hr style={{ marginTop: 6, marginBottom: 4, color: "black", backgroundColor: "black", height: 0.5 }} />
                                         <FormInputExplanation
-                                            text="You can always send me email to ask any questions you want."/>
+                                            text="You can always send me email to ask any questions you want." />
 
                                     </div>
                                 </>

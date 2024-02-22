@@ -10,11 +10,14 @@ ss:
 
     # start database
 	mkdir -p server/data/imported
-	mkdir -p server/data/image
+	mkdir -p server/data/images
 	mkdir -p server/data/postgresql
 
-	docker-compose -f server/dev-deploy/docker-compose.yml down;
-	docker-compose -f server/dev-deploy/docker-compose.yml up -d postgresql;
+	chmod 777 server/.env
+
+	docker-compose down;
+	docker-compose up -d dms-postgresql;
+	
 	until nc -z -v -w30 localhost 5432; do echo "Waiting for postgresql...";  sleep 5; done
 	@echo "Database started..."
 

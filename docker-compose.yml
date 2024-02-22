@@ -3,7 +3,9 @@ version: '3.8'
 services:
   dms-postgresql:
     image: postgres:latest
-    container_name: postgresql
+    container_name: dms-postgresql
+    env_file:
+      - ./server/.env
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
@@ -17,15 +19,15 @@ services:
       context: ./server
       dockerfile: Dockerfile
     env_file:
-      - ./.env
+      - ./server/.env
     depends_on:
       - dms-postgresql
     ports:
       - '8000:8000'
 
   client:
-      build:
-        context: ./client
-        dockerfile: Dockerfile
-      ports:
-        - "8080:80"
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"

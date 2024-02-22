@@ -22,16 +22,18 @@ const AccountPage = observer(() => {
     })
 
     const searchByUsername = async (username) => {
-        const result = await getByIdOrUsername(username)
-        if (!result.data) {
-            return setState({...state, friends: [], search: ''})
+        if (username !== '') {
+            const result = await getByIdOrUsername(username)
+            if (!result.data) {
+                return setState({...state, friends: [], search: ''})
+            }
+    
+            setState({
+                ...state,
+                friends: [result.data],
+                search: ''
+            })
         }
-
-        setState({
-            ...state,
-            friends: [result.data],
-            search: ''
-        })
     }
 
     const addNewFriend = async (friendId) => {
@@ -60,6 +62,7 @@ const AccountPage = observer(() => {
                         <FormInput
                             value={state.search}
                             onChange={e => setState({...state, search: e.target.value})}
+                            onKeyDown={() => searchByUsername(state.search)}
                         />
                         <FormInputExplanation text="Search for friends to share your dictionaries with them later" />
                     </Form>

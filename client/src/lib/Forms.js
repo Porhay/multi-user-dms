@@ -32,6 +32,13 @@ const FormInput = (props) => {
                 type='text'
                 onChange={props.onChange}
                 placeholder='Write here'
+                action={props.action}
+                onKeyDown={e => {
+                    if (e.key === 'Enter') e.preventDefault()
+                    if (e.key === 'Enter' && props.value !== '') {
+                        props.onKeyDown()
+                    }
+                }}
             />
         </div>
     )
@@ -49,5 +56,5 @@ const FormInputExplanation = (props) => {
 }
 
 
-export {Form, FormInput, FormTitle, FormInputExplanation}
+export { Form, FormInput, FormTitle, FormInputExplanation }
 

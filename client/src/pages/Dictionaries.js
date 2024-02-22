@@ -124,7 +124,7 @@ const DictionariesPage = observer(() => {
 
         // set default structure
         const txtContent = data.map(entry => `${entry.key}\t${entry.value}`).join('\n');
-        
+
         // download as txt
         const blob = new Blob([txtContent], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
@@ -144,6 +144,7 @@ const DictionariesPage = observer(() => {
                             variant='space-left'
                             value={state.nameOfNew}
                             onChange={e => setState({ ...state, nameOfNew: e.target.value })}
+                            onKeyDown={newDictionary}
                         >
                             <label htmlFor="select-file">
                                 <span style={{ marginLeft: 10, marginTop: 0, cursor: "pointer" }}
@@ -173,7 +174,11 @@ const DictionariesPage = observer(() => {
                         </div>
 
                     </Form>
-                    <TextButton style={{ marginTop: 25 }} onClick={() => newDictionary()} text="New" />
+                    <TextButton
+                        style={{ marginTop: 25 }}
+                        onClick={newDictionary}
+                        text="New"
+                    />
                 </div>
 
                 <div className="dictionary-list-div">

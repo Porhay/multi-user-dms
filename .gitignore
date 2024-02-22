@@ -6,7 +6,7 @@
 /.idea/vcs.xml
 
 # Database
-persistent/
+server/data/
 
 # Config file
 server/app/config.js

@@ -4,8 +4,8 @@ import jwt_decode from 'jwt-decode'
 const PORT = 8000
 console.log(process.env.REACT_APP_NODE_ENV);
 console.log(process.env.REACT_APP_EXTERNAL_SERVER_URL);
-// const baseURL = (process.env.REACT_APP_NODE_ENV === 'production' && process.env.REACT_APP_EXTERNAL_SERVER_URL) || `http://localhost:${PORT}` // `http://192.168.1.113:${PORT}`
-const baseURL = 'https://dms-server-2k3z.onrender.com' // TODO: for deploy only, update after fix
+const baseURL = (process.env.REACT_APP_NODE_ENV === 'production' && process.env.REACT_APP_EXTERNAL_SERVER_URL) || `http://localhost:${PORT}` // `http://192.168.1.113:${PORT}`
+// const baseURL = 'https://dms-server-2k3z.onrender.com' // TODO: for deploy only, update after fix
 const host = axios.create({
     baseURL: baseURL, // TODO: Take local network ip from server side and replace with baseURL
     timeout: 1000 * 60 * 5, // 5m

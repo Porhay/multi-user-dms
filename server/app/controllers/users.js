@@ -86,20 +86,25 @@ export const getUsers = async (req, res) => {
 }
 
 export const getUser = async (req, res) => {
-    const userId = req.params.userId // or username
+    try {
+        const userId = req.params.userId; // or username
 
-    let user = await dal.users.getByUsername(userId)
-    if (!user) {
-        user = await dal.users.getById(userId).catch(() => {
-            return res.json(null)
-        })
-    }
+        let user = await dal.users.getByUsername(userId);
+        if (!user) {
+            user = await dal.users.getById(userId);
+        }
 
-    if (user) {
-        user.password = null
+        if (user) {
+            user.password = null;
+            res.json(user);
+        } else {
+            res.json(null);
+        }
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-    res.json(user)
-}
+};
 
 
 export const updateUsername = async (req, res) => {
