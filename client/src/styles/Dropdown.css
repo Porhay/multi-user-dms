@@ -49,7 +49,7 @@ a{
     position: absolute;
     right: 0;
     width: 130px;
-    transform: translateY(69%);
+    transform: translateY(65%);
     background-color: var(--bg);
     border: var(--border);
     border-radius: var(--border-radius);

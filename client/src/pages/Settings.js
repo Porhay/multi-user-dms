@@ -112,7 +112,7 @@ const SettingsPage = observer(() => {
                             return (
                                 <>
                                     <div className="settings-profile-image-container">
-                                        <img src={preview || `${baseURL + user.userData.image}` || avatarDefault}
+                                        <img src={preview || user.userData.image ? avatarDefault : avatarDefault}
                                             className="settings-profile-image" alt="profile image" />
                                         <label htmlFor="select-image">
                                             <div className="settings-profile-image-btn">

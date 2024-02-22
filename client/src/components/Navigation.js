@@ -24,6 +24,7 @@ const Navigation = observer(() => {
     const [notifications, setNotifications] = useState([])
     useEffect(() => {
         // TODO if no connection to the server subscribe func occurs error every 2 sec
+        console.log(context.user.user)
         subscribe().catch(e => console.log(e))
     }, [])
 
@@ -71,7 +72,7 @@ const Navigation = observer(() => {
     )
 
     const ProfileImage = () => (
-        <img src={`${baseURL}/${user.userData.image}` || `${baseURL}/profile-image-default.jpg` || avatarDefault}
+        <img src={user.userData.image ? avatarDefault : avatarDefault}
              className="navigation-profile-image" alt="profile image"/>
     )
 

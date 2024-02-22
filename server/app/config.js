@@ -37,7 +37,7 @@ export const VERIFICATION_CODE = {
 }
 
 export const JWT_TOKEN = {
-    SECRET: 'TOKEN_KEY',
-    EXPIRES_IN: '24h',
+    SECRET: process.env.JWT_TOKEN_SECRET || 'TOKEN_KEY',
+    EXPIRES_IN: '48h',
 }
 
