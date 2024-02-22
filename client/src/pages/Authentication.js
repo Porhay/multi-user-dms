@@ -26,33 +26,21 @@ const AuthenticationPage = observer(() => {
     })
 
     const loginOrRegister = async () => {
-        try {
-            const userData = isLogin ?
-                await toast.promise(login(state.email, state.password),
-                    {
-                        pending: 'Waiting for login...',
-                        success: 'You are in',
-                        error: 'Wrong email or password'
-                    })
-                :
-                await toast.promise(registration(state.email, state.password),
-                    {
-                        pending: 'Waiting for registration...',
-                        success: 'Registered successfully',
-                        error: 'Check for email or password requirements'
-                    })
-
-            context.user.setUser(userData)
-            context.user.setIsAuth(true)
-            navigate(ROUTES.DICTIONARIES)
-        } catch (e) {
-            alert(e.response.data.message)
-        }
-    }
-
-    const handleAuthKeyDown = async () => {
         if (state.email !== '' && state.password !== '') {
-            await loginOrRegister()
+            const response = isLogin ? await login(state.email, state.password) :
+                await registration(state.email, state.password);
+            console.log(response);
+            if (!response.error) {
+                context.user.setUser(response)
+                context.user.setIsAuth(true)
+                navigate(ROUTES.DICTIONARIES)
+            } else {
+                toast.warning(response.error, {
+                    position: "top-right", autoClose: 1500,
+                    hideProgressBar: false, closeOnClick: true,
+                    pauseOnHover: true, draggable: true
+                })
+            }
         }
     }
 
@@ -70,7 +58,7 @@ const AuthenticationPage = observer(() => {
                                 variant='space-left'
                                 value={state.email}
                                 onChange={e => setState({ ...state, email: e.target.value })}
-                                onKeyDown={handleAuthKeyDown}
+                                onKeyDown={loginOrRegister}
                             >
                             </FormInput>
                         </div>
@@ -80,7 +68,7 @@ const AuthenticationPage = observer(() => {
                             variant='space-left'
                             value={state.password}
                             onChange={e => setState({ ...state, password: e.target.value })}
-                            onKeyDown={handleAuthKeyDown}
+                            onKeyDown={loginOrRegister}
                         >
                         </FormInput>
                     </Form>
@@ -97,7 +85,7 @@ const AuthenticationPage = observer(() => {
                     }
                     <TextButton
                         style={{ marginTop: 15 }}
-                        onClick={handleAuthKeyDown}
+                        onClick={loginOrRegister}
                         text={isLogin ? 'Log in' : 'Registration'}
                     />
                 </div>

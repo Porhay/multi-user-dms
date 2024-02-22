@@ -146,7 +146,7 @@ const SettingsPage = observer(() => {
 
                                         <TextButton
                                             style={{ marginTop: 12 }}
-                                            onClick={updateUserProfile}
+                                            onClick={() => updateUserProfile}
                                             text="Update profile"
                                         />
                                     </div>
