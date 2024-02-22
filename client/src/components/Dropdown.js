@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import avatarDefault from "../assets/images/profile-image-default.jpg";
 import '../styles/Dropdown.css';
-
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 
 
 // TODO fix onClickOutside: if mouse enter and leave without click, it will not be opened on next enter
@@ -26,7 +26,9 @@ const Dropdown = (props) => {
                 {open &&
                     <div onMouseLeave={onMouseLeaveListener()} className={props.className}>
                         {props.items.length !== 0 ? props.items.map(item => {
-                            return <a key={item.message} className="menu-item" onClick={item.action}>{item.message}</a>
+                            return (
+                                <a key={item.message} className="menu-item" onClick={item.action}>{item.message}</a>
+                            )
                         }) : <div className="nav-items-empty-div">&nbsp;&nbsp;It's empty for now&nbsp;&nbsp;</div>}
                     </div>}
             </>

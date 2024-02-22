@@ -2,8 +2,8 @@ import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 import * as config from '../config.js'
 
-const host = axios.create({ baseURL: config.baseURL, timeout: config.timeout})
-const authHost = axios.create({ baseURL: config.baseURL, timeout: config.timeout})
+const host = axios.create({ baseURL: config.baseURL, timeout: config.timeout })
+const authHost = axios.create({ baseURL: config.baseURL, timeout: config.timeout })
 
 const authInterceptor = config => {
     config.headers.authorization = `Bearer ${localStorage.getItem('token')}`
@@ -116,6 +116,17 @@ export const sendNotification = async (message, dictionaryId, recipientId, sende
 export const sendProfileImage = async (userId, formData) => {
     return await authHost.post(`/users/${userId}/upload-profile-image/`, formData)
 }
+
+export const updateProfileImage = catchError(async (userId, formData) => {
+    const response = await authHost.post(`/users/${userId}/files/`, formData)
+    return response.data
+})
+
+export const getProfileImageUrl = catchError(async (userId, fileId) => {
+    const response = await authHost.get(`/users/${userId}/files/${fileId}`)
+    console.log(response.data);
+    return response.data
+})
 
 export const importDictionary = async (userId, formData) => {
     return await authHost.post(`/users/${userId}/import-dictionary/`, formData)

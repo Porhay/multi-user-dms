@@ -18,7 +18,7 @@ export const sequelize = new Sequelize(
 }
 );
 
-export const user = sequelize.define('user', {
+export const users = sequelize.define('users', {
     id: { type: DataTypes.UUID, primaryKey: true, allowNull: false },
     email: { type: DataTypes.STRING, allowNull: false },
     emailVerified: { type: DataTypes.BOOLEAN, defaultValue: false },
@@ -56,4 +56,12 @@ export const entries = sequelize.define('entries', {
     key: { type: DataTypes.TEXT },
     value: { type: DataTypes.TEXT },
     image: { type: DataTypes.STRING },
+}, { underscored: true })
+
+export const files = sequelize.define('files', {
+    id: { type: DataTypes.UUID, primaryKey: true, allowNull: false },
+    userId: { type: DataTypes.UUID, allowNull: false },
+    filename: { type: DataTypes.STRING },
+    size: { type: DataTypes.INTEGER, defaultValue: 0 },
+    mime: { type: DataTypes.TEXT },
 }, { underscored: true })

@@ -5,7 +5,7 @@ import {observer} from "mobx-react-lite";
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import CommentIcon from '@mui/icons-material/Comment';
 
-import {shareDictionary} from "../http";
+import {shareDictionary, getProfileImageUrl} from "../http";
 import {baseURL} from "../config.js";
 
 import {Context} from "../index";
@@ -25,7 +25,6 @@ const Navigation = observer(() => {
     const [notifications, setNotifications] = useState([])
     useEffect(() => {
         // TODO if no connection to the server subscribe func occurs error every 2 sec
-        console.log(context.user.user)
         subscribe().catch(e => console.log(e))
     }, [])
 
@@ -73,7 +72,7 @@ const Navigation = observer(() => {
     )
 
     const ProfileImage = () => (
-        <img src={user.userData.image ? avatarDefault : avatarDefault}
+        <img src={user.userData.downloadUrl ? user.userData.downloadUrl : avatarDefault}
              className="navigation-profile-image" alt="profile image"/>
     )
 

@@ -119,6 +119,8 @@ app.post('/notifications/', notifications.newNotification)
 app.get('/notifications/', notifications.getNotifications)
 
 app.post('/users/:userId/files/', upload.single('file'), files.fileUpload)
+app.get('/users/:userId/files/:fileId/', files.getSignedUrl)
+
 app.post('/users/:userId/import-dictionary/', upload.single('text-file'), dictionaries.importDictionary)
 app.post('/users/:userId/upload-profile-image/', upload.single('file'), users.uploadProfileImage)
 

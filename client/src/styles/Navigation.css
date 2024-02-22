@@ -2,12 +2,11 @@
     --bg:  #242526;
     --bg-accent: #484a4d;
     --text-color: #dadce1;
-    --nav-size: 60px;
+    --nav-size: 50px;
     --border: 1px solid #474a4d;
     --border-radius: 8px;
     --speed: 500ms;
 }
-
 
 
 .a-logo {
@@ -17,7 +16,6 @@
 .a-logo:hover {
     color: white;
 }
-
 
 
 .navbar {

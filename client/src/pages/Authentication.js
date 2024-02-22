@@ -29,7 +29,7 @@ const AuthenticationPage = observer(() => {
         if (state.email !== '' && state.password !== '') {
             const response = isLogin ? await login(state.email, state.password) :
                 await registration(state.email, state.password);
-            console.log(response);
+
             if (!response.error) {
                 context.user.setUser(response)
                 context.user.setIsAuth(true)

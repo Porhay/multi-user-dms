@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react"
 import { ToastContainer, toast } from 'react-toastify'
 import { observer } from "mobx-react-lite"
 
-import { sendProfileImage, updateProfile, updateUsername } from '../http'
+import { sendProfileImage, updateProfile, updateUsername, updateProfileImage } from '../http'
 import { Context } from "../index"
 import { baseURL } from "../config.js"
 
@@ -49,10 +49,11 @@ const SettingsPage = observer(() => {
                 const formData = new FormData()
                 formData.append("name", toUpdate.image.name)
                 formData.append("file", toUpdate.image)
-                const response = await sendProfileImage(user.id, formData)
+                const data = await updateProfileImage(user.id, formData)
 
                 // update global store
-                context.user.updateUserData({ image: response.data.image })
+                context.user.updateUserData({ image: data.fileId, downloadUrl: data.downloadUrl })
+                setToUpdate({ ...toUpdate, image: null })
             } else {
                 console.log('no file to upload')
             }
@@ -73,7 +74,6 @@ const SettingsPage = observer(() => {
         toast.success('Username updated', { position: "top-right", autoClose: 2000 })
     }
 
-    // TODO `${baseURL + user.userData.image}` throw err when image is null
     return (
         <div className="settings-container">
             <ToastContainer
@@ -116,7 +116,7 @@ const SettingsPage = observer(() => {
                             return (
                                 <>
                                     <div className="settings-profile-image-container">
-                                        <img src={preview || user.userData.image ? avatarDefault : avatarDefault}
+                                        <img src={preview || user.userData.downloadUrl ? user.userData.downloadUrl : avatarDefault}
                                             className="settings-profile-image" alt="profile image" />
                                         <label htmlFor="select-image">
                                             <div className="settings-profile-image-btn">
@@ -127,6 +127,7 @@ const SettingsPage = observer(() => {
                                                         const newImage = event.target.files[0]
                                                         setToUpdate({ ...toUpdate, image: newImage })
                                                         readURL(newImage).then((imageUrl) => {
+                                                            console.log(imageUrl);
                                                             setPreview(imageUrl)
                                                         })
                                                     }} />
@@ -150,7 +151,7 @@ const SettingsPage = observer(() => {
 
                                         <TextButton
                                             style={{ marginTop: 12 }}
-                                            onClick={() => updateUserProfile}
+                                            onClick={updateUserProfile}
                                             text="Update profile"
                                         />
                                     </div>

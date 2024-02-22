@@ -12,14 +12,14 @@ admin.initializeApp({
 const bucket = admin.storage().bucket();
 
 
-export const getSignedUrl = (filepath) => {
+export const getSignedUrlByFilename = (filename) => {
     return new Promise(async (resolve, reject) => {
         try {
             // Get a reference to the storage service
             const storage = admin.storage();
 
             // Create a storage reference from our storage service and specify the path to the file
-            const fileRef = storage.bucket().file(filepath);
+            const fileRef = storage.bucket().file(filename);
 
             const expirationDate = new Date();
             expirationDate.setDate(expirationDate.getDate() + 1); // Set expiration to 1 day from now
@@ -48,7 +48,7 @@ export const upload = async (file) => {
             },
         })
 
-        const downloadUrl = await getSignedUrl(filename)
+        const downloadUrl = await getSignedUrlByFilename(filename)
 
         fs.unlink(localFilePath, (err) => err ? console.error('Error deleting local file:', err) :
             console.log('Local file deleted successfully.'))
