@@ -19,7 +19,7 @@ const Friends = observer(({ item, show, onHide }) => {
 
 
     const sendNotificationMessage = async (message, dictionaryId, recipientId) => {
-        const senderImageUrl = `${baseURL + user.userData.image}`
+        const senderImageUrl = user.userData.downloadUrl
         await sendNotification(message, dictionaryId, recipientId, senderImageUrl)
         onHide()
     }
