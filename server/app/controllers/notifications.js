@@ -1,16 +1,29 @@
 'use strict'
 
 import events from 'events'
-import {v4 as uuidV4} from 'uuid'
-
+import * as dal from '../dal/index.js'
 
 const emitter = new events.EventEmitter()
 
-export const newNotification = (req, res) => {
-    let data = req.body
-    data.id = uuidV4()
-    emitter.emit('newMessage', data)
-    return res.json(data)
+
+export const newNotification = async (req, res) => {
+    const {
+        senderId,
+        message,
+        dictionaryId,
+        recipientId,
+        senderImageUrl
+    } = req.body
+
+    const notification = await dal.notifications.create({
+        senderId: senderId,
+        recipientId: recipientId,
+        data: { message, senderImageUrl, dictionaryId }
+    })
+    console.log(`Created new notification: ${JSON.stringify(notification)}`);
+
+    emitter.emit('newMessage', notification)
+    return res.json(notification)
 }
 
 export const getNotifications = (req, res) => {
@@ -22,4 +35,15 @@ export const getNotifications = (req, res) => {
     emitter.on('newMessage', (data) => {
         res.write(`data: ${JSON.stringify(data)} \n\n`)
     })
+}
+
+export const getStoredNotifications = async (req, res) => {
+    const notifications = await dal.notifications.getByRecipientId(req.params.userId)
+    return res.json(notifications)
+}
+
+export const deleteStoredNotification = async (req, res) => {
+    const { notificationId } = req.params
+    await dal.notifications.deleteById(notificationId)
+    res.json({ message: "OK" })
 }

@@ -124,12 +124,16 @@ app.get('/users/:userId/files/:fileId/', files.getSignedUrl)
 app.post('/users/:userId/import-dictionary/', upload.single('text-file'), dictionaries.importDictionary)
 app.post('/users/:userId/upload-profile-image/', upload.single('file'), users.uploadProfileImage)
 
+app.get('/users/:userId/notifications/', notifications.getStoredNotifications)
+app.delete('/users/:userId/notifications/:notificationId/', notifications.deleteStoredNotification)
 
 
-// TODO add migrations directory for db
-// TODO primary key for email in users table
-// TODO saving jwt in db
-// TODO separated log file to tail -f
-// TODO set up the linter
-// TODO dictionary info(time created, time shared, length...)
-// TODO standard list
+// TODO: add migrations directory for db
+// TODO: primary key for email in users table
+// TODO: saving jwt in db
+// TODO: separated log file to tail -f
+// TODO: set up the linter
+// TODO: dictionary info(time created, time shared, length...)
+// TODO: standard list
+// TODO: garbage collector for old notifications in db
+// TODO: geleter avatar on set new avatar or in garbage collector

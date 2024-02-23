@@ -65,3 +65,11 @@ export const files = sequelize.define('files', {
     size: { type: DataTypes.INTEGER, defaultValue: 0 },
     mime: { type: DataTypes.TEXT },
 }, { underscored: true })
+
+export const notifications = sequelize.define('notifications', {
+    id: { type: DataTypes.UUID, primaryKey: true, allowNull: false },
+    senderId: { type: DataTypes.UUID, allowNull: false },
+    recipientId: { type: DataTypes.UUID, allowNull: false },
+    data: { type: DataTypes.JSON, defaultValue: {} }, // {message, dictionaryId, senderImageUrl}
+    seen: { type: DataTypes.BOOLEAN, defaultValue: false },
+}, { underscored: true })

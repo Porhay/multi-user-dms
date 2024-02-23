@@ -43,7 +43,7 @@ export const getSignedUrl = async (req, res) => {
     const file = await dal.files.getById(fileId)
     if (file) {
         const downloadUrl = await firebase.getSignedUrlByFilename(file.filename)
-        return res.json({ downloadUrl });
+        return res.json({ downloadUrl: downloadUrl[0] });
     }
     res.json({ downloadUrl: null});
 }

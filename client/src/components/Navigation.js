@@ -5,7 +5,7 @@ import { observer } from "mobx-react-lite";
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import CommentIcon from '@mui/icons-material/Comment';
 
-import { shareDictionary, getProfileImageUrl } from "../http";
+import { shareDictionary, getProfileImageUrl, getNotificationsByUserId, deleteNotification } from "../http";
 import { baseURL } from "../config.js";
 
 import { Context } from "../index";
@@ -21,46 +21,56 @@ const Navigation = observer(() => {
     const context = useContext(Context)
     const user = context.user.user
 
-
+    // LOCAL STATE
     const [notifications, setNotifications] = useState([])
-    useEffect(() => {
-        // TODO if no connection to the server subscribe func occurs error every 2 sec
-        subscribe().catch(e => console.log(e))
+
+    // UPDATE ON MOUNT
+    useEffect(async () => {
+        // get notifications live
+        subscribe().catch(e => console.log(e)) // TODO if no connection to the server subscribe func occurs error every 2 sec
+
+        // set user avatar
         if (user.userData.image) {
             getProfileImageUrl(user.id, user.userData.image).then(response => {
                 context.user.updateUserData({ downloadUrl: response.downloadUrl })
             })
         }
+
+        // get notifications from db
+        getNotificationsByUserId(user.id).then(dbNotifications => {
+            setNotificationsInDropdown(dbNotifications)
+        })
+
     }, [])
 
+
+    // HELPERS
+    const setNotificationsInDropdown = (data) => {
+        if (data.recipientId === user.id) { // TODO: investigate how to make it securely
+            const newPost = {
+                ...data,
+                action: async () => await storeReceivedDictionary(data),
+                cancel: async () => await removeReceivedDictionary(data),
+            }
+            setNotifications(prev => [newPost, ...prev]) // TODO fix dropdown shutdown on setState.
+        }
+    }
     const subscribe = async () => {
         const eventSource = new EventSource(`${baseURL}/notifications/`)
         eventSource.onmessage = function (event) {
-            const data = JSON.parse(event.data) // {dictionaryId, recipientId, message, id, senderImageUrl}
-            const newPost = {
-                ...data,
-                action: async () => await shareCurrentDictionary(data),
-                // TODO fix dropdown shutdown on setState. Save notifications in db?
-                cancel: () => setNotifications([...notifications.filter(item => item.id !== data.id)])
-            }
-            setNotifications(prev => [newPost, ...prev])
+            const data = JSON.parse(event.data) // {id, senderId, recipientId, data: {dictionaryId, message, senderImageUrl}}
+            setNotificationsInDropdown(data)
         }
-        console.log(notifications)
     }
-
-    const shareCurrentDictionary = async (data) => {
-        const { dictionaryId, recipientId, id } = data
-        await shareDictionary(user.id, dictionaryId, recipientId)
-        setNotifications([...notifications.filter(item => item.id !== id)])
+    const storeReceivedDictionary = async (context) => {
+        await shareDictionary(user.id, context.data.dictionaryId, context.recipientId)
+        setNotifications([...notifications.filter(item => item.id !== context.id)])
+        await deleteNotification(user.id, context.id)
     }
-
-    const accountList = [
-        { message: 'Accounts', action: () => navigate(ROUTES.ACCOUNT) },
-        { message: 'Dictionaries', action: () => navigate(ROUTES.DICTIONARIES) },
-        { message: 'Settings', action: () => navigate(ROUTES.SETTINGS) },
-        { message: 'Log out', action: () => logOut() },
-    ]
-
+    const removeReceivedDictionary = async (context) => {
+        setNotifications([...notifications.filter(item => item.id !== context.id)])
+        await deleteNotification(user.id, context.id)
+    }
     const logOut = () => {
         context.user.setUser({})
         context.user.setIsAuth(false)
@@ -68,6 +78,17 @@ const Navigation = observer(() => {
         localStorage.clear()
     }
 
+
+    // DATA SETS
+    const accountList = [
+        { message: 'Accounts', action: () => navigate(ROUTES.ACCOUNT) },
+        { message: 'Dictionaries', action: () => navigate(ROUTES.DICTIONARIES) },
+        { message: 'Settings', action: () => navigate(ROUTES.SETTINGS) },
+        { message: 'Log out', action: () => logOut() },
+    ]
+
+
+    // COMPONENTS
     const Navbar = (props) => (
         <nav className="navbar">
             <ul className="navbar-nav">
@@ -75,11 +96,11 @@ const Navigation = observer(() => {
             </ul>
         </nav>
     )
-
     const ProfileImage = () => (
         <img src={user.userData.downloadUrl ? user.userData.downloadUrl : avatarDefault}
             className="navigation-profile-image" alt="profile image" />
     )
+
 
     return (
         <Navbar>

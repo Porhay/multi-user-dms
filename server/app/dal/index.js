@@ -5,6 +5,7 @@ import * as verificationCodes from './verificationCodes.js'
 import * as entries from './entries.js'
 import * as dictionaries from './dictionaries.js'
 import * as files from './files.js'
+import * as notifications from './notifications.js'
 
 export {
     users,
@@ -12,4 +13,5 @@ export {
     entries,
     dictionaries,
     files,
+    notifications
 }

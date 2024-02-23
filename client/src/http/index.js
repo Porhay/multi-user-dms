@@ -107,9 +107,9 @@ export const subscribeNotifications = async () => {
     }
 }
 
-export const sendNotification = async (message, dictionaryId, recipientId, senderImageUrl) => {
+export const sendNotification = async (senderId, message, dictionaryId, recipientId, senderImageUrl) => {
     return await authHost.post('/notifications/', {
-        message, dictionaryId, recipientId, senderImageUrl
+        senderId, message, dictionaryId, recipientId, senderImageUrl
     })
 }
 
@@ -131,4 +131,13 @@ export const getProfileImageUrl = catchError(async (userId, fileId) => {
 
 export const importDictionary = async (userId, formData) => {
     return await authHost.post(`/users/${userId}/import-dictionary/`, formData)
+}
+
+export const getNotificationsByUserId = async (userId) => {
+    const response = await authHost.get(`/users/${userId}/notifications/`)
+    return response.data
+}
+
+export const deleteNotification = async (userId, notificationId) => {
+    return await host.delete(`/users/${userId}/notifications/${notificationId}/`)
 }

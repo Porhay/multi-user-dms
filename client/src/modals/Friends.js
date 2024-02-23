@@ -18,9 +18,9 @@ const Friends = observer(({ item, show, onHide }) => {
     }, [])
 
 
-    const sendNotificationMessage = async (message, dictionaryId, recipientId) => {
+    const sendNotificationMessage = async (senderId, message, dictionaryId, recipientId) => {
         const senderImageUrl = user.userData.downloadUrl
-        await sendNotification(message, dictionaryId, recipientId, senderImageUrl)
+        await sendNotification(senderId, message, dictionaryId, recipientId, senderImageUrl)
         onHide()
     }
 
@@ -44,8 +44,8 @@ const Friends = observer(({ item, show, onHide }) => {
                                 key={friendId}
                                 action
                                 onClick={async () => {
-                                    const message = `${user.userData.name} share dictionary '${item.name}' [${item.count}] for you!`
-                                    await sendNotificationMessage(message, item.id, friendId)
+                                    const message = `${user.userData.username} share dictionary '${item.name}' [${item.count}] for you!`
+                                    await sendNotificationMessage(user.id, message, item.id, friendId)
                                 }}
                             >
                                 {name}

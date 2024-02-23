@@ -44,10 +44,10 @@ const Dropdown = (props) => {
                             return (
                                 <div key={item.id} className='dropdown-notification-div'>
                                     <div className="dropdown-notification-sender-image-div">
-                                        <img src={item.senderImageUrl || avatarDefault}
+                                        <img src={item.data.senderImageUrl || avatarDefault}
                                             className="dropdown-notification-sender-image" alt="sender image" />
                                     </div>
-                                    <a className="notification-menu-item">{item.message}</a>
+                                    <a className="notification-menu-item">{item.data.message}</a>
                                     <div style={{ color: "white", fontSize: 26, marginRight: 10 }}>
                                         <a onClick={item.action} style={{ marginRight: 10, color: "green", cursor: "pointer" }}>
                                             <span>✓</span>
