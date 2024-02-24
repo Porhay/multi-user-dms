@@ -43,7 +43,7 @@ export const deleteById = async (id) => {
 
 
 export const getByRecipientId = async (recipientId) => {
-    const result = await db.notifications.findOne({ where: { recipientId: recipientId } })
+    const result = await db.notifications.findAll({ where: { recipientId: recipientId } })
     if (!result) {
         return null
     }

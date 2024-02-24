@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import Modal from "react-bootstrap/Modal";
 import { ListGroup } from "react-bootstrap";
 import { getFriends, sendNotification } from "../http";
-import { baseURL } from "../config.js";
 import { observer } from "mobx-react-lite";
 import { Context } from "../index";
 
@@ -16,13 +15,7 @@ const Friends = observer(({ item, show, onHide }) => {
             setFriends(response.data)
         })
     }, [])
-
-
-    const sendNotificationMessage = async (senderId, message, dictionaryId, recipientId) => {
-        const senderImageUrl = user.userData.downloadUrl
-        await sendNotification(senderId, message, dictionaryId, recipientId, senderImageUrl)
-        onHide()
-    }
+    
 
     return (
         <Modal
@@ -45,7 +38,9 @@ const Friends = observer(({ item, show, onHide }) => {
                                 action
                                 onClick={async () => {
                                     const message = `${user.userData.username} share dictionary '${item.name}' [${item.count}] for you!`
-                                    await sendNotificationMessage(user.id, message, item.id, friendId)
+                                    const data = { message: message, dictionaryId: item.id, senderImageUrl: user.userData.downloadUrl }
+                                    await sendNotification(user.id, friendId, data)
+                                    onHide()
                                 }}
                             >
                                 {name}

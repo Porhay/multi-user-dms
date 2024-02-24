@@ -9,16 +9,14 @@ const emitter = new events.EventEmitter()
 export const newNotification = async (req, res) => {
     const {
         senderId,
-        message,
-        dictionaryId,
         recipientId,
-        senderImageUrl
+        data
     } = req.body
 
     const notification = await dal.notifications.create({
         senderId: senderId,
         recipientId: recipientId,
-        data: { message, senderImageUrl, dictionaryId }
+        data: { message: data.message, senderImageUrl: data.senderImageUrl, dictionaryId: data.dictionaryId }
     })
     console.log(`Created new notification: ${JSON.stringify(notification)}`);
 

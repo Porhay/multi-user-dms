@@ -33,15 +33,15 @@ export const createOrUpdateDictionary = async (data) => {
     if (data.dictionaryId) {
         body.dictionaryId = data.dictionaryId
     }
-    return await host.post(`/users/${userId}/dictionaries/`, body)
+    return await authHost.post(`/users/${userId}/dictionaries/`, body)
 }
 
 export const getDictionaries = async (userId) => {
-    return await host.get(`/users/${userId}/dictionaries/`)
+    return await authHost.get(`/users/${userId}/dictionaries/`)
 }
 
 export const deleteDictionary = async (userId, dictionaryId) => {
-    return await host.delete(`/users/${userId}/dictionaries/${dictionaryId}/`)
+    return await authHost.delete(`/users/${userId}/dictionaries/${dictionaryId}/`)
 }
 
 export const shareDictionary = async (userId, dictionaryId, recipientId) => {
@@ -50,15 +50,15 @@ export const shareDictionary = async (userId, dictionaryId, recipientId) => {
 
 export const createEntry = async (data) => {
     const { userId, dictionaryId, key, value } = data
-    return await host.post(`/users/${userId}/dictionaries/${dictionaryId}/entries/`, { key, value })
+    return await authHost.post(`/users/${userId}/dictionaries/${dictionaryId}/entries/`, { key, value })
 }
 
 export const getEntries = async (userId, dictionaryId) => {
-    return await host.get(`/users/${userId}/dictionaries/${dictionaryId}/entries/`)
+    return await authHost.get(`/users/${userId}/dictionaries/${dictionaryId}/entries/`)
 }
 
 export const deleteEntry = async (userId, dictionaryId, entryId) => {
-    return await host.delete(`/users/${userId}/dictionaries/${dictionaryId}/entries/${entryId}/`)
+    return await authHost.delete(`/users/${userId}/dictionaries/${dictionaryId}/entries/${entryId}/`)
 }
 
 export const registration = catchError(async (email, password) => {
@@ -68,13 +68,13 @@ export const registration = catchError(async (email, password) => {
 })
 
 export const login = catchError(async (email, password) => {
-    const response = await host.post('/users/login/', { email, password });
+    const response = await host.post('/login/', { email, password });
     localStorage.setItem('token', response.data.token);
     return { ...jwt_decode(response.data.token), userData: response.data.user };
 });
 
 export const check = async () => {
-    const response = await authHost.get('/users/check/')
+    const response = await authHost.get(`/check/`)
     localStorage.setItem('token', response.data.token)
     return { ...jwt_decode(response.data.token), userData: response.data.user }
 }
@@ -87,16 +87,16 @@ export const addToFriendsByUsername = async (userId, friendId) => {
     return await authHost.post(`/users/${userId}/friends/`, { friendId: friendId })
 }
 
+export const getFriends = async (userId) => {
+    return await authHost.get(`/users/${userId}/friends/`)
+}
+
 export const updateUsername = async (userId, username) => {
     return await authHost.post(`/users/${userId}/username/`, { username: username })
 }
 
 export const getByIdOrUsername = async (data) => {
     return await authHost.get(`/users/${data}`)
-}
-
-export const getFriends = async (userId) => {
-    return await authHost.get(`/users/${userId}/friends/`)
 }
 
 // TODO refactor like in endpoints higher
@@ -107,10 +107,8 @@ export const subscribeNotifications = async () => {
     }
 }
 
-export const sendNotification = async (senderId, message, dictionaryId, recipientId, senderImageUrl) => {
-    return await authHost.post('/notifications/', {
-        senderId, message, dictionaryId, recipientId, senderImageUrl
-    })
+export const sendNotification = async (senderId, recipientId, data) => {
+    return await authHost.post('/notifications/', { senderId, recipientId, data })
 }
 
 // TODO: depricated
@@ -139,5 +137,5 @@ export const getNotificationsByUserId = async (userId) => {
 }
 
 export const deleteNotification = async (userId, notificationId) => {
-    return await host.delete(`/users/${userId}/notifications/${notificationId}/`)
+    return await authHost.delete(`/users/${userId}/notifications/${notificationId}/`)
 }

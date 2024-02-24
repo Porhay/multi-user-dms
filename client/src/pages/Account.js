@@ -3,7 +3,7 @@ import { toast, ToastContainer } from "react-toastify"
 import { observer } from "mobx-react-lite"
 
 import { Context } from "../index"
-import { addToFriendsByUsername, getByIdOrUsername } from "../http"
+import { sendNotification, getByIdOrUsername } from "../http"
 import { TextButton } from "../lib/Buttons"
 import { Form, FormInput, FormInputExplanation, FormTitle } from "../lib/Forms"
 
@@ -36,13 +36,13 @@ const AccountPage = observer(() => {
         }
     }
 
-    const addNewFriend = async (friendId) => {
+    const sendFriendRequest = async (friendId) => {
         try {
-            await addToFriendsByUsername(user.id, friendId)
+            const message = `${user.userData.username} want to become your friend!`
+            const data = { message: message, senderImageUrl: user.userData.downloadUrl }
+            await sendNotification(user.id, friendId, data)
         } catch (error) {
-            if (error.response.status === 500) {
-                toast.info('You are already had this user in your friend list!', { position: "top-right", autoClose: 2000 })
-            }
+            console.log(error);
         }
     }
 
@@ -77,7 +77,7 @@ const AccountPage = observer(() => {
                     {
                         state.friends.length !== 0 ? state.friends.map((item) => (
                             <div
-                                onClick={() => addNewFriend(item.id)}
+                                onClick={() => sendFriendRequest(item.id)}
                                 className="list-item-div"
                             >
                                 <div className="list-item-left">

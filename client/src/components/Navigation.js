@@ -5,7 +5,7 @@ import { observer } from "mobx-react-lite";
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import CommentIcon from '@mui/icons-material/Comment';
 
-import { shareDictionary, getProfileImageUrl, getNotificationsByUserId, deleteNotification } from "../http";
+import { shareDictionary, getProfileImageUrl, getNotificationsByUserId, deleteNotification, addToFriendsByUsername } from "../http";
 import { baseURL } from "../config.js";
 
 import { Context } from "../index";
@@ -38,20 +38,41 @@ const Navigation = observer(() => {
 
         // get notifications from db
         getNotificationsByUserId(user.id).then(dbNotifications => {
-            setNotificationsInDropdown(dbNotifications)
+            for (const notification of dbNotifications) {
+                setNotificationInDropdown(notification)
+            }
         })
 
     }, [])
 
 
     // HELPERS
-    const setNotificationsInDropdown = (data) => {
-        if (data.recipientId === user.id) { // TODO: investigate how to make it securely
-            const newPost = {
-                ...data,
-                action: async () => await storeReceivedDictionary(data),
-                cancel: async () => await removeReceivedDictionary(data),
-            }
+    const setNotificationInDropdown = (data) => { // TODO: add type
+        const _removeNotification = async (context) => {
+            setNotifications([...notifications.filter(item => item.id !== context.id)])
+            await deleteNotification(user.id, context.id)
+        }
+
+        // Actions
+        const storeReceivedDictionary = async (context) => {
+            await shareDictionary(user.id, context.data.dictionaryId, context.recipientId)
+            await _removeNotification(context)
+        }
+        const addFriend  = async (context) => {
+            await addToFriendsByUsername(user.id, data.senderId)
+            await _removeNotification(context)
+        }
+
+        let action
+        if (data.data.dictionaryId) {
+            action = async () => await storeReceivedDictionary(data)
+        } else {
+            action = async () => await addFriend(data)
+        }
+
+        const cancel = async () => await _removeNotification(data)
+        if (data.recipientId === user.id) { // TODO: move it to server side
+            const newPost = {...data, action, cancel}
             setNotifications(prev => [newPost, ...prev]) // TODO fix dropdown shutdown on setState.
         }
     }
@@ -59,18 +80,10 @@ const Navigation = observer(() => {
         const eventSource = new EventSource(`${baseURL}/notifications/`)
         eventSource.onmessage = function (event) {
             const data = JSON.parse(event.data) // {id, senderId, recipientId, data: {dictionaryId, message, senderImageUrl}}
-            setNotificationsInDropdown(data)
+            setNotificationInDropdown(data)
         }
     }
-    const storeReceivedDictionary = async (context) => {
-        await shareDictionary(user.id, context.data.dictionaryId, context.recipientId)
-        setNotifications([...notifications.filter(item => item.id !== context.id)])
-        await deleteNotification(user.id, context.id)
-    }
-    const removeReceivedDictionary = async (context) => {
-        setNotifications([...notifications.filter(item => item.id !== context.id)])
-        await deleteNotification(user.id, context.id)
-    }
+
     const logOut = () => {
         context.user.setUser({})
         context.user.setIsAuth(false)
