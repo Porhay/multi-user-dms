@@ -10,3 +10,8 @@ export const DICTIONARY_TYPES = {
     DATE: 'date',
 }
 
+export const notificationType = {
+    friendRequest: 'friendRequest',
+    shareDictionary: 'shareDictionary',
+}
+

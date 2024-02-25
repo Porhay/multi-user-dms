@@ -4,6 +4,7 @@ import { ListGroup } from "react-bootstrap";
 import { getFriends, sendNotification } from "../http";
 import { observer } from "mobx-react-lite";
 import { Context } from "../index";
+import { notificationType } from '../constants.js'
 
 const Friends = observer(({ item, show, onHide }) => {
     const context = useContext(Context)
@@ -39,7 +40,7 @@ const Friends = observer(({ item, show, onHide }) => {
                                 onClick={async () => {
                                     const message = `${user.userData.username} share dictionary '${item.name}' [${item.count}] for you!`
                                     const data = { message: message, dictionaryId: item.id, senderImageUrl: user.userData.downloadUrl }
-                                    await sendNotification(user.id, friendId, data)
+                                    await sendNotification(user.id, friendId, notificationType.shareDictionary, data)
                                     onHide()
                                 }}
                             >

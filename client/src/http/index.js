@@ -107,9 +107,9 @@ export const subscribeNotifications = async () => {
     }
 }
 
-export const sendNotification = async (senderId, recipientId, data) => {
-    return await authHost.post('/notifications/', { senderId, recipientId, data })
-}
+export const sendNotification = catchError(async (senderId, recipientId, type, data) => {
+    return await authHost.post('/notifications/', { senderId, recipientId, type, data })
+})
 
 // TODO: depricated
 export const sendProfileImage = async (userId, formData) => {

@@ -2,6 +2,7 @@
 
 import { v4 as uuidV4 } from 'uuid'
 import * as db from '../db.js'
+import { notificationType } from '../lib/constants.js'
 
 
 /**
@@ -16,6 +17,7 @@ export const create = async (context) => {
         senderId: context.senderId,
         recipientId: context.recipientId,
         data: context.data,
+        type: context.type,
         seen: false,
     }
     await db.notifications.create(notification)
@@ -44,7 +46,22 @@ export const deleteById = async (id) => {
 
 export const getByRecipientId = async (recipientId) => {
     const result = await db.notifications.findAll({ where: { recipientId: recipientId } })
-    if (!result) {
+    if (!result || result.length === 0) {
+        return null
+    }
+    return result
+}
+
+export const checkFriendRequestIsSent = async (senderId, recipientId) => {
+    const result = await db.notifications.findAll({
+        where: {
+            senderId: senderId,
+            recipientId: recipientId,
+            type: notificationType.friendRequest
+        }
+    })
+
+    if (!result || result.length === 0) {
         return null
     }
     return result

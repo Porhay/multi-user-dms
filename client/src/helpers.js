@@ -1,3 +1,4 @@
+import { toast } from "react-toastify"
 
 export const readURL = file => {
     return new Promise((res, rej) => {
@@ -10,4 +11,31 @@ export const readURL = file => {
 
 export const generateRandomDigit = () => {
     return Math.floor(Math.random() * 9 * Math.pow(10, 1 - 1)) + Math.pow(10, 1 - 1)
+}
+
+export const popupNotification = (text, type = 'success') => {
+    switch (type) {
+        case 'success':
+            toast.success(text, {
+                position: "top-right", autoClose: 1500,
+                hideProgressBar: false, closeOnClick: true,
+                pauseOnHover: true, draggable: true
+            })
+            break;
+        case 'warning':
+            toast.warning(text, {
+                position: "top-right", autoClose: 1500,
+                hideProgressBar: false, closeOnClick: true,
+                pauseOnHover: true, draggable: true
+            })
+            break;
+
+        default:
+            toast.success(text, {
+                position: "top-right", autoClose: 1500,
+                hideProgressBar: false, closeOnClick: true,
+                pauseOnHover: true, draggable: true
+            })
+            break;
+    }
 }

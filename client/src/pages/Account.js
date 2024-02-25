@@ -1,11 +1,13 @@
 import React, { useContext, useState } from "react"
-import { toast, ToastContainer } from "react-toastify"
+import { ToastContainer } from "react-toastify"
 import { observer } from "mobx-react-lite"
 
 import { Context } from "../index"
 import { sendNotification, getByIdOrUsername } from "../http"
 import { TextButton } from "../lib/Buttons"
 import { Form, FormInput, FormInputExplanation, FormTitle } from "../lib/Forms"
+import { notificationType } from '../constants.js'
+import { popupNotification } from '../helpers.js'
 
 import '../styles/Account.css'
 import '../styles/Lists.css'
@@ -40,7 +42,11 @@ const AccountPage = observer(() => {
         try {
             const message = `${user.userData.username} want to become your friend!`
             const data = { message: message, senderImageUrl: user.userData.downloadUrl }
-            await sendNotification(user.id, friendId, data)
+            const response = await sendNotification(user.id, friendId, notificationType.friendRequest, data)
+            if (response.error) {
+                return popupNotification(response.error, 'warning')
+            }
+            popupNotification('Friend request was successfully sent!', 'success')
         } catch (error) {
             console.log(error);
         }

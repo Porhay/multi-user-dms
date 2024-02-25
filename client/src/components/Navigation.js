@@ -43,11 +43,6 @@ const Navigation = observer(() => {
             }
         })
 
-        console.log(process.env.NODE_ENV);
-        console.log(process.env.EXTERNAL_SERVER_URL);
-        console.log(process.env.REACT_APP_NODE_ENV);
-        console.log(process.env.REACT_APP_EXTERNAL_SERVER_URL);
-
     }, [])
 
 
@@ -63,7 +58,7 @@ const Navigation = observer(() => {
             await shareDictionary(user.id, context.data.dictionaryId, context.recipientId)
             await _removeNotification(context)
         }
-        const addFriend = async (context) => {
+        const addFriend  = async (context) => {
             await addToFriendsByUsername(user.id, data.senderId)
             await _removeNotification(context)
         }
@@ -77,7 +72,7 @@ const Navigation = observer(() => {
 
         const cancel = async () => await _removeNotification(data)
         if (data.recipientId === user.id) { // TODO: move it to server side
-            const newPost = { ...data, action, cancel }
+            const newPost = {...data, action, cancel}
             setNotifications(prev => [newPost, ...prev]) // TODO fix dropdown shutdown on setState.
         }
     }

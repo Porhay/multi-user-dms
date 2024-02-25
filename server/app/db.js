@@ -70,6 +70,7 @@ export const notifications = sequelize.define('notifications', {
     id: { type: DataTypes.UUID, primaryKey: true, allowNull: false },
     senderId: { type: DataTypes.UUID, allowNull: false },
     recipientId: { type: DataTypes.UUID, allowNull: false },
+    type: { type: DataTypes.STRING },
     data: { type: DataTypes.JSON, defaultValue: {} }, // {message, dictionaryId, senderImageUrl}
     seen: { type: DataTypes.BOOLEAN, defaultValue: false },
 }, { underscored: true })

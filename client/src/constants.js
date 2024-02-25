@@ -8,4 +8,7 @@ export const ROUTES = {
     SETTINGS: '/settings',
 }
 
-
+export const notificationType = {
+    friendRequest: 'friendRequest',
+    shareDictionary: 'shareDictionary',
+}
