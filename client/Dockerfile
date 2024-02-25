@@ -1,5 +1,9 @@
 FROM node:14-alpine AS builder
 ENV NODE_ENV production
+ARG REACT_APP_NODE_ENV
+ENV REACT_APP_NODE_ENV $REACT_APP_NODE_ENV
+ARG REACT_APP_EXTERNAL_SERVER_URL
+ENV REACT_APP_EXTERNAL_SERVER_URL $REACT_APP_EXTERNAL_SERVER_URL
 
 # Add a work directory
 WORKDIR /app
@@ -17,6 +21,10 @@ RUN npm run build
 # Bundle static assets with nginx
 FROM nginx:1.21.0-alpine as production
 ENV NODE_ENV production
+ARG REACT_APP_NODE_ENV
+ENV REACT_APP_NODE_ENV $REACT_APP_NODE_ENV
+ARG REACT_APP_EXTERNAL_SERVER_URL
+ENV REACT_APP_EXTERNAL_SERVER_URL $REACT_APP_EXTERNAL_SERVER_URL
 
 # Copy built assets from builder
 COPY --from=builder /app/build /usr/share/nginx/html
@@ -29,17 +37,3 @@ EXPOSE 80
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]
-
-
-# development mode
-
-# FROM node:alpine AS client
-# WORKDIR /app
-
-# COPY package*.json ./
-# COPY public/ ./public
-# COPY src/ ./src
-
-# RUN npm install
-# EXPOSE 3000
-# CMD ["npm", "start"]
