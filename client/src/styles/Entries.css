@@ -35,6 +35,9 @@
 .entry-list-item-h6 {
     margin: 4px 0 -6px 0;
 }
+.onlyKey {
+    margin: 0;
+}
 
 .entry-list-item-span {
     color: black;

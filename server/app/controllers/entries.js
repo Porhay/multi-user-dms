@@ -4,9 +4,10 @@ import * as dal from '../dal/index.js'
 
 export const createEntry = async (req, res) => {
     const dictionaryId = req.params.dictionaryId
-    const { key, value } = req.body
-    if (!key || !value) {
-        throw new Error('key and value is required!')
+    const key = req.body.key
+    const value = req.body.value || ''
+    if (!key) {
+        throw new Error('key is required!')
     }
 
     const entry = await dal.entries.create(dictionaryId, key, value)

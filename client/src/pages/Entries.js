@@ -72,7 +72,7 @@ const EntriesPage = observer(() => {
     }
 
     const handleCreateNewEntry = async () => {
-        if (state.key !== '' && state.value !== '') {
+        if (state.key !== '') {
             await createNewEntry()
         }
     }
@@ -134,7 +134,7 @@ const EntriesPage = observer(() => {
                                 <div className="entry-list-item-text" onClick={() => {
                                     setState({ ...state, showValue: !state.showValue })
                                 }}>
-                                    <h6 className="entry-list-item-h6">{item.key}</h6>
+                                    <h6 className={`entry-list-item-h6 ${item.value ? '' : 'onlyKey'}`}>{item.key}</h6>
                                     <span className="entry-list-item-span" >
                                         {state.showValue ? item.value : '*****'}
                                     </span>
