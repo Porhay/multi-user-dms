@@ -56,6 +56,7 @@ export const entries = sequelize.define('entries', {
     key: { type: DataTypes.TEXT },
     value: { type: DataTypes.TEXT },
     image: { type: DataTypes.STRING },
+    color: { type: DataTypes.STRING },
 }, { underscored: true })
 
 export const files = sequelize.define('files', {

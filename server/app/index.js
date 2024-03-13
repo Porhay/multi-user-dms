@@ -102,8 +102,10 @@ app.post('/users/:userId/verification-codes/', verificationCodes.create)
 app.post('/users/:userId/verification-codes/:codeId/', verificationCodes.setAsUsed)
 
 app.post('/users/:userId/dictionaries/:dictionaryId/entries/', entries.createEntry)
+app.post('/users/:userId/dictionaries/:dictionaryId/entries/:entryId/', entries.updateEntry)
 app.get('/users/:userId/dictionaries/:dictionaryId/entries/', entries.getEntries)
 app.delete('/users/:userId/dictionaries/:dictionaryId/entries/:entryId/', entries.deleteEntry)
+
 
 app.post('/users/:userId/share-dictionary/', dictionaries.shareDictionary)
 app.post('/users/:userId/dictionaries/', dictionaries.createOrUpdateDictionary)

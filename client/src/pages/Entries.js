@@ -3,10 +3,12 @@ import { useParams } from 'react-router-dom';
 import { observer } from "mobx-react-lite";
 
 import { Context } from "../index";
-import { createEntry, getEntries, deleteEntry } from "../http";
+import { createEntry, getEntries, deleteEntry, updateEntry } from "../http";
 import { Form, FormInput, FormTitle } from "../lib/Forms";
 import { TextButton } from "../lib/Buttons";
 
+import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import '../styles/Entries.css';
 import '../styles/Lists.css';
 
@@ -30,7 +32,7 @@ const EntriesPage = observer(() => {
 
     const updateData = (userId, dictionaryId) => {
         getEntries(userId, dictionaryId).then((response) => {
-            const data = response.data.reverse()
+            const data = [...response.data].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
             setState({ ...state, rootData: data, narrowingArr: data }) // update random words list on reload
             setData(data)
         })
@@ -53,6 +55,15 @@ const EntriesPage = observer(() => {
         setState({ ...state, key: '', value: '', rootData: [...state.rootData, newEntry.data] })
     }
 
+    const handleUpdateEntry = async (entryId, data) => {
+        const entryToUpdate = state.rootData.filter(entry => entry.id === entryId)[0]
+
+        let context = { color: null }
+        entryToUpdate.color ? context.color = null : context.color = data.color
+
+        await updateEntry(user.id, dictionaryId, entryId, context)
+        updateData(user.id, dictionaryId) // TODO: optimize
+    }
 
     const deleteCurrentEntry = async (entryId) => {
         const response = await deleteEntry(user.id, dictionaryId, entryId).catch(e => console.log(e))
@@ -119,16 +130,25 @@ const EntriesPage = observer(() => {
                 <div className="entry-list-div">
                     {data.map((item) =>
                         <>
-                            <div key={item.id} className="list-item-div" onClick={() => {
-                                setState({ ...state, showValue: !state.showValue })
-                            }}>
-                                <div className="entry-list-item-text">
+                            <div key={item.id} className={`list-item-div ${item.color === 'green' ? 'color-green' : ''}`}>
+                                <div className="entry-list-item-text" onClick={() => {
+                                    setState({ ...state, showValue: !state.showValue })
+                                }}>
                                     <h6 className="entry-list-item-h6">{item.key}</h6>
                                     <span className="entry-list-item-span" >
                                         {state.showValue ? item.value : '*****'}
                                     </span>
                                 </div>
-                                <div className="entry-list-item-x" onClick={() => deleteCurrentEntry(item.id)}>x</div>
+                                <div className="entry-action-buttons">
+                                    <div className="entry-action-color-button" onClick={() => {
+                                        handleUpdateEntry(item.id, { color: 'green' })
+                                    }}>
+                                        <DoneOutlinedIcon className='entry-action-color-icon' />
+                                    </div>
+                                    <div className="entry-list-item-x" onClick={() => deleteCurrentEntry(item.id)}>
+                                        <CloseOutlinedIcon className='entry-delete-icon' />
+                                    </div>
+                                </div>
                             </div>
 
                         </>

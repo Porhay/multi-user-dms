@@ -20,6 +20,13 @@
     margin-top: 10px;
 }
 
+.list-item-div {
+    
+}
+.color-green {
+    background-color: #ccee996b;
+}
+
 .entry-list-item-text {
     text-align: left;
     margin: 0;
@@ -37,9 +44,31 @@
     margin: 0;
 }
 
+/* entry actions */
+.entry-action-buttons {
+    display: flex;
+    align-items: center;
+}
+.entry-action-color-button {
+    margin: 0 20px 0 0;
+}
+.entry-action-color-icon {
+    color: #269d10;
+    transition: transform 0.3s ease;
+}
+.entry-action-color-icon:hover {
+    transform: scale(1.1);
+}
+.entry-delete-icon {
+    transition: transform 0.3s ease;
+}
+.entry-delete-icon:hover {
+    transform: scale(1.1);
+}
 .entry-list-item-x {
     margin: 0 6px 0 0;
 }
+
 
 /* sort button */
 .entry-sort-button-div {

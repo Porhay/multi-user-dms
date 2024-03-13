@@ -1,7 +1,7 @@
 'use strict'
 
 import * as db from '../db.js'
-import {v4 as uuidV4} from 'uuid'
+import { v4 as uuidV4 } from 'uuid'
 
 
 export const create = async (dictionaryId, key, value) => {
@@ -15,14 +15,14 @@ export const create = async (dictionaryId, key, value) => {
     await db.entries.create(entry)
 
     // dictionary counter update
-    const dictionaryLength = (await db.entries.findAll({where: {dictionaryId}})).length
-    await db.dictionaries.update({count: dictionaryLength}, {where: {id: dictionaryId}})
+    const dictionaryLength = (await db.entries.findAll({ where: { dictionaryId } })).length
+    await db.dictionaries.update({ count: dictionaryLength }, { where: { id: dictionaryId } })
     return entry
 }
 
 
 export const getByDictionaryId = async (dictionaryId) => {
-    const result = await db.entries.findAll({ where: {dictionaryId} })
+    const result = await db.entries.findAll({ where: { dictionaryId } })
     if (!result) {
         return null
     }
@@ -31,17 +31,21 @@ export const getByDictionaryId = async (dictionaryId) => {
 
 
 export const deleteAllByDictionaryId = async (dictionaryId) => {
-    await db.entries.destroy({ where: {dictionaryId} })
+    await db.entries.destroy({ where: { dictionaryId } })
 }
 
 
 export const deleteById = async (id) => {
     const entry = await db.entries.findByPk(id)
-    await db.entries.destroy({ where: {id} })
+    await db.entries.destroy({ where: { id } })
 
     // dictionary counter update
-    const dictionaryLength = (await db.entries.findAll({where: {dictionaryId: entry.dictionaryId}})).length
-    await db.dictionaries.update({count: dictionaryLength}, {where: {id: entry.dictionaryId}})
+    const dictionaryLength = (await db.entries.findAll({ where: { dictionaryId: entry.dictionaryId } })).length
+    await db.dictionaries.update({ count: dictionaryLength }, { where: { id: entry.dictionaryId } })
 
     return id
+}
+
+export const update = async (id, data) => {
+    return await db.entries.update(data, { where: { id } })
 }
