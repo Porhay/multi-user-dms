@@ -14,16 +14,16 @@ export const create = async (req, res) => {
         const { email, password } = req.body
 
         if (!email) {
-            throw new errors.BadRequest("Email is required!");
+            throw new errors.BadRequest('Email is required!')
         }
         if (!password) {
-            throw new errors.BadRequest("Password is required!");
+            throw new errors.BadRequest('Password is required!')
         }
 
         // check for existence
         const candidate = await dal.users.getByEmail(email)
         if (candidate) {
-            throw new errors.BadRequest("User with the same email is already exists!");
+            throw new errors.BadRequest('User with the same email is already exists!')
         }
 
         const name = await helpers.createUniqueRandomName()
@@ -43,36 +43,36 @@ export const create = async (req, res) => {
             }
         }
 
-        const token = jwt.generateAccessToken(user.id, user.role);
-        res.json({ token, user: { id: user.id, username: user.username, email: user.email } });
+        const token = jwt.generateAccessToken(user.id, user.role)
+        res.json({ token, user: { id: user.id, username: user.username, email: user.email } })
     } catch (error) {
-        errors.handleErrors(res, error);
+        errors.handleErrors(res, error)
     }
 }
 
 
 export const login = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email, password } = req.body
 
         if (!email) {
-            throw new errors.BadRequest("Email isn't provided");
+            throw new errors.BadRequest('Email isn\'t provided')
         }
         if (!password) {
-            throw new errors.BadRequest("Password isn't provided");
+            throw new errors.BadRequest('Password isn\'t provided')
         }
 
-        const user = await dal.users.getByEmail(email);
+        const user = await dal.users.getByEmail(email)
         if (!user || !(await hash.comparePasswords(password, user.password))) {
-            throw new errors.NotFound('User does not exist or wrong password');
+            throw new errors.NotFound('User does not exist or wrong password')
         }
 
-        const token = jwt.generateAccessToken(user.id, user.role);
-        res.json({ token, user: { id: user.id, username: user.username, email: user.email } });
+        const token = jwt.generateAccessToken(user.id, user.role)
+        res.json({ token, user: { id: user.id, username: user.username, email: user.email } })
     } catch (error) {
-        errors.handleErrors(res, error);
+        errors.handleErrors(res, error)
     }
-};
+}
 
 export const check = async (req, res) => {
     const token = jwt.generateAccessToken(req.user.id, req.user.role)
@@ -89,38 +89,40 @@ export const getUsers = async (req, res) => {
 
 export const getUser = async (req, res) => {
     try {
-        const userId = req.params.userId; // or username
+        const userId = req.params.userId // or username
 
-        let user = await dal.users.getByUsername(userId);
+        let user = await dal.users.getByUsername(userId)
         if (!user) {
-            user = await dal.users.getById(userId);
+            user = await dal.users.getById(userId)
         }
 
         if (user) {
-            user.password = null;
-            res.json(user);
+            user.password = null
+            res.json(user)
         } else {
-            res.json(null);
+            res.json(null)
         }
     } catch (error) {
-        console.error('Error:', error.message);
-        res.status(500).json({ error: 'Internal Server Error' });
+        console.error('Error:', error.message)
+        res.status(500).json({ error: 'Internal Server Error' })
     }
-};
+}
 
 
 export const updateUsername = async (req, res) => {
     const userId = req.params.userId
     const username = req.body.username
-    await dal.users.updateUsername(userId, username).catch(err => { return console.log(err) })
-    return res.json("OK")
+    await dal.users.updateUsername(userId, username).catch(err => {
+        return console.log(err)
+    })
+    return res.json('OK')
 }
 
 
 export const deleteOne = async (req, res) => {
     const userId = req.params.userId
     await dal.users.deleteById(userId)
-    res.json({ message: "OK" })
+    res.json({ message: 'OK' })
 }
 
 export const updateProfile = async (req, res) => {
@@ -131,7 +133,7 @@ export const updateProfile = async (req, res) => {
      */
     const fields = req.body.fields
     await dal.users.updateUserFields(userId, fields)
-    res.json({ message: "OK" })
+    res.json({ message: 'OK' })
 }
 
 export const addFriends = async (req, res) => {

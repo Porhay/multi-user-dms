@@ -7,9 +7,11 @@ import {PORT, HOST} from './app/config.js'
 
 const start = async () => {
     try {
-        console.log('Database name:', sequelize.getDatabaseName());
+        console.log('Database name:', sequelize.getDatabaseName())
         sequelize.sync()
-        app.listen(PORT, () => { console.log(`Running on http://${HOST}:${PORT}/`) })
+        app.listen(PORT, () => {
+            console.log(`Running on http://${HOST}:${PORT}/`)
+        })
     } catch (err) {
         console.log(err.message)
     }

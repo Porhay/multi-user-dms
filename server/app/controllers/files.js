@@ -14,7 +14,7 @@ import * as dal from '../dal/index.js'
         filename: 'fea60fcd-54c6-4270-80c2-c83e269f393b.png',
         path: 'data/images/fea60fcd-54c6-4270-80c2-c83e269f393b.png',
         size: 386423
-    } 
+    }
  */
 export const fileUpload = async (req, res) => {
     const userId = req.params.userId
@@ -30,7 +30,7 @@ export const fileUpload = async (req, res) => {
     })
 
     const user = await dal.users.updateUserFields(userId, {image: file.id})
-    res.json({ downloadUrl, fileId: user.image});
+    res.json({ downloadUrl, fileId: user.image})
 }
 
 
@@ -43,7 +43,7 @@ export const getSignedUrl = async (req, res) => {
     const file = await dal.files.getById(fileId)
     if (file) {
         const downloadUrl = await firebase.getSignedUrlByFilename(file.filename)
-        return res.json({ downloadUrl: downloadUrl[0] });
+        return res.json({ downloadUrl: downloadUrl[0] })
     }
-    res.json({ downloadUrl: null});
+    res.json({ downloadUrl: null})
 }

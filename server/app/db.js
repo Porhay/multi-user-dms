@@ -5,8 +5,7 @@ import * as constants from './lib/constants.js'
 import { DATABASE_URL } from './config.js'
 
 
-export const sequelize = new Sequelize(
-    DATABASE_URL, {
+export const sequelize = new Sequelize(DATABASE_URL, {
     dialect: 'postgres',
     ssl: process.env.DB_ENABLE_SSL, // Enable SSL for secure connections
     dialectOptions: {
@@ -16,7 +15,7 @@ export const sequelize = new Sequelize(
         }
     },
 }
-);
+)
 
 export const users = sequelize.define('users', {
     id: { type: DataTypes.UUID, primaryKey: true, allowNull: false },

@@ -13,7 +13,7 @@ plugins:
 rules:
   indent:
     - error
-    - 2
+    - 4
   linebreak-style:
     - error
     - unix
@@ -56,5 +56,3 @@ rules:
     - always
   no-useless-catch:
     - warn
-  no-console:
-    - error

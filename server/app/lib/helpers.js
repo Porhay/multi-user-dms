@@ -1,8 +1,8 @@
 'use strict'
 
-import fs from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, resolve } from 'path';
+import fs from 'fs'
+import { fileURLToPath } from 'url'
+import { dirname, resolve } from 'path'
 import * as dal from '../dal/index.js'
 import { firebaseConfig } from '../config.js'
 
@@ -26,11 +26,11 @@ export const createUniqueRandomName = async () => {
 
 
 export const createJsonFileConfig = () => {
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = dirname(__filename);
+    const __filename = fileURLToPath(import.meta.url)
+    const __dirname = dirname(__filename)
 
-    const jsonContent = JSON.stringify(firebaseConfig, null, 2);
-    const filePath = resolve(__dirname, '../../firebaseKey.json');
+    const jsonContent = JSON.stringify(firebaseConfig, null, 2)
+    const filePath = resolve(__dirname, '../../firebaseKey.json')
 
-    fs.writeFileSync(filePath, jsonContent, 'utf-8');
+    fs.writeFileSync(filePath, jsonContent, 'utf-8')
 }

@@ -5,8 +5,8 @@ import * as db from '../db.js'
 
 /**
  * Create file in database
- * @param {userId, filename, size, mime} data 
- * @returns 
+ * @param {userId, filename, size, mime} data
+ * @returns
  */
 export const create = async (data) => {
     const id = uuidV4()

@@ -60,13 +60,13 @@ export const shareDictionary = async (req, res) => {
             await dal.entries.create(newDictionary.id, entry.key, entry.value)
         }
     }
-    res.json({message: "OK"})
+    res.json({message: 'OK'})
 }
 
 export const importDictionary = async (req, res) => {
     const userId = req.params.userId
 
-    console.log(req.file);
+    console.log(req.file)
     const newDictionary = await dal.dictionaries.create(userId, req.file.originalname.split('.')[0])
     const entries = await files.getDataFromImportedFile(req.file.path)
     if(entries) {
@@ -74,7 +74,7 @@ export const importDictionary = async (req, res) => {
             await dal.entries.create(newDictionary.id, entry[0], entry[1])
         }
     }
-    res.json({message: "OK"})
+    res.json({message: 'OK'})
 }
 
 

@@ -16,7 +16,7 @@ export const newNotification = async (req, res) => {
 
     // Check if exist
     if (await dal.notifications.checkFriendRequestIsSent(senderId, recipientId)) {
-        return res.status(500).json({ error: 'Friend request already sent!' });
+        return res.status(500).json({ error: 'Friend request already sent!' })
     }
 
     const notification = await dal.notifications.create({
@@ -25,7 +25,7 @@ export const newNotification = async (req, res) => {
         type: type,
         data: { message: data.message, senderImageUrl: data.senderImageUrl, dictionaryId: data.dictionaryId }
     })
-    console.log(`Created a new notification: ${JSON.stringify(notification)}`);
+    console.log(`Created a new notification: ${JSON.stringify(notification)}`)
 
     emitter.emit('newMessage', notification)
     return res.json(notification)
@@ -50,5 +50,5 @@ export const getStoredNotifications = async (req, res) => {
 export const deleteStoredNotification = async (req, res) => {
     const { notificationId } = req.params
     await dal.notifications.deleteById(notificationId)
-    res.json({ message: "OK" })
+    res.json({ message: 'OK' })
 }

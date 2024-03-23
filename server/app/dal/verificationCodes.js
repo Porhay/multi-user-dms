@@ -1,7 +1,7 @@
 'use strict'
 
 import {v4 as uuidV4} from 'uuid'
-import * as db from "../db.js"
+import * as db from '../db.js'
 import * as config from '../config.js'
 
 export const create = async (userId, code) => {

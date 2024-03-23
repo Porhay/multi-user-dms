@@ -1,27 +1,30 @@
 'use strict'
 
+/* eslint-disable camelcase */
+/* eslint-disable max-len */
+
 export const isProduction = process.env.NODE_ENV === 'production'
 
 export const PORT = process.env.PORT || 8000
 export const HOST = process.env.HOST || 'localhost'
 
 // Render.com provides a DATABASE_URL environment variable
-export const DATABASE_URL = isProduction ? process.env.DATABASE_URL : `postgres://root:root@localhost:5432/root`
+export const DATABASE_URL = isProduction ? process.env.DATABASE_URL : 'postgres://root:root@localhost:5432/root'
 
 export const firebaseConfig = {
     storageBucket: process.env.storageBucket || 'gs://into-the-shelter.appspot.com',
-    type: "service_account",
-    project_id: "into-the-shelter",
+    type: 'service_account',
+    project_id: 'into-the-shelter',
     private_key_id: process.env.private_key_id,
     private_key: process.env.private_key,
-    client_email: "firebase-adminsdk-buiok@into-the-shelter.iam.gserviceaccount.com",
-    client_id: "100916296756280661809",
-    auth_uri: "https://accounts.google.com/o/oauth2/auth",
-    token_uri: "https://oauth2.googleapis.com/token",
-    auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
-    client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-buiok%40into-the-shelter.iam.gserviceaccount.com",
-    universe_domain: "googleapis.com"
-};
+    client_email: 'firebase-adminsdk-buiok@into-the-shelter.iam.gserviceaccount.com',
+    client_id: '100916296756280661809',
+    auth_uri: 'https://accounts.google.com/o/oauth2/auth',
+    token_uri: 'https://oauth2.googleapis.com/token',
+    auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
+    client_x509_cert_url: 'https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-buiok%40into-the-shelter.iam.gserviceaccount.com',
+    universe_domain: 'googleapis.com'
+}
 
 
 export const SMTP = {

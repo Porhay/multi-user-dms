@@ -34,11 +34,9 @@ const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         if (file.fieldname === 'profile-image') {
             cb(null, 'data/images')
-        }
-        else if (file.fieldname === 'text-file') {
+        } else if (file.fieldname === 'text-file') {
             cb(null, 'data/imported')
-        }
-        else {
+        } else {
             cb(null, 'data/images')
         }
     },
@@ -56,14 +54,14 @@ const upload = multer({ storage })
 
 
 const authCheck = (req, res, next) => {
-    if (req.method === "OPTIONS") {
+    if (req.method === 'OPTIONS') {
         next()
     }
 
     try {
         let token = req.headers.authorization.split(' ')[1]
         if (!token) {
-            return res.status(401).json({ message: "Unauthorized" })
+            return res.status(401).json({ message: 'Unauthorized' })
         }
 
         // throw 'error: jwt malformed' if not valid jwt
@@ -73,7 +71,7 @@ const authCheck = (req, res, next) => {
         }
         next()
     } catch (e) {
-        return res.status(401).json({ message: "Unauthorized" })
+        return res.status(401).json({ message: 'Unauthorized' })
     }
 }
 

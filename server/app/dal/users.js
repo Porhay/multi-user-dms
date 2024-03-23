@@ -77,8 +77,12 @@ export const updateUserFields = async (userId, fields) => {
     const { name, image } = fields
 
     const context = {}
-    if (name) context.name = name
-    if (image) context.image = image
+    if (name) {
+        context.name = name
+    }
+    if (image) {
+        context.image = image
+    }
 
     await db.users.update(context, { where: { id: userId } })
 

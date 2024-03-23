@@ -7,8 +7,8 @@ import { notificationType } from '../lib/constants.js'
 
 /**
  * Create notification in database
- * @param {senderId, recipientId, data} context 
- * @returns 
+ * @param {senderId, recipientId, data} context
+ * @returns
  */
 export const create = async (context) => {
     const id = uuidV4()
