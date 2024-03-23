@@ -25,9 +25,6 @@ export const createUniqueRandomName = async () => {
 }
 
 
-
-
-
 export const createJsonFileConfig = () => {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);

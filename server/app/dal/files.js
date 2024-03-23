@@ -39,7 +39,3 @@ export const deleteById = async (fileId) => {
         await db.files.destroy({ where: {id: fileId} })
     }
 }
-    
-
-
-

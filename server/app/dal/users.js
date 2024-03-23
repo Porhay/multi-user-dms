@@ -98,7 +98,7 @@ export const deleteById = async (userId) => {
 }
 
 export const getAll = async () => {
-    return await s.findAll()
+    return await db.users.findAll()
 }
 
 export const addToFriendsList = async (userId, friendId) => {
@@ -110,5 +110,3 @@ export const addToFriendsList = async (userId, friendId) => {
     await db.users.update({ friends: context }, { where: { id: userId } })
     return context
 }
-
-
