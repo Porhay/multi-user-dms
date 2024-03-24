@@ -112,7 +112,7 @@ const SettingsPage = observer(() => {
                                 <>
                                     <div className="settings-profile-image-container">
                                         <img src={user.userData.downloadUrl ? user.userData.downloadUrl : avatarDefault}
-                                            className="settings-profile-image" alt="profile image" />
+                                            className="settings-profile-image" alt="profile" />
                                         <label htmlFor="select-image">
                                             <div className="settings-profile-image-btn">
                                                 <IconTextButton icon="EditOutlinedIcon" text="Edit" />

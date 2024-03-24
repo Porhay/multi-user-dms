@@ -6,10 +6,11 @@ import { Context } from "../index";
 import { createEntry, getEntries, deleteEntry, updateEntry } from "../http";
 import { Form, FormInput, FormTitle } from "../lib/Forms";
 import { TextButton } from "../lib/Buttons";
+import { nextColor } from '../helpers'
 
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import '../styles/Entries.css';
+import SquareTwoToneIcon from '@mui/icons-material/SquareTwoTone';import '../styles/Entries.css';
 import '../styles/Lists.css';
 
 
@@ -25,6 +26,7 @@ const EntriesPage = observer(() => {
         narrowingArr: [],
         rootData: [],
         showValue: true,
+        color: 'green', // green, purple, yellow, red
     })
 
     // data = {visible:[], root:[]} // FIXME
@@ -128,9 +130,25 @@ const EntriesPage = observer(() => {
                 </div>
 
                 <div className="entry-list-div">
+                    <div className="list-item-div background-gray">
+                        <div className="entry-list-item-text ">
+                            <h6 style={{paddingBottom: 5, fontWeight: 700}} className={`entry-list-item-h6 onlyKey'}`}>Title</h6>
+                        </div>
+                        <div className="entry-action-buttons">
+                            <div className="entry-action-color-button" onClick={() => {
+                                const color = nextColor(state.color)
+                                setState({ ...state, color: color })
+                            }}>
+                                <SquareTwoToneIcon className={`color-${state.color}`} />
+                            </div>
+                            <div className="entry-list-item-x" >
+                                <CloseOutlinedIcon style={{opacity: 0}} className='entry-delete-icon' />
+                            </div>
+                        </div>
+                    </div>
                     {data.map((item) =>
                         <>
-                            <div key={item.id} className={`list-item-div ${item.color === 'green' ? 'color-green' : ''}`}>
+                            <div key={item.id} className={`list-item-div ${`background-${item.color}` || ''}`}>
                                 <div className="entry-list-item-text" onClick={() => {
                                     setState({ ...state, showValue: !state.showValue })
                                 }}>
@@ -141,7 +159,7 @@ const EntriesPage = observer(() => {
                                 </div>
                                 <div className="entry-action-buttons">
                                     <div className="entry-action-color-button" onClick={() => {
-                                        handleUpdateEntry(item.id, { color: 'green' })
+                                        handleUpdateEntry(item.id, { color: state.color })
                                     }}>
                                         <DoneOutlinedIcon className='entry-action-color-icon' />
                                     </div>

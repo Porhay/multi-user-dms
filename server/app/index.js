@@ -126,8 +126,6 @@ app.delete('/users/:userId/notifications/:notificationId/', notifications.delete
 // TODO: primary key for email in users table
 // TODO: saving jwt in db
 // TODO: separated log file to tail -f
-// TODO: set up the linter
 // TODO: dictionary info(time created, time shared, length...)
-// TODO: standard list
 // TODO: garbage collector for old notifications in db
-// TODO: geleter avatar on set new avatar or in garbage collector
+// TODO: delete avatar on set new avatar or in garbage collector

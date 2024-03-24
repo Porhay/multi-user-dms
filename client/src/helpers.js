@@ -39,3 +39,10 @@ export const popupNotification = (text, type = 'success') => {
             break;
     }
 }
+
+export const nextColor = (currentColor) => {
+    const colors = ['green', 'purple', 'yellow', 'red']
+    const index = colors.indexOf(currentColor)
+    const res = colors[index + 1] || colors[0]
+    return res
+}

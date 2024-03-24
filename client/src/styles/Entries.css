@@ -23,8 +23,33 @@
 .list-item-div {
     
 }
-.color-green {
+.background-green {
     background-color: #ccee996b;
+}
+.background-purple {
+    background-color: #CBC3E3;
+}
+.background-yellow {
+    background-color: #FDFD96;
+}
+.background-red {
+    background-color: #fa8072ae;
+}
+.background-gray {
+    background-color: #ededed;
+}
+
+.color-green {
+    color: #269d10;
+}
+.color-purple {
+    color: #CBC3E3;
+}
+.color-yellow {
+    color: #fbfb64;
+}
+.color-red {
+    color: #fa8072ae;
 }
 
 .entry-list-item-text {
