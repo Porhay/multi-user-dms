@@ -10,20 +10,30 @@ import LocalAirportIcon from '@mui/icons-material/LocalAirport';
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import FreeBreakfastIcon from '@mui/icons-material/FreeBreakfast';
+import LaptopIcon from '@mui/icons-material/Laptop';
+import LightbulbIcon from '@mui/icons-material/Lightbulb';
+import SchoolIcon from '@mui/icons-material/School';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 
 
 const Icon = (props) => {
     switch (props.icon) {
-        case 0 || 'LayersIcon': return <LayersIcon style={props.style} />
-        case 1 || 'TranslateIcon': return <TranslateIcon style={props.style} />
-        case 2 || 'FastfoodIcon': return <FastfoodIcon style={props.style} />
-        case 3 || 'SportsEsportsIcon': return <SportsEsportsIcon style={props.style} />
-        case 4 || 'FavoriteIcon': return <FavoriteIcon style={props.style} />
-        case 5 || 'BrushIcon': return <BrushIcon style={props.style} />
-        case 6 || 'LocalAirportIcon': return <LocalAirportIcon style={props.style} />
-        case 7 || 'LocalGroceryStoreIcon': return <LocalGroceryStoreIcon style={props.style} />
-        case 8 || 'MusicNoteIcon': return <MusicNoteIcon style={props.style} />
-        case 9 || 'RocketLaunchIcon': return <RocketLaunchIcon style={props.style} />
+        case 'LayersIcon': return <LayersIcon style={props.style} />
+        case 'TranslateIcon': return <TranslateIcon style={props.style} />
+        case 'FastfoodIcon': return <FastfoodIcon style={props.style} />
+        case 'SportsEsportsIcon': return <SportsEsportsIcon style={props.style} />
+        case 'FavoriteIcon': return <FavoriteIcon style={props.style} />
+        case 'BrushIcon': return <BrushIcon style={props.style} />
+        case 'LocalAirportIcon': return <LocalAirportIcon style={props.style} />
+        case 'LocalGroceryStoreIcon': return <LocalGroceryStoreIcon style={props.style} />
+        case 'MusicNoteIcon': return <MusicNoteIcon style={props.style} />
+        case 'RocketLaunchIcon': return <RocketLaunchIcon style={props.style} />
+        case 'FreeBreakfastIcon': return <FreeBreakfastIcon style={props.style} />
+        case 'LaptopIcon': return <LaptopIcon style={props.style} />
+        case 'LightbulbIcon': return <LightbulbIcon style={props.style} />
+        case 'SchoolIcon': return <SchoolIcon style={props.style} />
+        case 'AutoStoriesIcon': return <AutoStoriesIcon style={props.style} />
         default: return <LayersIcon style={props.style} />
     }
 }

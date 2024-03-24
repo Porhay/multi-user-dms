@@ -82,5 +82,3 @@ export const importDictionary = async (req, res) => {
     }
     res.json({message: 'OK'})
 }
-
-

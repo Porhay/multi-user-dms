@@ -1,6 +1,6 @@
 'use strict'
 
-import {v4 as uuidV4} from 'uuid'
+import { v4 as uuidV4 } from 'uuid'
 import * as db from '../db.js'
 
 /**
@@ -30,12 +30,12 @@ export const getById = async (id) => {
 }
 
 export const update = async (fileId, fields) => {
-    return await db.files.update(fields, {where: {id: fileId}})
+    return await db.files.update(fields, { where: { id: fileId } })
 }
 
 export const deleteById = async (fileId) => {
     const file = await db.files.findByPk(fileId)
     if (file) {
-        await db.files.destroy({ where: {id: fileId} })
+        await db.files.destroy({ where: { id: fileId } })
     }
 }

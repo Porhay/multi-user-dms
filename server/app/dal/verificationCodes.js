@@ -1,6 +1,6 @@
 'use strict'
 
-import {v4 as uuidV4} from 'uuid'
+import { v4 as uuidV4 } from 'uuid'
 import * as db from '../db.js'
 import * as config from '../config.js'
 
@@ -25,7 +25,7 @@ export const create = async (userId, code) => {
 export const getCode = async (userId) => {
     //== find one the latest
     return await db.verificationCodes.findOne({
-        where: {userId},
+        where: { userId },
         order: [['createdAt', 'DESC']],
     })
 }
@@ -39,13 +39,13 @@ export const deleteAllUserCodes = async (userId) => {
 
 export const setAsUsed = async (userId, codeId) => {
     const code = await getCode(userId)
-    if(code.expiresAt < Date.now()){
+    if (code.expiresAt < Date.now()) {
         return null
     }
 
     await db.verificationCodes.update(
         { used: true },
-        { where: { id: codeId} }
+        { where: { id: codeId } }
     )
     return code.id
 }

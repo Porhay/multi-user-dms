@@ -37,7 +37,8 @@ export const createOrUpdateDictionary = async (data) => {
 }
 
 export const getDictionaries = async (userId) => {
-    return await authHost.get(`/users/${userId}/dictionaries/`)
+    const res = await authHost.get(`/users/${userId}/dictionaries/`)
+    return res.data
 }
 
 export const getDictionary = async (userId, dictionaryId) => {
