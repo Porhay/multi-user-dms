@@ -108,6 +108,7 @@ app.delete('/users/:userId/dictionaries/:dictionaryId/entries/:entryId/', entrie
 app.post('/users/:userId/share-dictionary/', dictionaries.shareDictionary)
 app.post('/users/:userId/dictionaries/', dictionaries.createOrUpdateDictionary)
 app.get('/users/:userId/dictionaries/', dictionaries.getDictionaries)
+app.get('/users/:userId/dictionaries/:dictionaryId/', dictionaries.getDictionary)
 app.delete('/users/:userId/dictionaries/:dictionaryId/', dictionaries.deleteDictionary)
 
 app.post('/users/:userId/files/', upload.single('file'), files.fileUpload)

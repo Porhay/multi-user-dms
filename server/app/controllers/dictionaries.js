@@ -26,6 +26,12 @@ export const getDictionaries = async (req, res) => {
     res.json(dictionaries)
 }
 
+export const getDictionary = async (req, res) => {
+    const dictionaryId = req.params.dictionaryId
+    const dictionary = await dal.dictionaries.getById(dictionaryId)
+    res.json(dictionary)
+}
+
 export const deleteDictionary = async (req, res) => {
     const id = req.params.dictionaryId
     await dal.dictionaries.deleteById(id)

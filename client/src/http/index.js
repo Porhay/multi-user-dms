@@ -40,6 +40,11 @@ export const getDictionaries = async (userId) => {
     return await authHost.get(`/users/${userId}/dictionaries/`)
 }
 
+export const getDictionary = async (userId, dictionaryId) => {
+    const res =  await authHost.get(`/users/${userId}/dictionaries/${dictionaryId}/`)
+    return res.data
+}
+
 export const deleteDictionary = async (userId, dictionaryId) => {
     return await authHost.delete(`/users/${userId}/dictionaries/${dictionaryId}/`)
 }
