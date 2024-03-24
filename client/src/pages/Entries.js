@@ -21,7 +21,7 @@ const EntriesPage = observer(() => {
 
     // Global state
     const [state, setState] = useState({
-        dictionary: {name: 'Title', count: 0},
+        dictionary: null,
         key: '',
         value: '',
         narrowingArr: [],
@@ -34,17 +34,18 @@ const EntriesPage = observer(() => {
     const [data, setData] = useState([]) // All entries data
 
     const updateData = async (userId, dictionaryId) => {
-        getEntries(userId, dictionaryId).then((response) => {
+        getEntries(userId, dictionaryId).then(response => {
             const data = [...response.data].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
             setState({ ...state, rootData: data, narrowingArr: data }) // update random words list on reload
             setData(data)
         })
-        const dictionary = await getDictionary(userId, dictionaryId)
-        setState({ ...state, dictionary })
     }
 
     useEffect(() => {
         updateData(user.id, dictionaryId)
+        getDictionary(user.id, dictionaryId).then(dictionary => {
+            setState({ ...state, dictionary })
+        })
     }, [])
 
 
@@ -135,7 +136,9 @@ const EntriesPage = observer(() => {
                 <div className="entry-list-div">
                     <div className="list-item-div background-black color-white">
                         <div className="entry-list-item-text ">
-                            <h6 style={{fontWeight: 600}} className={`entry-list-item-h6 onlyKey`}>{`${state.dictionary.name} (${state.dictionary.count})`}</h6>
+                            <h6 style={{fontWeight: 600}} className={`entry-list-item-h6 onlyKey`}>
+                                {`${state.dictionary ? state.dictionary.name + ' (' + state.dictionary.count + ')' : 'Title'}`}
+                            </h6>
                         </div>
                         <div style={{paddingBottom: 5}} className="entry-action-buttons">
                             <div className="entry-action-color-button" onClick={() => {
