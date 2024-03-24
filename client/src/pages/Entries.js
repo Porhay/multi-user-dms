@@ -83,7 +83,7 @@ const EntriesPage = observer(() => {
         <div className="entry-container">
             <div className="entry-position-container">
                 <div style={{ display: 'flex' }}>
-                    <Form style={{ marginTop: 6, width: '100%' }}>
+                    <Form style={{ marginTop: 5, width: '100%' }}>
                         <div style={{ display: 'flex' }}>
                             <div style={{ flexGrow: 1 }}>
                                 <FormTitle text="Name" />
@@ -130,11 +130,11 @@ const EntriesPage = observer(() => {
                 </div>
 
                 <div className="entry-list-div">
-                    <div className="list-item-div background-gray">
+                    <div className="list-item-div background-black color-white">
                         <div className="entry-list-item-text ">
-                            <h6 style={{paddingBottom: 5, fontWeight: 700}} className={`entry-list-item-h6 onlyKey'}`}>Title</h6>
+                            <h6 style={{fontWeight: 700}} className={`entry-list-item-h6 onlyKey`}>Title</h6>
                         </div>
-                        <div className="entry-action-buttons">
+                        <div style={{paddingBottom: 5}} className="entry-action-buttons">
                             <div className="entry-action-color-button" onClick={() => {
                                 const color = nextColor(state.color)
                                 setState({ ...state, color: color })
@@ -157,7 +157,7 @@ const EntriesPage = observer(() => {
                                         {state.showValue ? item.value : '*****'}
                                     </span>
                                 </div>
-                                <div className="entry-action-buttons">
+                                <div style={{paddingBottom: 5}} className="entry-action-buttons">
                                     <div className="entry-action-color-button" onClick={() => {
                                         handleUpdateEntry(item.id, { color: state.color })
                                     }}>

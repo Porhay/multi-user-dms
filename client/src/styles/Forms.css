@@ -5,6 +5,7 @@
 
 .form-title {
     margin: 0 0 1px 0;
+    font-weight: 600;
 }
 
 .form-input-div-standard {
@@ -13,7 +14,7 @@
 .form-input-standard {
     width: 100%;
     height: 30px;
-    border: 1px solid rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 0, 0, 0.362);
     background-color: white;
     padding: 5px 14px 5px 10px;
     border-radius: 6px;
@@ -21,8 +22,6 @@
     font-size: 18px;
     outline: none;
 }
-
-
 
 .form-input-div-space-left {
     display: flex;
