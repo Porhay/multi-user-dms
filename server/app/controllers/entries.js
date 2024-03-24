@@ -33,6 +33,6 @@ export const updateEntry = async (req, res) => {
         return res.status(304)
     }
 
-    await dal.entries.update(entryId, { color })
-    return res.json({ id: entryId })
+    const entry = await dal.entries.update(entryId, { color })
+    return res.json(entry)
 }

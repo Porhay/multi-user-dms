@@ -60,7 +60,7 @@ export const createEntry = async (data) => {
 
 export const updateEntry = async (userId, dictionaryId, entryId, data) => {
     const response = await authHost.post(`/users/${userId}/dictionaries/${dictionaryId}/entries/${entryId}/`, data)
-    return response.data.id
+    return response.data
 }
 
 export const getEntries = async (userId, dictionaryId) => {
