@@ -52,7 +52,7 @@ const AuthenticationPage = observer(() => {
             <div className="authentication-position-container">
                 <div>
                     <Form >
-                        <div style={{ marginTop: 10, marginBottom: 10 }}>
+                        <div style={{ marginBottom: 10 }}>
                             <FormTitle text="Email" />
                             <FormInput
                                 variant='space-left'
@@ -84,9 +84,9 @@ const AuthenticationPage = observer(() => {
                         </div>
                     }
                     <TextButton
-                        style={{ marginTop: 15 }}
+                        style={{ marginTop: 8 }}
                         onClick={loginOrRegister}
-                        text={isLogin ? 'Log in' : 'Registration'}
+                        text={isLogin ? 'Log in' : '  Registration  '}
                     />
                 </div>
             </div>
