@@ -1,8 +1,7 @@
 'use strict'
 
 import * as db from '../db.js'
-import {v4 as uuidV4} from 'uuid'
-
+import { v4 as uuidV4 } from 'uuid'
 
 export const create = async (userId, name) => {
     const id = uuidV4()
@@ -12,9 +11,8 @@ export const create = async (userId, name) => {
         name,
     }
     await db.dictionaries.create(dictionary)
-    return dictionary
+    return await getById(dictionary.id)
 }
-
 
 export const getByUserId = async (userId) => {
     const result = await db.dictionaries.findAll({ where: { userId } })
@@ -25,7 +23,7 @@ export const getByUserId = async (userId) => {
 }
 
 export const deleteById = async (dictionaryId) => {
-    return await db.dictionaries.destroy({ where: {id: dictionaryId} })
+    return await db.dictionaries.destroy({ where: { id: dictionaryId } })
 }
 
 export const getById = async (id) => {
@@ -42,7 +40,5 @@ export const copyDictionary = async (userToCopy, dictionaryId) => {
 }
 
 export const update = async (id, fields) => {
-    return await db.dictionaries.update(fields, {where: {id}})
+    return await db.dictionaries.update(fields, { where: { id } })
 }
-
-

@@ -20,6 +20,14 @@ export const create = async (dictionaryId, key, value) => {
     return entry
 }
 
+export const getById = async (id) => {
+    const result = await db.entries.findByPk(id)
+    if (!result) {
+        return null
+    }
+    return result
+}
+
 
 export const getByDictionaryId = async (dictionaryId) => {
     const result = await db.entries.findAll({ where: { dictionaryId } })
@@ -47,5 +55,6 @@ export const deleteById = async (id) => {
 }
 
 export const update = async (id, data) => {
-    return await db.entries.update(data, { where: { id } })
+    await db.entries.update(data, { where: { id } })
+    return await getById(id)
 }

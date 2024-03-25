@@ -10,7 +10,7 @@ import { nextColor } from '../helpers'
 
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import SquareTwoToneIcon from '@mui/icons-material/SquareTwoTone';import '../styles/Entries.css';
+import SquareTwoToneIcon from '@mui/icons-material/SquareTwoTone'; import '../styles/Entries.css';
 import '../styles/Lists.css';
 
 
@@ -21,11 +21,11 @@ const EntriesPage = observer(() => {
 
     // Global state
     const [state, setState] = useState({
-        dictionary: null,
         key: '',
         value: '',
         narrowingArr: [],
         rootData: [],
+        dictionary: null,
         showValue: true,
         color: 'green', // green, purple, yellow, red
     })
@@ -33,19 +33,17 @@ const EntriesPage = observer(() => {
     // data = {visible:[], root:[]} // FIXME
     const [data, setData] = useState([]) // All entries data
 
-    const updateData = async (userId, dictionaryId) => {
-        getEntries(userId, dictionaryId).then(response => {
-            const data = [...response.data].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
-            setState({ ...state, rootData: data, narrowingArr: data }) // update random words list on reload
-            setData(data)
-        })
-    }
+
 
     useEffect(() => {
-        updateData(user.id, dictionaryId)
-        getDictionary(user.id, dictionaryId).then(dictionary => {
-            setState({ ...state, dictionary })
-        })
+        const _fetchData = async (userId, dictionaryId) => {
+            const response = await getEntries(userId, dictionaryId)
+            const data = [...response.data].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+            const dictionary = await getDictionary(user.id, dictionaryId)
+            setState({ ...state, rootData: data, narrowingArr: data, dictionary: dictionary }) // update random words list on reload
+            setData(data)
+        }
+        _fetchData(user.id, dictionaryId)
     }, [])
 
 
@@ -58,23 +56,35 @@ const EntriesPage = observer(() => {
         }
         const newEntry = await createEntry(data)
         setData(prevState => [newEntry.data, ...prevState])
-        setState({ ...state, key: '', value: '', rootData: [...state.rootData, newEntry.data] })
+        setState({
+            ...state,
+            key: '',
+            value: '',
+            rootData: [...state.rootData, newEntry.data],
+            dictionary: { ...state.dictionary, count: state.dictionary.count + 1 },
+        })
     }
 
-    const handleUpdateEntry = async (entryId, data) => {
-        const entryToUpdate = state.rootData.filter(entry => entry.id === entryId)[0]
+    const handleUpdateEntry = async (entryId, dataObject) => {
+        const entryToUpdate = state.rootData.find(entry => entry.id === entryId)
 
-        let context = { color: null }
-        entryToUpdate.color ? context.color = null : context.color = data.color
+        const context = { color: null }
+        context.color = entryToUpdate.color ? null : dataObject.color // remove if exist
 
-        await updateEntry(user.id, dictionaryId, entryId, context)
-        updateData(user.id, dictionaryId) // TODO: optimize
+        const updatedEntry = await updateEntry(user.id, dictionaryId, entryId, context)
+        data.find(entry => entry.id === updatedEntry.id).color = updatedEntry.color
+        setData([...data])
     }
 
     const deleteCurrentEntry = async (entryId) => {
         const response = await deleteEntry(user.id, dictionaryId, entryId).catch(e => console.log(e))
-        setData([...data.filter(item => item.id !== response.data.id)])
-        setState({ ...state, rootData: [...data.filter(item => item.id !== response.data.id)] })
+        const actualEntries = [...data.filter(item => item.id !== response.data.id)]
+        setData(actualEntries)
+        setState({
+            ...state,
+            rootData: actualEntries,
+            dictionary: { ...state.dictionary, count: state.dictionary.count - 1 },
+        })
     }
 
     const handleCreateNewEntry = async () => {
@@ -90,7 +100,7 @@ const EntriesPage = observer(() => {
                     <Form style={{ marginTop: 5, width: '100%' }}>
                         <div style={{ display: 'flex' }}>
                             <div style={{ flexGrow: 1 }}>
-                                <FormTitle text="Name" />
+                                <FormTitle text="Caption" />
                                 <FormInput
                                     value={state.key}
                                     onChange={e => setState({ ...state, key: e.target.value })}
@@ -98,7 +108,7 @@ const EntriesPage = observer(() => {
                                 />
                             </div>
                             <div style={{ flexGrow: 1 }}>
-                                <FormTitle text="Value" />
+                                <FormTitle text="Value(optional)" />
                                 <FormInput
                                     value={state.value}
                                     onChange={e => setState({ ...state, value: e.target.value })}
@@ -136,11 +146,11 @@ const EntriesPage = observer(() => {
                 <div className="entry-list-div">
                     <div className="list-item-div background-black color-white">
                         <div className="entry-list-item-text ">
-                            <h6 style={{fontWeight: 600}} className={`entry-list-item-h6 onlyKey`}>
+                            <h6 style={{ fontWeight: 600 }} className={`entry-list-item-h6 onlyKey`}>
                                 {`${state.dictionary ? state.dictionary.name + ' (' + state.dictionary.count + ')' : 'Title'}`}
                             </h6>
                         </div>
-                        <div style={{paddingBottom: 5}} className="entry-action-buttons">
+                        <div style={{ paddingBottom: 5 }} className="entry-action-buttons">
                             <div className="entry-action-color-button" onClick={() => {
                                 const color = nextColor(state.color)
                                 setState({ ...state, color: color })
@@ -148,7 +158,7 @@ const EntriesPage = observer(() => {
                                 <SquareTwoToneIcon className={`color-${state.color}`} />
                             </div>
                             <div className="entry-list-item-x" >
-                                <CloseOutlinedIcon style={{opacity: 0}} className='entry-delete-icon' />
+                                <CloseOutlinedIcon style={{ opacity: 0 }} className='entry-delete-icon' />
                             </div>
                         </div>
                     </div>
@@ -163,7 +173,7 @@ const EntriesPage = observer(() => {
                                         {state.showValue ? item.value : '*****'}
                                     </span>
                                 </div>
-                                <div style={{paddingBottom: 5}} className="entry-action-buttons">
+                                <div style={{ paddingBottom: 5 }} className="entry-action-buttons">
                                     <div className="entry-action-color-button" onClick={() => {
                                         handleUpdateEntry(item.id, { color: state.color })
                                     }}>

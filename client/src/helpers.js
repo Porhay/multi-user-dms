@@ -1,4 +1,5 @@
 import { toast } from "react-toastify"
+import { entryColors, dictionaryIcons } from "./constants"
 
 export const readURL = file => {
     return new Promise((res, rej) => {
@@ -9,8 +10,8 @@ export const readURL = file => {
     })
 }
 
-export const generateRandomDigit = () => {
-    return Math.floor(Math.random() * 9 * Math.pow(10, 1 - 1)) + Math.pow(10, 1 - 1)
+export const genRandomDigit = (maxIndex = 15) => {
+    return Math.floor(Math.random() * maxIndex * Math.pow(10, 1 - 1)) + Math.pow(10, 1 - 1)
 }
 
 export const popupNotification = (text, type = 'success') => {
@@ -41,8 +42,17 @@ export const popupNotification = (text, type = 'success') => {
 }
 
 export const nextColor = (currentColor) => {
-    const colors = ['green', 'purple', 'yellow', 'red']
-    const index = colors.indexOf(currentColor)
-    const res = colors[index + 1] || colors[0]
+    const index = entryColors.indexOf(currentColor)
+    const res = entryColors[index + 1] || entryColors[0]
     return res
 }
+
+export const getNextIcon = (currentIcon) => {
+    const index = dictionaryIcons.indexOf(currentIcon)
+    const res = dictionaryIcons[index + 1] || dictionaryIcons[0]
+    return res
+}
+
+// export const setDelay = (func, delay) => {
+    
+// }

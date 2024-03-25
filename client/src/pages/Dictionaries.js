@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 
-import { generateRandomDigit } from "../helpers";
-import { ROUTES } from "../constants";
+import { genRandomDigit, getNextIcon } from "../helpers";
+import { ROUTES, dictionaryIcons } from "../constants";
 import { Context } from "../index";
 
 import Friends from "../modals/Friends";
@@ -14,6 +14,7 @@ import { Icon } from "../lib/Icons";
 
 import {
     createOrUpdateDictionary,
+    updateDictionary,
     getDictionaries,
     deleteDictionary,
     importDictionary,
@@ -44,43 +45,38 @@ const DictionariesPage = observer(() => {
         { message: 'Edit', action: () => setEdit(item.id) },
         { message: 'Share', action: () => setState({ ...state, showModal: true, currentItem: item }) },
         { message: 'Export', action: () => handleExportDictionary(user.id, item.id, item.name) },
-        { message: 'Delete', action: () => deleteCurrentDictionary(item.id) },
+        { message: 'Delete', action: () => handleDeleteDictionary(item.id) },
     ]
 
     useEffect(() => {
-        updateData()
-    }, [])
-
-    const updateData = () => {
-        getDictionaries(user.id).then(response => {
-            let dictionaries = response.data.reverse()
+        const _fetchData = async () => {
+            const data = await getDictionaries(user.id)
+            const dictionaries = data.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 
             // add edit, icon rows for every
             for (const entity of dictionaries) {
                 entity.edit = false
-                entity.iconIndex = generateRandomDigit()
+                entity.icon = entity.icon || dictionaryIcons[genRandomDigit(dictionaryIcons.length)]
             }
             setData(dictionaries)
-        })
-    }
+        }
+        _fetchData()
+    }, [])
 
     const newDictionary = async () => {
         const newDictionary = await createOrUpdateDictionary({ userId: user.id, name: state.nameOfNew })
         setData(prevState => [newDictionary.data, ...prevState])
         setState({ ...state, nameOfNew: '' })
     }
-
     const openDictionary = async (dictionaryId) => {
         navigate(ROUTES.ENTRIES + '/' + dictionaryId)
     }
-
-    const deleteCurrentDictionary = async (dictionaryId) => {
+    const handleDeleteDictionary = async (dictionaryId) => {
         await deleteDictionary(user.id, dictionaryId).catch(e => console.log(e))
         setData([...data.filter(item => item.id !== dictionaryId)])
     }
-
-    const updateCurrentDictionary = async (dictionaryId, name) => {
-        await createOrUpdateDictionary({
+    const handleUpdateDictionary = async (dictionaryId, name) => {
+        await updateDictionary({
             userId: user.id,
             dictionaryId,
             name: name
@@ -96,7 +92,6 @@ const DictionariesPage = observer(() => {
         setEdit(dictionaryId, false)
         setState({ ...state, nameToEdit: '' })
     }
-
     const setEdit = (currentId, toOpen = true) => {
         let withEditTrueForCurrent = []
         for (const entity of data) {
@@ -112,12 +107,10 @@ const DictionariesPage = observer(() => {
         }
         setData(withEditTrueForCurrent)
     }
-
     const importNewDictionary = async (userId, formData) => {
         await importDictionary(userId, formData)
         // update state
     }
-
     const handleExportDictionary = async (userId, dictionaryId, dictionaryName) => {
         const response = await getEntries(userId, dictionaryId)
         const data = response.data.reverse()
@@ -133,6 +126,19 @@ const DictionariesPage = observer(() => {
         link.href = url;
         link.click();
     }
+    const updateDictIcon = (() => {
+        let timer; // To store the timer reference
+
+        return (item) => {
+            clearTimeout(timer);
+            timer = setTimeout(async () => {
+                const nextIcon = getNextIcon(item.icon)
+                data.find(dictData => dictData.id === item.id).icon = nextIcon
+                setData([...data])
+                await updateDictionary({ userId: user.id, dictionaryId: item.id, icon: nextIcon })
+            }, 500);
+        };
+    })();
 
     return (
         <div className="dictionary-container">
@@ -188,7 +194,9 @@ const DictionariesPage = observer(() => {
                                 <div className="list-edit-form-general-div">
                                     {item.edit ?
                                         <div key={item.id} className="list-edit-form-div">
-                                            <Icon icon={item.iconIndex} style={{ marginRight: 6 }} />
+                                            <div onClick={() => updateDictIcon(item)}>
+                                                <Icon icon={item.icon} style={{ marginRight: 6, marginBottom: 3 }} />
+                                            </div>
 
                                             <Form>
                                                 <FormInput
@@ -198,7 +206,7 @@ const DictionariesPage = observer(() => {
                                                 />
                                             </Form>
                                             <TextButton
-                                                onClick={() => updateCurrentDictionary(item.id, state.nameToEdit)}
+                                                onClick={() => handleUpdateDictionary(item.id, state.nameToEdit)}
                                                 text="Update"
                                             />
                                             <TextButton
@@ -209,7 +217,9 @@ const DictionariesPage = observer(() => {
                                         </div>
                                         :
                                         <div className="list-edit-form-div">
-                                            <Icon icon={item.iconIndex} style={{ marginRight: 6 }} />
+                                            <div onClick={() => updateDictIcon(item)}>
+                                                <Icon icon={item.icon} style={{ marginRight: 6, marginBottom: 3 }} />
+                                            </div>
                                             <a key={item.id} className="list-item-a">
                                                 <span onClick={() => openDictionary(item.id)}>
                                                     {item.name}

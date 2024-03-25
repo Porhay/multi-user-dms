@@ -12,3 +12,28 @@ export const notificationType = {
     friendRequest: 'friendRequest',
     shareDictionary: 'shareDictionary',
 }
+
+export const entryColors = [
+    'green',
+    'purple',
+    'yellow',
+    'red'
+]
+
+export const dictionaryIcons = [
+    'LayersIcon',
+    'TranslateIcon',
+    'FastfoodIcon',
+    'SportsEsportsIcon',
+    'FavoriteIcon',
+    'BrushIcon',
+    'LocalAirportIcon',
+    'LocalGroceryStoreIcon',
+    'MusicNoteIcon',
+    'RocketLaunchIcon',
+    'FreeBreakfastIcon',
+    'LaptopIcon',
+    'LightbulbIcon',
+    'SchoolIcon',
+    'AutoStoriesIcon'
+]

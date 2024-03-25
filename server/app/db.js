@@ -4,6 +4,7 @@ import { DataTypes, Sequelize } from 'sequelize'
 import * as constants from './lib/constants.js'
 import { DATABASE_URL } from './config.js'
 
+// ALTER TABLE dictionaries ADD icon VARCHAR(255);
 
 export const sequelize = new Sequelize(DATABASE_URL, {
     dialect: 'postgres',
@@ -46,6 +47,7 @@ export const dictionaries = sequelize.define('dictionaries', {
     name: { type: DataTypes.TEXT, defaultValue: 'My dictionary' },
     type: { type: DataTypes.TEXT, defaultValue: constants.DICTIONARY_TYPES.STANDARD },
     count: { type: DataTypes.INTEGER, defaultValue: 0 },
+    icon: { type: DataTypes.STRING }
 }, { underscored: true })
 
 
