@@ -52,3 +52,7 @@ export const getNextIcon = (currentIcon) => {
     const res = dictionaryIcons[index + 1] || dictionaryIcons[0]
     return res
 }
+
+// export const setDelay = (func, delay) => {
+    
+// }

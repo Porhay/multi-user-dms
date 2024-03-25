@@ -14,6 +14,7 @@ import { Icon } from "../lib/Icons";
 
 import {
     createOrUpdateDictionary,
+    updateDictionary,
     getDictionaries,
     deleteDictionary,
     importDictionary,
@@ -44,13 +45,13 @@ const DictionariesPage = observer(() => {
         { message: 'Edit', action: () => setEdit(item.id) },
         { message: 'Share', action: () => setState({ ...state, showModal: true, currentItem: item }) },
         { message: 'Export', action: () => handleExportDictionary(user.id, item.id, item.name) },
-        { message: 'Delete', action: () => deleteCurrentDictionary(item.id) },
+        { message: 'Delete', action: () => handleDeleteDictionary(item.id) },
     ]
 
     useEffect(() => {
         const _fetchData = async () => {
             const data = await getDictionaries(user.id)
-            const dictionaries = data.reverse()
+            const dictionaries = data.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 
             // add edit, icon rows for every
             for (const entity of dictionaries) {
@@ -70,12 +71,12 @@ const DictionariesPage = observer(() => {
     const openDictionary = async (dictionaryId) => {
         navigate(ROUTES.ENTRIES + '/' + dictionaryId)
     }
-    const deleteCurrentDictionary = async (dictionaryId) => {
+    const handleDeleteDictionary = async (dictionaryId) => {
         await deleteDictionary(user.id, dictionaryId).catch(e => console.log(e))
         setData([...data.filter(item => item.id !== dictionaryId)])
     }
-    const updateCurrentDictionary = async (dictionaryId, name) => {
-        await createOrUpdateDictionary({
+    const handleUpdateDictionary = async (dictionaryId, name) => {
+        await updateDictionary({
             userId: user.id,
             dictionaryId,
             name: name
@@ -125,11 +126,19 @@ const DictionariesPage = observer(() => {
         link.href = url;
         link.click();
     }
-    const updateDictIcon = (item) => {
-        const nextIcon = getNextIcon(item.icon)
-        data.find(dictData => dictData.id = item.id).icon = nextIcon
-        setData([...data])
-    }
+    const updateDictIcon = (() => {
+        let timer; // To store the timer reference
+
+        return (item) => {
+            clearTimeout(timer);
+            timer = setTimeout(async () => {
+                const nextIcon = getNextIcon(item.icon)
+                data.find(dictData => dictData.id === item.id).icon = nextIcon
+                setData([...data])
+                await updateDictionary({ userId: user.id, dictionaryId: item.id, icon: nextIcon })
+            }, 500);
+        };
+    })();
 
     return (
         <div className="dictionary-container">
@@ -197,7 +206,7 @@ const DictionariesPage = observer(() => {
                                                 />
                                             </Form>
                                             <TextButton
-                                                onClick={() => updateCurrentDictionary(item.id, state.nameToEdit)}
+                                                onClick={() => handleUpdateDictionary(item.id, state.nameToEdit)}
                                                 text="Update"
                                             />
                                             <TextButton
@@ -209,7 +218,7 @@ const DictionariesPage = observer(() => {
                                         :
                                         <div className="list-edit-form-div">
                                             <div onClick={() => updateDictIcon(item)}>
-                                                <Icon icon={item.icon} style={{ marginRight: 6, marginBottom: 3}} />
+                                                <Icon icon={item.icon} style={{ marginRight: 6, marginBottom: 3 }} />
                                             </div>
                                             <a key={item.id} className="list-item-a">
                                                 <span onClick={() => openDictionary(item.id)}>

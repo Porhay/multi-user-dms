@@ -27,13 +27,25 @@ const catchError = (apiFunction) => async (...params) => {
 
 export const createOrUpdateDictionary = async (data) => {
     const userId = data.userId
-    const body = {
-        name: data.name
-    }
-    if (data.dictionaryId) {
-        body.dictionaryId = data.dictionaryId
-    }
+
+    const body = {}
+    if (data.dictionaryId) body.dictionaryId = data.dictionaryId
+    if (data.name) body.name = data.name
+    if (data.icon) body.icon = data.icon
+    
     return await authHost.post(`/users/${userId}/dictionaries/`, body)
+}
+
+export const updateDictionary = async (data) => {
+    if (!data.dictionaryId || !data.userId) {
+        return
+    }
+
+    const body = {}
+    if (data.name) body.name = data.name
+    if (data.icon) body.icon = data.icon
+    
+    return await authHost.post(`/users/${data.userId}/dictionaries/${data.dictionaryId}/`, body)
 }
 
 export const getDictionaries = async (userId) => {
@@ -134,7 +146,6 @@ export const updateProfileImage = catchError(async (userId, formData) => {
 
 export const getProfileImageUrl = catchError(async (userId, fileId) => {
     const response = await authHost.get(`/users/${userId}/files/${fileId}`)
-    console.log(response.data);
     return response.data
 })
 
