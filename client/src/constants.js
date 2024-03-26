@@ -17,7 +17,8 @@ export const entryColors = [
     'green',
     'purple',
     'yellow',
-    'red'
+    'red',
+    'blue',
 ]
 
 export const dictionaryIcons = [
@@ -35,5 +36,5 @@ export const dictionaryIcons = [
     'LaptopIcon',
     'LightbulbIcon',
     'SchoolIcon',
-    'AutoStoriesIcon'
+    'AutoStoriesIcon',
 ]

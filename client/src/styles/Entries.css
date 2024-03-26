@@ -35,6 +35,9 @@
 .background-red {
     background-color: #fba79eae;
 }
+.background-blue {
+    color: #ade2f7;
+}
 .background-black {
     background-color: #484a4d;
 }
@@ -50,6 +53,9 @@
 }
 .color-red {
     color: #fba79eae;
+}
+.color-blue {
+    color: #ade2f7;
 }
 .color-white {
     color: #ffffff;
