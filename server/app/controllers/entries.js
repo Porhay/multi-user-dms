@@ -29,10 +29,13 @@ export const deleteEntry = async (req, res) => {
 export const updateEntry = async (req, res) => {
     const { entryId } = req.params
     const color = req.body.color || null
+    const key = req.body.key || null
+    const value = req.body.value || null
+
     if (!Object.keys(req.body)) {
         return res.status(304)
     }
 
-    const entry = await dal.entries.update(entryId, { color })
+    const entry = await dal.entries.update(entryId, { color, key, value })
     return res.json(entry)
 }

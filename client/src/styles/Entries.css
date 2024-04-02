@@ -1,4 +1,3 @@
-
 .entry-container {
     width: 100vw;
     height: auto;
@@ -20,24 +19,28 @@
     margin-top: 10px;
 }
 
-.list-item-div {
-    
-}
+.list-item-div {}
+
 .background-green {
     background-color: #ccee996b;
 }
+
 .background-purple {
     background-color: #CBC3E3;
 }
+
 .background-yellow {
     background-color: #FDFD96;
 }
+
 .background-red {
     background-color: #fba79eae;
 }
+
 .background-blue {
     background-color: #ade2f7;
 }
+
 .background-black {
     background-color: #484a4d;
 }
@@ -45,21 +48,27 @@
 .color-green {
     color: #269d10;
 }
+
 .color-purple {
     color: #CBC3E3;
 }
+
 .color-yellow {
     color: #fbfb64;
 }
+
 .color-red {
     color: #fba79eae;
 }
+
 .color-blue {
     color: #ade2f7;
 }
+
 .color-white {
     color: #ffffff;
 }
+
 .color-white:hover {
     color: #ffffff;
 }
@@ -72,6 +81,7 @@
 .entry-list-item-h6 {
     margin: 4px 0 -6px 0;
 }
+
 .onlyKey {
     margin: 0;
 }
@@ -89,23 +99,29 @@
     display: flex;
     align-items: center;
 }
+
 .entry-action-color-button {
-    margin: 0 20px 0 0;
+    margin: 0 10px 0 0;
 }
+
 .entry-action-color-icon {
     color: #269d10;
     transition: transform 0.3s ease;
 }
+
 .entry-action-color-icon:hover {
     transform: scale(1.1);
-    
+
 }
+
 .entry-delete-icon {
     transition: transform 0.3s ease;
 }
+
 .entry-delete-icon:hover {
     transform: scale(1.1);
 }
+
 .entry-list-item-x {
     margin: 0 6px 0 0;
 }
@@ -115,15 +131,60 @@
 .entry-sort-button-div {
     margin: -6px 0 0 0;
 }
+
 .entry-sort-button-span {
     color: #586069;
     font-size: 14px;
     cursor: pointer;
     padding: 0 16px 0 0;
 }
+
 .entry-sort-button-span:hover {
     color: #269d10;
 }
+
+.entries-panel-dots {
+    color: #fff;
+    margin: 0 2px 0 0;
+}
+
+/* update entry styles */
+
+.entry-key-edit-input {
+    margin: 0 5px 0 0;
+    padding: 0 5px 0 0;
+    color: inherit;
+    font-family: inherit;
+    font-weight: inherit;
+    border: none;
+    border-right: rgba(0, 0, 0, 0.3) 2px solid;
+}
+
+.entry-key-edit-input:focus {
+    outline: none;
+}
+
+.entry-value-edit-input {
+    color: inherit;
+    font-family: inherit;
+    font-weight: inherit;
+    border: none;
+}
+
+.entry-value-edit-input:focus {
+    outline: none;
+}
+
+.entry-edit-submit {
+    color: #269d10;
+    margin: 0 5px;
+}
+
+.entry-edit-decline {
+    margin: 0 5px 0 0;
+}
+
+/* --- */
 
 @media screen and (max-width: 480px) {
     .entry-position-container {

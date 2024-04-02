@@ -1,8 +1,3 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { observer } from 'mobx-react-lite';
-
-import { Context } from '../index';
 import {
   createEntry,
   getEntries,
@@ -10,22 +5,27 @@ import {
   updateEntry,
   getDictionary,
 } from '../http';
+import '../styles/Entries.css';
+import '../styles/Lists.css';
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import { Context } from '../index';
 import { Form, FormInput, FormTitle } from '../lib/Forms';
 import { TextButton } from '../lib/Buttons';
 import { nextColor } from '../helpers';
-
+import { Dropdown } from '../components/Dropdown';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import SquareTwoToneIcon from '@mui/icons-material/SquareTwoTone';
-import '../styles/Entries.css';
-import '../styles/Lists.css';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 const EntriesPage = observer(() => {
   const { id: dictionaryId } = useParams();
   const context = useContext(Context);
   const user = context.user.user;
 
-  // Global state
+  // LOCAL STATE
   const [state, setState] = useState({
     key: '',
     value: '',
@@ -39,6 +39,20 @@ const EntriesPage = observer(() => {
   // data = {visible:[], root:[]} // FIXME
   const [data, setData] = useState([]); // All entries data
 
+
+  // DATA SETS
+  const entryDropdown = (item) => [
+    {
+      message: 'Update', action: () => setEntryUpdate(item, true)
+    },
+    { message: 'Delete', action: () => deleteCurrentEntry(item.id) },
+  ];
+  const entriesPanelDotsDropdown = () => [
+    { message: 'Hide all', action: () => setState({ ...state, showValue: !state.showValue }) },
+  ];
+
+
+  // USE EFFECT
   useEffect(() => {
     const _fetchData = async (userId, dictionaryId) => {
       const response = await getEntries(userId, dictionaryId);
@@ -54,9 +68,18 @@ const EntriesPage = observer(() => {
       }); // update random words list on reload
       setData(data);
     };
+
+    // update with falsy edit value by default
+    for (const entry of data) {
+      entry.isEdit = false;
+    }
+    setData(data);
+
     _fetchData(user.id, dictionaryId);
   }, []);
 
+
+  // FUNCTIONS
   const createNewEntry = async () => {
     const data = {
       userId: user.id,
@@ -75,7 +98,30 @@ const EntriesPage = observer(() => {
     });
   };
 
-  const handleUpdateEntry = async (entryId, dataObject) => {
+  const handleUpdateEntry = async (entryId, dataObj) => {
+    const context = {};
+
+    if (dataObj.key !== null) {
+      context.key = dataObj.key;
+    }
+    if (dataObj.value !== null) {
+      context.value = dataObj.value;
+    }
+
+    if (Object.keys(context).length === 0) {
+      return
+    }
+
+    const updatedEntry = await updateEntry(user.id, dictionaryId, entryId, context);
+    data.find((entry) => entry.id === updatedEntry.id).key = updatedEntry.key;
+    data.find((entry) => entry.id === updatedEntry.id).value = updatedEntry.value;
+    data.find((entry) => entry.id === updatedEntry.id).isEdit = false;
+
+    setData([...data]);
+  };
+
+  // TODO: fix! merge with handleUpdateEntry
+  const handleUpdateEntryColor = async (entryId, dataObject) => {
     const entryToUpdate = state.rootData.find((entry) => entry.id === entryId);
 
     const context = { color: null };
@@ -87,8 +133,7 @@ const EntriesPage = observer(() => {
       entryId,
       context,
     );
-    data.find((entry) => entry.id === updatedEntry.id).color =
-      updatedEntry.color;
+    data.find((entry) => entry.id === updatedEntry.id).color = updatedEntry.color;
     setData([...data]);
   };
 
@@ -112,6 +157,11 @@ const EntriesPage = observer(() => {
       await createNewEntry();
     }
   };
+
+  const setEntryUpdate = (item, isActive) => {
+    setData([...data.filter(i => i !== item), { ...item, isEdit: isActive }].sort((a, b) =>
+      b.createdAt.localeCompare(a.createdAt)))
+  }
 
   return (
     <div className="entry-container">
@@ -199,10 +249,11 @@ const EntriesPage = observer(() => {
               >
                 <SquareTwoToneIcon className={`color-${state.color}`} />
               </div>
-              <div className="entry-list-item-x">
-                <CloseOutlinedIcon
-                  style={{ opacity: 0 }}
-                  className="entry-delete-icon"
+              <div className="entries-panel-dots">
+                <Dropdown
+                  className="entries-panel-dots-dropdown"
+                  icon={<MoreVertIcon style={{ color: 'white' }} />}
+                  items={entriesPanelDotsDropdown()}
                 />
               </div>
             </div>
@@ -213,20 +264,29 @@ const EntriesPage = observer(() => {
                 key={item.id}
                 className={`list-item-div ${`background-${item.color}` || ''}`}
               >
-                <div
-                  className="entry-list-item-text"
-                  onClick={() => {
-                    setState({ ...state, showValue: !state.showValue });
-                  }}
-                >
-                  <h6
-                    className={`entry-list-item-h6 ${item.value ? '' : 'onlyKey'}`}
-                  >
-                    {item.key}
-                  </h6>
-                  <span className="entry-list-item-span">
-                    {state.showValue ? item.value : '*****'}
-                  </span>
+                <div className="entry-list-item-text">
+                  {!item.isEdit ?
+                    <div>
+                      <h6 className={`entry-list-item-h6 ${item.value ? '' : 'onlyKey'}`}>
+                        {item.key}
+                      </h6>
+                      <span className="entry-list-item-span">
+                        {state.showValue ? item.value : '*****'}
+                      </span>
+                    </div> :
+                    <div>
+                      <input id="keyEditInput" placeholder={item.key} className="entry-key-edit-input"></input>
+                      <input id="valueEditInput" placeholder={item.value} className="entry-value-edit-input"></input>
+                      <DoneOutlinedIcon
+                        className="entry-edit-submit"
+                        onClick={() => handleUpdateEntry(item.id, {
+                          key: document.getElementById('keyEditInput').value || null,
+                          value: document.getElementById('valueEditInput').value || null
+                        })}
+                      />
+                      <CloseOutlinedIcon onClick={() => setEntryUpdate(item, false)} className="entry-edit-decline" />
+                    </div>
+                  }
                 </div>
                 <div
                   style={{ paddingBottom: 5 }}
@@ -235,17 +295,16 @@ const EntriesPage = observer(() => {
                   <div
                     className="entry-action-color-button"
                     onClick={() => {
-                      handleUpdateEntry(item.id, { color: state.color });
+                      handleUpdateEntryColor(item.id, { color: state.color });
                     }}
                   >
                     <DoneOutlinedIcon className="entry-action-color-icon" />
                   </div>
-                  <div
-                    className="entry-list-item-x"
-                    onClick={() => deleteCurrentEntry(item.id)}
-                  >
-                    <CloseOutlinedIcon className="entry-delete-icon" />
-                  </div>
+                  <Dropdown
+                    className={`entry-item-dropdown ${item.value ? 'key-value-entity' : 'only-key-entity'}`}
+                    icon={<MoreVertIcon />}
+                    items={entryDropdown(item)}
+                  />
                 </div>
               </div>
             </>

@@ -57,6 +57,36 @@ a{
     transition: height var(--speed) ease;
 }
 
+.entry-item-dropdown {
+    position: absolute;
+    right: 0;
+    width: 130px;
+    background-color: var(--bg);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: height var(--speed) ease;
+}
+.only-key-entity {
+    transform: translateY(87%);
+}
+.key-value-entity {
+    transform: translateY(97%);
+}
+
+.entries-panel-dots-dropdown {
+    position: absolute;
+    color: #fff;
+    right: 0;
+    width: 130px;
+    transform: translateY(15%);
+    background-color: var(--bg);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: height var(--speed) ease;
+}
+
 .menu {
     width: 100%;
 }

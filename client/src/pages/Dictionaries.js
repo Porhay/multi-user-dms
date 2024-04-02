@@ -63,9 +63,7 @@ const DictionariesPage = observer(() => {
       // add edit, icon rows for every
       for (const entity of dictionaries) {
         entity.edit = false;
-        entity.icon =
-          entity.icon ||
-          dictionaryIcons[genRandomDigit(dictionaryIcons.length)];
+        entity.icon = entity.icon ? entity.icon : dictionaryIcons[genRandomDigit(dictionaryIcons.length)];
       }
       setData(dictionaries);
     };
