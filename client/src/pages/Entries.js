@@ -29,6 +29,8 @@ const EntriesPage = observer(() => {
   const [state, setState] = useState({
     key: '',
     value: '',
+    editKey: '',
+    editValue: '',
     narrowingArr: [],
     rootData: [],
     dictionary: null,
@@ -161,6 +163,7 @@ const EntriesPage = observer(() => {
   const setEntryUpdate = (item, isActive) => {
     setData([...data.filter(i => i !== item), { ...item, isEdit: isActive }].sort((a, b) =>
       b.createdAt.localeCompare(a.createdAt)))
+    setState({ ...state, editKey: item.key, editValue: item.value })
   }
 
   return (
@@ -275,8 +278,18 @@ const EntriesPage = observer(() => {
                       </span>
                     </div> :
                     <div>
-                      <input id="keyEditInput" placeholder={item.key} className="entry-key-edit-input"></input>
-                      <input id="valueEditInput" placeholder={item.value} className="entry-value-edit-input"></input>
+                      <input
+                        value={state.editKey}
+                        onChange={(e) => setState({ ...state, editKey: e.target.value })}
+                        id="keyEditInput"
+                        className="entry-key-edit-input">
+                      </input>
+                      <input
+                        value={item.editValue}
+                        onChange={(e) => setState({ ...state, editValue: e.target.value })}
+                        id="valueEditInput"
+                        className="entry-value-edit-input">
+                      </input>
                       <DoneOutlinedIcon
                         className="entry-edit-submit"
                         onClick={() => handleUpdateEntry(item.id, {
