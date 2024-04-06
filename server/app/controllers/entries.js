@@ -27,15 +27,23 @@ export const deleteEntry = async (req, res) => {
 }
 
 export const updateEntry = async (req, res) => {
-    const { entryId } = req.params
-    const color = req.body.color || null
-    const key = req.body.key || null
-    const value = req.body.value || null
+    const { entryId } = req.params;
+    const updateFields = {};
 
-    if (!Object.keys(req.body)) {
-        return res.status(304)
+    if (req.body.color !== undefined) {
+        updateFields.color = req.body.color;
+    }
+    if (req.body.key !== undefined) {
+        updateFields.key = req.body.key;
+    }
+    if (req.body.value !== undefined) {
+        updateFields.value = req.body.value;
     }
 
-    const entry = await dal.entries.update(entryId, { color, key, value })
-    return res.json(entry)
-}
+    if (Object.keys(updateFields).length === 0) {
+        return res.status(304).send(); // Sending status only, no content
+    }
+
+    const entry = await dal.entries.update(entryId, updateFields);
+    return res.json(entry);
+};
