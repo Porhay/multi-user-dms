@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
@@ -69,6 +69,7 @@ const DictionariesPage = observer(() => {
     };
     _fetchData();
   }, []);
+  const cachedData = useMemo(() => data, [data]);
 
   const newDictionary = async () => {
     const newDictionary = await createOrUpdateDictionary({
@@ -83,7 +84,7 @@ const DictionariesPage = observer(() => {
   };
   const handleDeleteDictionary = async (dictionaryId) => {
     await deleteDictionary(user.id, dictionaryId).catch((e) => console.log(e));
-    setData([...data.filter((item) => item.id !== dictionaryId)]);
+    setData([...cachedData.filter((item) => item.id !== dictionaryId)]);
   };
   const handleUpdateDictionary = async (dictionaryId, name) => {
     await updateDictionary({
@@ -92,7 +93,7 @@ const DictionariesPage = observer(() => {
       name: name,
     });
 
-    for (const entity of data) {
+    for (const entity of cachedData) {
       if (entity.id === dictionaryId) {
         entity.name = name;
       }
@@ -104,7 +105,7 @@ const DictionariesPage = observer(() => {
   };
   const setEdit = (currentId, toOpen = true) => {
     let withEditTrueForCurrent = [];
-    for (const entity of data) {
+    for (const entity of cachedData) {
       if (entity.id === currentId) {
         if (toOpen) {
           setState({ ...state, nameToEdit: entity.name });
@@ -149,8 +150,8 @@ const DictionariesPage = observer(() => {
       clearTimeout(timer);
       timer = setTimeout(async () => {
         const nextIcon = getNextIcon(item.icon);
-        data.find((dictData) => dictData.id === item.id).icon = nextIcon;
-        setData([...data]);
+        cachedData.find((dictData) => dictData.id === item.id).icon = nextIcon;
+        setData([...cachedData]);
         await updateDictionary({
           userId: user.id,
           dictionaryId: item.id,
@@ -200,7 +201,7 @@ const DictionariesPage = observer(() => {
               <div className="dictionary-sort-button-div">
                 <a
                   onClick={() => {
-                    const sortedData = data.sort((a, b) =>
+                    const sortedData = cachedData.sort((a, b) =>
                       a.name < b.name ? -1 : 1,
                     );
                     setData([...sortedData]);
@@ -221,7 +222,7 @@ const DictionariesPage = observer(() => {
         </div>
 
         <div className="dictionary-list-div">
-          {data.map((item) => (
+          {cachedData.map((item) => (
             <>
               <div className="list-item-div">
                 <div className="list-edit-form-general-div">
