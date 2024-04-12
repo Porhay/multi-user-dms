@@ -129,7 +129,6 @@ const Navigation = observer(() => {
   return (
     <Navbar>
       <a
-        href="/"
         className="a-logo"
         onClick={() => navigate(ROUTES.DICTIONARIES)}
       >

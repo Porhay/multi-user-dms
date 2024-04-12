@@ -7,7 +7,7 @@ import {
 } from '../http';
 import '../styles/Entries.css';
 import '../styles/Lists.css';
-import React, { useContext, useEffect, useState, useMemo } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { Context } from '../index';
@@ -68,17 +68,17 @@ const EntriesPage = observer(() => {
         narrowingArr: data,
         dictionary: dictionary,
       }); // update random words list on reload
-
-      // update with falsy edit value by default
-      for (const entry of data) {
-        entry.isEdit = false;
-      }
       setData(data);
     };
 
+    // update with falsy edit value by default
+    for (const entry of data) {
+      entry.isEdit = false;
+    }
+    setData(data);
+
     _fetchData(user.id, dictionaryId);
   }, []);
-  const cachedData = useMemo(() => data, [data]);
 
 
   // FUNCTIONS
@@ -115,11 +115,11 @@ const EntriesPage = observer(() => {
     }
 
     const updatedEntry = await updateEntry(user.id, dictionaryId, entryId, context);
-    cachedData.find((entry) => entry.id === updatedEntry.id).key = updatedEntry.key;
-    cachedData.find((entry) => entry.id === updatedEntry.id).value = updatedEntry.value;
-    cachedData.find((entry) => entry.id === updatedEntry.id).isEdit = false;
+    data.find((entry) => entry.id === updatedEntry.id).key = updatedEntry.key;
+    data.find((entry) => entry.id === updatedEntry.id).value = updatedEntry.value;
+    data.find((entry) => entry.id === updatedEntry.id).isEdit = false;
 
-    setData([...cachedData]);
+    setData([...data]);
   };
 
   // TODO: fix! merge with handleUpdateEntry
@@ -135,8 +135,8 @@ const EntriesPage = observer(() => {
       entryId,
       context,
     );
-    cachedData.find((entry) => entry.id === updatedEntry.id).color = updatedEntry.color;
-    setData([...cachedData]);
+    data.find((entry) => entry.id === updatedEntry.id).color = updatedEntry.color;
+    setData([...data]);
   };
 
   const deleteCurrentEntry = async (entryId) => {
@@ -144,7 +144,7 @@ const EntriesPage = observer(() => {
       (e) => console.log(e),
     );
     const actualEntries = [
-      ...cachedData.filter((item) => item.id !== response.data.id),
+      ...data.filter((item) => item.id !== response.data.id),
     ];
     setData(actualEntries);
     setState({
@@ -161,7 +161,7 @@ const EntriesPage = observer(() => {
   };
 
   const setEntryUpdate = (item, isActive) => {
-    setData([...cachedData.filter(i => i !== item), { ...item, isEdit: isActive }].sort((a, b) =>
+    setData([...data.filter(i => i !== item), { ...item, isEdit: isActive }].sort((a, b) =>
       b.createdAt.localeCompare(a.createdAt)))
     setState({ ...state, editKey: item.key, editValue: item.value })
   }
@@ -261,7 +261,7 @@ const EntriesPage = observer(() => {
               </div>
             </div>
           </div>
-          {cachedData.map((item) => (
+          {data.map((item) => (
             <>
               <div
                 key={item.id}
