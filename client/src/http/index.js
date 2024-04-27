@@ -1,5 +1,5 @@
 import axios from 'axios';
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 import * as config from '../config.js';
 
 const host = axios.create({ baseURL: config.baseURL, timeout: config.timeout });
@@ -16,17 +16,17 @@ authHost.interceptors.request.use(authInterceptor);
 
 const catchError =
   (apiFunction) =>
-  async (...params) => {
-    try {
-      return await apiFunction(...params);
-    } catch (error) {
-      if (error.response && error.response.data) {
-        return error.response.data;
-      } else {
-        throw error;
+    async (...params) => {
+      try {
+        return await apiFunction(...params);
+      } catch (error) {
+        if (error.response && error.response.data) {
+          return error.response.data;
+        } else {
+          throw error;
+        }
       }
-    }
-  };
+    };
 
 export const createOrUpdateDictionary = async (data) => {
   const userId = data.userId;
@@ -110,19 +110,23 @@ export const deleteEntry = async (userId, dictionaryId, entryId) => {
 export const registration = catchError(async (email, password) => {
   const response = await host.post('/users/', { email, password });
   localStorage.setItem('token', response.data.token);
-  return { ...jwt_decode(response.data.token), userData: response.data.user };
+  return { ...jwtDecode(response.data.token), userData: response.data.user };
 });
 
 export const login = catchError(async (email, password) => {
   const response = await host.post('/login/', { email, password });
   localStorage.setItem('token', response.data.token);
-  return { ...jwt_decode(response.data.token), userData: response.data.user };
+  return { ...jwtDecode(response.data.token), userData: response.data.user };
 });
 
 export const check = async () => {
-  const response = await authHost.get(`/check/`);
-  localStorage.setItem('token', response.data.token);
-  return { ...jwt_decode(response.data.token), userData: response.data.user };
+  try {
+    const response = await authHost.get(`/check/`);
+    localStorage.setItem('token', response.data.token);
+    return { ...jwtDecode(response.data.token), userData: response.data.user };
+  } catch (err) {
+    return null;
+  }
 };
 
 export const updateProfile = async (userId, fields) => {

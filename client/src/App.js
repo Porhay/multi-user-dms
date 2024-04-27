@@ -19,10 +19,12 @@ const App = observer(() => {
   useEffect(() => {
     check()
       .then((data) => {
-        user.setUser(data);
-        user.setIsAuth(true);
+        if (data) {
+          user.setUser(data);
+          user.setIsAuth(true);
+        }
       })
-      .finally(() => setLoading(false));
+      .finally(() => setLoading(false))
   }, []);
 
   if (loading) {
