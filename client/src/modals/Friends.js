@@ -25,11 +25,11 @@ const Friends = observer(({ item, show, onHide }) => {
       </Modal.Header>
       <Modal.Body>
         <ListGroup>
-          {cachedFriends.map(({ id: friendId, name }) => {
+          {cachedFriends.map(({ id: friendId, name }, index) => {
             return (
               <ListGroup.Item
                 className="d-flex flex-row align-items-center justify-content-between"
-                key={friendId}
+                key={index}
                 action
                 onClick={async () => {
                   const message = `${user.userData.username} share dictionary '${item.name}' [${item.count}] for you!`;

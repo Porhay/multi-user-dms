@@ -221,8 +221,8 @@ const DictionariesPage = observer(() => {
         </div>
 
         <div className="dictionary-list-div">
-          {data.map((item) => (
-            <>
+          {data.map((item, index) => (
+            <div key={index}>
               <div className="list-item-div">
                 <div className="list-edit-form-general-div">
                   {item.edit ? (
@@ -286,7 +286,7 @@ const DictionariesPage = observer(() => {
                 show={state.showModal}
                 onHide={() => setState({ ...state, showModal: false })}
               />
-            </>
+            </div>
           ))}
         </div>
       </div>

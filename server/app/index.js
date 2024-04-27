@@ -83,43 +83,49 @@ const memoryCache = await caching('memory', {
 });
 
 
-// Cache middleware function
 const cacheMiddleware = async (req, res, next) => {
     // Only cache GET requests
     if (req.method !== 'GET') {
-        return next()
+        return next();
     }
 
-    // Generate a unique key based on the request URL and query parameters
-    const cacheKey = `${req.originalUrl}`
+    const cacheKey = `${req.originalUrl}`;
 
-    // Try to fetch the cached response
-    const cachedResponse = await memoryCache.get(cacheKey)
-
-    if (cachedResponse) {
-        // If cached response exists, return it
-        return res.send(cachedResponse)
+    try {
+        const cachedResponse = await memoryCache.get(cacheKey);
+        if (cachedResponse) {
+            console.log('Cache hit:', cacheKey);
+            return res.send(cachedResponse);
+        } else {
+            console.log('Cache miss:', cacheKey);
+        }
+    } catch (error) {
+        console.error('Cache error:', error);
+        return next(error);
     }
-
-    // If no cached response, proceed with the request
-    const originalSend = res.send.bind(res)
 
     // Wrap `res.send` to cache the response
+    const originalSend = res.send.bind(res);
     res.send = (body) => {
-        memoryCache.set(cacheKey, body) // Cache the response
-        return originalSend(body) // Return the response
-    }
+        memoryCache.set(cacheKey, body).then(() => {
+            console.log('Response cached:', cacheKey);
+        }).catch((error) => {
+            console.error('Error caching response:', cacheKey, error);
+        });
+        return originalSend(body);
+    };
 
-    next()
-}
+    next();
+};
 
-// Apply the cache middleware to all GET routes
-app.use(cacheMiddleware)
 
 app.get('/status/', status.getStatus)
 
 app.use('/users/:userId/', authCheck)
 app.get('/check/', authCheck, users.check)
+
+// Apply the cache middleware to all GET routes
+app.use(cacheMiddleware)
 
 app.post('/login/', users.login)
 app.post('/users/', users.create)

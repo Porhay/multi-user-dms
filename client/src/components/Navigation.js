@@ -30,7 +30,7 @@ const Navigation = observer(() => {
   const [notifications, setNotifications] = useState([]);
 
   // UPDATE ON MOUNT
-  useEffect(async () => {
+  useEffect(() => {
     // get notifications live
     subscribe().catch((e) => console.log(e)); // TODO if no connection to the server subscribe func occurs error every 2 sec
 
@@ -43,8 +43,10 @@ const Navigation = observer(() => {
 
     // get notifications from db
     getNotificationsByUserId(user.id).then((dbNotifications) => {
-      for (const notification of dbNotifications) {
-        setNotificationInDropdown(notification);
+      if (dbNotifications) {
+        for (const notification of dbNotifications) {
+          setNotificationInDropdown(notification);
+        }
       }
     });
   }, []);

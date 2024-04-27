@@ -102,13 +102,14 @@ const SettingsPage = observer(() => {
           <hr style={{ color: 'black', backgroundColor: 'black', height: 1 }} />
 
           <div className="settings-tab-list">
-            {tabsList.map((item) => {
+            {tabsList.map((item, index) => {
               const className =
                 state.tab === item.tab
                   ? 'list-item-div active'
                   : 'list-item-div';
               return (
                 <div
+                  key={index}
                   className={className}
                   onClick={() =>
                     setState({

@@ -261,66 +261,64 @@ const EntriesPage = observer(() => {
               </div>
             </div>
           </div>
-          {data.map((item) => (
-            <>
-              <div
-                key={item.id}
-                className={`list-item-div ${`background-${item.color}` || ''}`}
-              >
-                <div className="entry-list-item-text">
-                  {!item.isEdit ?
-                    <div>
-                      <h6 className={`entry-list-item-h6 ${item.value ? '' : 'onlyKey'}`}>
-                        {item.key}
-                      </h6>
-                      <span className="entry-list-item-span">
-                        {state.showValue ? item.value : '*****'}
-                      </span>
-                    </div> :
-                    <div>
-                      <input
-                        value={state.editKey}
-                        onChange={(e) => setState({ ...state, editKey: e.target.value })}
-                        id="keyEditInput"
-                        className="entry-key-edit-input">
-                      </input>
-                      <input
-                        value={item.editValue}
-                        onChange={(e) => setState({ ...state, editValue: e.target.value })}
-                        id="valueEditInput"
-                        className="entry-value-edit-input">
-                      </input>
-                      <DoneOutlinedIcon
-                        className="entry-edit-submit"
-                        onClick={() => handleUpdateEntry(item.id, {
-                          key: document.getElementById('keyEditInput').value || null,
-                          value: document.getElementById('valueEditInput').value || null
-                        })}
-                      />
-                      <CloseOutlinedIcon onClick={() => setEntryUpdate(item, false)} className="entry-edit-decline" />
-                    </div>
-                  }
-                </div>
-                <div
-                  style={{ paddingBottom: 5 }}
-                  className="entry-action-buttons"
-                >
-                  <div
-                    className="entry-action-color-button"
-                    onClick={() => {
-                      handleUpdateEntryColor(item.id, { color: state.color });
-                    }}
-                  >
-                    <DoneOutlinedIcon className="entry-action-color-icon" />
+          {data.map((item, index) => (
+            <div
+              key={index}
+              className={`list-item-div ${`background-${item.color}` || ''}`}
+            >
+              <div className="entry-list-item-text">
+                {!item.isEdit ?
+                  <div>
+                    <h6 className={`entry-list-item-h6 ${item.value ? '' : 'onlyKey'}`}>
+                      {item.key}
+                    </h6>
+                    <span className="entry-list-item-span">
+                      {state.showValue ? item.value : '*****'}
+                    </span>
+                  </div> :
+                  <div>
+                    <input
+                      value={state.editKey}
+                      onChange={(e) => setState({ ...state, editKey: e.target.value })}
+                      id="keyEditInput"
+                      className="entry-key-edit-input">
+                    </input>
+                    <input
+                      value={item.editValue}
+                      onChange={(e) => setState({ ...state, editValue: e.target.value })}
+                      id="valueEditInput"
+                      className="entry-value-edit-input">
+                    </input>
+                    <DoneOutlinedIcon
+                      className="entry-edit-submit"
+                      onClick={() => handleUpdateEntry(item.id, {
+                        key: document.getElementById('keyEditInput').value || null,
+                        value: document.getElementById('valueEditInput').value || null
+                      })}
+                    />
+                    <CloseOutlinedIcon onClick={() => setEntryUpdate(item, false)} className="entry-edit-decline" />
                   </div>
-                  <Dropdown
-                    className={`entry-item-dropdown ${item.value ? 'key-value-entity' : 'only-key-entity'}`}
-                    icon={<MoreVertIcon />}
-                    items={entryDropdown(item)}
-                  />
-                </div>
+                }
               </div>
-            </>
+              <div
+                style={{ paddingBottom: 5 }}
+                className="entry-action-buttons"
+              >
+                <div
+                  className="entry-action-color-button"
+                  onClick={() => {
+                    handleUpdateEntryColor(item.id, { color: state.color });
+                  }}
+                >
+                  <DoneOutlinedIcon className="entry-action-color-icon" />
+                </div>
+                <Dropdown
+                  className={`entry-item-dropdown ${item.value ? 'key-value-entity' : 'only-key-entity'}`}
+                  icon={<MoreVertIcon />}
+                  items={entryDropdown(item)}
+                />
+              </div>
+            </div>
           ))}
         </div>
       </div>
