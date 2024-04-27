@@ -15,6 +15,7 @@ import * as entries from './controllers/entries.js'
 import * as dictionaries from './controllers/dictionaries.js'
 import * as notifications from './controllers/notifications.js'
 import * as files from './controllers/files.js'
+import { caching } from 'cache-manager';
 
 
 const __filename = fileURLToPath(import.meta.url)
@@ -74,6 +75,46 @@ const authCheck = (req, res, next) => {
         return res.status(401).json({ message: 'Unauthorized' })
     }
 }
+
+
+const memoryCache = await caching('memory', {
+    max: 100,
+    ttl: 60 * 1000
+});
+
+
+// Cache middleware function
+const cacheMiddleware = async (req, res, next) => {
+    // Only cache GET requests
+    if (req.method !== 'GET') {
+        return next()
+    }
+
+    // Generate a unique key based on the request URL and query parameters
+    const cacheKey = `${req.originalUrl}`
+
+    // Try to fetch the cached response
+    const cachedResponse = await memoryCache.get(cacheKey)
+
+    if (cachedResponse) {
+        // If cached response exists, return it
+        return res.send(cachedResponse)
+    }
+
+    // If no cached response, proceed with the request
+    const originalSend = res.send.bind(res)
+
+    // Wrap `res.send` to cache the response
+    res.send = (body) => {
+        memoryCache.set(cacheKey, body) // Cache the response
+        return originalSend(body) // Return the response
+    }
+
+    next()
+}
+
+// Apply the cache middleware to all GET routes
+app.use(cacheMiddleware)
 
 app.get('/status/', status.getStatus)
 
