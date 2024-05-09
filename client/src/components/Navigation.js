@@ -30,23 +30,30 @@ const Navigation = observer(() => {
   const [notifications, setNotifications] = useState([]);
 
   // UPDATE ON MOUNT
-  useEffect(async () => {
-    // get notifications live
-    subscribe().catch((e) => console.log(e)); // TODO if no connection to the server subscribe func occurs error every 2 sec
-
-    // set user avatar
-    if (user.userData.image) {
-      getProfileImageUrl(user.id, user.userData.image).then((response) => {
-        context.user.updateUserData({ downloadUrl: response.downloadUrl });
-      });
-    }
-
-    // get notifications from db
-    getNotificationsByUserId(user.id).then((dbNotifications) => {
-      for (const notification of dbNotifications) {
-        setNotificationInDropdown(notification);
+  useEffect(() => {
+    const processAll = async () => {
+      if (!context.user.isAuth) {
+        return;
       }
-    });
+
+      // get notifications live
+      subscribe().catch((e) => console.log(e)); // TODO if no connection to the server subscribe func occurs error every 2 sec
+
+      // set user avatar
+      if (user.userData.image) {
+        const response = await getProfileImageUrl(user.id, user.userData.image)
+        context.user.updateUserData({ downloadUrl: response.downloadUrl });
+      }
+
+      // get notifications from db
+      const dbNotifications = await getNotificationsByUserId(user.id)
+      if (dbNotifications) {
+        for (const notification of dbNotifications) {
+          setNotificationInDropdown(notification);
+        }
+      }
+    }
+    processAll()
   }, []);
 
   // HELPERS
@@ -129,7 +136,6 @@ const Navigation = observer(() => {
   return (
     <Navbar>
       <a
-        href="/"
         className="a-logo"
         onClick={() => navigate(ROUTES.DICTIONARIES)}
       >

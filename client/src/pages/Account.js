@@ -101,8 +101,9 @@ const AccountPage = observer(() => {
 
         <div style={{ marginTop: 12, width: '100%' }}>
           {state.friends.length !== 0 ? (
-            state.friends.map((item) => (
+            state.friends.map((item, index) => (
               <div
+              key={index}
                 onClick={() => sendFriendRequest(item.id)}
                 className="list-item-div"
               >

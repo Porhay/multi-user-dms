@@ -33,10 +33,10 @@ const Dropdown = (props) => {
             className={props.className}
           >
             {props.items.length !== 0 ? (
-              props.items.map((item) => {
+              props.items.map((item, index) => {
                 return (
                   <a
-                    key={item.message}
+                    key={index}
                     className="menu-item"
                     onClick={item.action}
                   >
@@ -62,9 +62,9 @@ const Dropdown = (props) => {
         {open && (
           <div className={props.className}>
             {props.items.length !== 0 ? (
-              props.items.map((item) => {
+              props.items.map((item, index) => {
                 return (
-                  <div key={item.id} className="dropdown-notification-div">
+                  <div key={index} className="dropdown-notification-div">
                     <div className="dropdown-notification-sender-image-div">
                       <img
                         src={item.data.senderImageUrl || avatarDefault}

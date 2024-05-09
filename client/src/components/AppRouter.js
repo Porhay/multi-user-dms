@@ -3,6 +3,9 @@ import { Routes, Route } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { Context } from '../index';
 import { authRoutes, publicRoutes } from '../routes';
+import AuthenticationPage from '../pages/Authentication';
+import DictionariesPage from '../pages/Dictionaries';
+
 
 const AppRouter = observer(() => {
   const { user } = useContext(Context);
@@ -17,7 +20,10 @@ const AppRouter = observer(() => {
       {publicRoutes.map(({ path, Component }) => (
         <Route path={path} element={<Component />} exact />
       ))}
-      <Route path="*" element={<p>There's nothing here!</p>} />
+      {user.isAuth
+        ? <Route path="*" element={<DictionariesPage />} exact />
+        : <Route path="*" element={<AuthenticationPage />} exact />
+      }
     </Routes>
   );
 });

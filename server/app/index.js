@@ -15,6 +15,7 @@ import * as entries from './controllers/entries.js'
 import * as dictionaries from './controllers/dictionaries.js'
 import * as notifications from './controllers/notifications.js'
 import * as files from './controllers/files.js'
+import { caching } from 'cache-manager';
 
 
 const __filename = fileURLToPath(import.meta.url)
@@ -75,10 +76,56 @@ const authCheck = (req, res, next) => {
     }
 }
 
+
+const memoryCache = await caching('memory', {
+    max: 100,
+    ttl: 10 * 1000
+});
+
+
+const cacheMiddleware = async (req, res, next) => {
+    // Only cache GET requests
+    if (req.method !== 'GET') {
+        return next();
+    }
+
+    const cacheKey = `${req.originalUrl}`;
+
+    try {
+        const cachedResponse = await memoryCache.get(cacheKey);
+        if (cachedResponse) {
+            console.log('Cache hit:', cacheKey);
+            return res.send(cachedResponse);
+        } else {
+            console.log('Cache miss:', cacheKey);
+        }
+    } catch (error) {
+        console.error('Cache error:', error);
+        return next(error);
+    }
+
+    // Wrap `res.send` to cache the response
+    const originalSend = res.send.bind(res);
+    res.send = (body) => {
+        memoryCache.set(cacheKey, body).then(() => {
+            console.log('Response cached:', cacheKey);
+        }).catch((error) => {
+            console.error('Error caching response:', cacheKey, error);
+        });
+        return originalSend(body);
+    };
+
+    next();
+};
+
+
 app.get('/status/', status.getStatus)
 
 app.use('/users/:userId/', authCheck)
 app.get('/check/', authCheck, users.check)
+
+// Apply the cache middleware to all GET routes
+app.use(cacheMiddleware)
 
 app.post('/login/', users.login)
 app.post('/users/', users.create)
