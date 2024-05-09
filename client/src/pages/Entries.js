@@ -184,9 +184,7 @@ const EntriesPage = observer(() => {
                 <FormTitle text="Value(optional)" />
                 <FormInput
                   value={state.value}
-                  onChange={(e) =>
-                    setState({ ...state, value: e.target.value })
-                  }
+                  onChange={(e) => setState({ ...state, value: e.target.value })}
                   onKeyDown={handleCreateNewEntry}
                 />
               </div>
@@ -284,7 +282,7 @@ const EntriesPage = observer(() => {
                       className="entry-key-edit-input">
                     </input>
                     <input
-                      value={item.editValue}
+                      value={state.editValue}
                       onChange={(e) => setState({ ...state, editValue: e.target.value })}
                       id="valueEditInput"
                       className="entry-value-edit-input">

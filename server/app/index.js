@@ -79,7 +79,7 @@ const authCheck = (req, res, next) => {
 
 const memoryCache = await caching('memory', {
     max: 100,
-    ttl: 60 * 1000
+    ttl: 10 * 1000
 });
 
 
