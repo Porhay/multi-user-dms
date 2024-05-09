@@ -7,7 +7,7 @@ Thanks to the dictionary system, it will be possible to divide entries into diff
 ###### ▶ (note that app use free instance that spins down with inactivity that can delay first request by 50+ seconds)
 
 
-## 🖥️ Game screenshots
+## 🖥️ Screenshots
 <details>
 <summary>Check how it looks</summary>
 <p>
